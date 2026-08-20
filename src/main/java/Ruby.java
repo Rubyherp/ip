@@ -64,6 +64,12 @@ public class Ruby {
             return true;
         }
 
+        if (isCommand(command, "delete")) {
+            int index = parseTaskIndex(command, "delete");
+            ui.printMessage(taskList.deleteItem(index));
+            return true;
+        }
+
         if (isCommand(command, "todo")) {
             String description = command.substring("todo".length()).strip();
             if (description.isEmpty()) {

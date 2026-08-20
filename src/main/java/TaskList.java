@@ -1,27 +1,22 @@
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Stores the tasks added during the current chatbot session.
  */
 public class TaskList {
-    private static final int MAX_TASKS = 100;
-
-    private final Task[] tasks;
-    private int taskCount;
+    private final List<Task> tasks;
 
     public TaskList() {
-        this.tasks = new Task[MAX_TASKS];
-        this.taskCount = 0;
+        this.tasks = new ArrayList<>();
     }
 
-    public String addItem(Task task) throws RubyException {
-        if (taskCount == MAX_TASKS) {
-            throw new RubyException("The task list is full.");
-        }
-        tasks[taskCount] = task;
-        taskCount++;
+    public String addItem(Task task) {
+        tasks.add(task);
         return "Got it. I've added this task:\n  "
                 + task
                 + "\nNow you have "
-                + taskCount
+                + tasks.size()
                 + " tasks in the list.";
     }
 
@@ -54,17 +49,35 @@ public class TaskList {
     }
 
     /**
+     * Removes and returns confirmation for the task at a zero-based index.
+     *
+     * @param index zero-based index of the task
+     * @return confirmation describing the removed task and remaining count
+     * @throws RubyException if the index does not identify an existing task
+     */
+    public String deleteItem(int index) throws RubyException {
+        Task task = getTask(index, "delete");
+        tasks.remove(index);
+
+        return "Noted. I've removed this task:\n  "
+                + task
+                + "\nNow you have "
+                + tasks.size()
+                + " tasks in the list.";
+    }
+
+    /**
      * Formats all stored tasks as a one-based numbered list.
      *
      * @return numbered tasks, or an empty string when there are no tasks
      */
     public String listItems() {
         StringBuilder response = new StringBuilder("Here are the tasks in your list:");
-        for (int i = 0; i < taskCount; i++) {
+        for (int i = 0; i < tasks.size(); i++) {
             response.append('\n')
                     .append(i + 1)
                     .append(".")
-                    .append(tasks[i]);
+                    .append(tasks.get(i));
         }
 
         return response.toString();
@@ -74,17 +87,17 @@ public class TaskList {
      * Retrieves a task after checking that the requested index exists.
      */
     private Task getTask(int index, String action) throws RubyException {
-        if (taskCount == 0) {
+        if (tasks.isEmpty()) {
             throw new RubyException("There are no tasks to " + action + ".");
         }
-        if (index < 0 || index >= taskCount) {
+        if (index < 0 || index >= tasks.size()) {
             throw new RubyException(
                     "Task " + (index + 1)
                             + " does not exist; choose a number from 1 to "
-                            + taskCount
+                            + tasks.size()
                             + "."
             );
         }
-        return tasks[index];
+        return tasks.get(index);
     }
 }

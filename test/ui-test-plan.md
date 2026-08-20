@@ -542,3 +542,237 @@ ____________________________________________________________
  Bye. Hope to see you again soon!
 ____________________________________________________________
 ```
+
+## Level 6 deletion and index shifting
+
+Aim: Verify collection-backed deletion, invalid delete handling, task counts, and indexes after removals.
+
+### Startup output
+
+```text
+____________________________________________________________
+ /$$$$$$$            /$$
+ | $$__  $$          | $$
+ | $$  \ $$ /$$   /$$| $$$$$$$  /$$   /$$
+ | $$$$$$$/| $$  | $$| $$__  $$| $$  | $$
+ | $$__  $$| $$  | $$| $$  \ $$| $$  | $$
+ | $$  \ $$| $$  | $$| $$  | $$| $$  | $$
+ | $$  | $$|  $$$$$$/| $$$$$$$/|  $$$$$$$
+ |__/  |__/ \______/ |_______/  \____  $$
+                                /$$  | $$
+                               |  $$$$$$/
+                                \______/
+ Hello! I'm Ruby.
+ What can I do for you?
+____________________________________________________________
+```
+
+### Input
+
+```text
+delete
+```
+
+### Expected output
+
+```text
+____________________________________________________________
+ Sorry, I couldn't process that: Give me a task number after delete.
+____________________________________________________________
+```
+
+### Input
+
+```text
+delete 1
+```
+
+### Expected output
+
+```text
+____________________________________________________________
+ Sorry, I couldn't process that: There are no tasks to delete.
+____________________________________________________________
+```
+
+### Input
+
+```text
+todo read book
+```
+
+### Expected output
+
+```text
+____________________________________________________________
+ Got it. I've added this task:
+   [T][ ] read book
+ Now you have 1 tasks in the list.
+____________________________________________________________
+```
+
+### Input
+
+```text
+deadline return book /by Sunday
+```
+
+### Expected output
+
+```text
+____________________________________________________________
+ Got it. I've added this task:
+   [D][ ] return book (by: Sunday)
+ Now you have 2 tasks in the list.
+____________________________________________________________
+```
+
+### Input
+
+```text
+event project meeting /from Mon 2pm /to 4pm
+```
+
+### Expected output
+
+```text
+____________________________________________________________
+ Got it. I've added this task:
+   [E][ ] project meeting (from: Mon 2pm to: 4pm)
+ Now you have 3 tasks in the list.
+____________________________________________________________
+```
+
+### Input
+
+```text
+delete banana
+```
+
+### Expected output
+
+```text
+____________________________________________________________
+ Sorry, I couldn't process that: The task number for delete must be a whole number.
+____________________________________________________________
+```
+
+### Input
+
+```text
+delete 0
+```
+
+### Expected output
+
+```text
+____________________________________________________________
+ Sorry, I couldn't process that: Task numbers must be positive whole numbers.
+____________________________________________________________
+```
+
+### Input
+
+```text
+delete 4
+```
+
+### Expected output
+
+```text
+____________________________________________________________
+ Sorry, I couldn't process that: Task 4 does not exist; choose a number from 1 to 3.
+____________________________________________________________
+```
+
+### Input
+
+```text
+delete 2
+```
+
+### Expected output
+
+```text
+____________________________________________________________
+ Noted. I've removed this task:
+   [D][ ] return book (by: Sunday)
+ Now you have 2 tasks in the list.
+____________________________________________________________
+```
+
+### Input
+
+```text
+list
+```
+
+### Expected output
+
+```text
+____________________________________________________________
+ Here are the tasks in your list:
+ 1.[T][ ] read book
+ 2.[E][ ] project meeting (from: Mon 2pm to: 4pm)
+____________________________________________________________
+```
+
+### Input
+
+```text
+mark 2
+```
+
+### Expected output
+
+```text
+____________________________________________________________
+ Nice! I've marked this task as done:
+   [E][X] project meeting (from: Mon 2pm to: 4pm)
+____________________________________________________________
+```
+
+### Input
+
+```text
+delete 2
+```
+
+### Expected output
+
+```text
+____________________________________________________________
+ Noted. I've removed this task:
+   [E][X] project meeting (from: Mon 2pm to: 4pm)
+ Now you have 1 tasks in the list.
+____________________________________________________________
+```
+
+### Input
+
+```text
+list
+```
+
+### Expected output
+
+```text
+____________________________________________________________
+ Here are the tasks in your list:
+ 1.[T][ ] read book
+____________________________________________________________
+```
+
+### Input
+
+```text
+bye
+```
+
+### Expected output
+
+```text
+____________________________________________________________
+ Bye. Hope to see you again soon!
+____________________________________________________________
+```
