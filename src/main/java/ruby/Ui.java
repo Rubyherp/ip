@@ -1,3 +1,5 @@
+package ruby;
+
 /**
  * Handles all user interaction, formatting every message with a consistent
  * indentation and horizontal line.
@@ -22,6 +24,12 @@ public class Ui {
             + "                               \\______/";
     private static final String INDENT = " ";
 
+    /**
+     * Creates a user interface for the Ruby chatbot.
+     */
+    public Ui() {
+    }
+
     private void printHorizontalLine() {
         System.out.println(HORIZONTAL_LINE);
     }
@@ -29,12 +37,15 @@ public class Ui {
     /**
      * Prints every line of a chatbot message with a single leading space.
      *
-     * @param message message to print
+     * @param message Message to print.
      */
     private void printIndented(String message) {
         System.out.println(INDENT + message.replace("\n", "\n" + INDENT));
     }
 
+    /**
+     * Prints Ruby's banner, greeting, and command prompt.
+     */
     public void printWelcome() {
         printHorizontalLine();
         printIndented(BANNER);
@@ -43,12 +54,20 @@ public class Ui {
         printHorizontalLine();
     }
 
+    /**
+     * Prints a chatbot message between horizontal divider lines.
+     *
+     * @param message Message to print.
+     */
     public void printMessage(String message) {
         printHorizontalLine();
         printIndented(message);
         printHorizontalLine();
     }
 
+    /**
+     * Prints Ruby's farewell message.
+     */
     public void printFarewell() {
         printMessage(FAREWELL);
     }

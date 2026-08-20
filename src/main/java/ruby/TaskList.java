@@ -1,3 +1,5 @@
+package ruby;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,10 +9,19 @@ import java.util.List;
 public class TaskList {
     private final List<Task> tasks;
 
+    /**
+     * Creates an empty task list.
+     */
     public TaskList() {
         this.tasks = new ArrayList<>();
     }
 
+    /**
+     * Adds a task to the end of this list.
+     *
+     * @param task Task to add.
+     * @return Confirmation containing the task and updated task count.
+     */
     public String addItem(Task task) {
         tasks.add(task);
         return "Got it. I've added this task:\n  "
@@ -23,9 +34,9 @@ public class TaskList {
     /**
      * Marks the task at the specified zero-based index as done.
      *
-     * @param index zero-based index of the task
-     * @return confirmation describing the marked task
-     * @throws RubyException if the index does not identify an existing task
+     * @param index Zero-based index of the task.
+     * @return Confirmation describing the marked task.
+     * @throws RubyException If the index does not identify an existing task.
      */
     public String markItem(int index) throws RubyException {
         Task task = getTask(index, "mark");
@@ -37,9 +48,9 @@ public class TaskList {
     /**
      * Marks the task at the specified zero-based index as not done.
      *
-     * @param index zero-based index of the task
-     * @return confirmation describing the unmarked task
-     * @throws RubyException if the index does not identify an existing task
+     * @param index Zero-based index of the task.
+     * @return Confirmation describing the unmarked task.
+     * @throws RubyException If the index does not identify an existing task.
      */
     public String unmarkItem(int index) throws RubyException {
         Task task = getTask(index, "unmark");
@@ -51,9 +62,9 @@ public class TaskList {
     /**
      * Removes and returns confirmation for the task at a zero-based index.
      *
-     * @param index zero-based index of the task
-     * @return confirmation describing the removed task and remaining count
-     * @throws RubyException if the index does not identify an existing task
+     * @param index Zero-based index of the task.
+     * @return Confirmation describing the removed task and remaining count.
+     * @throws RubyException If the index does not identify an existing task.
      */
     public String deleteItem(int index) throws RubyException {
         Task task = getTask(index, "delete");
@@ -69,7 +80,7 @@ public class TaskList {
     /**
      * Formats all stored tasks as a one-based numbered list.
      *
-     * @return numbered tasks, or an empty string when there are no tasks
+     * @return Numbered tasks, or only the list heading when there are no tasks.
      */
     public String listItems() {
         StringBuilder response = new StringBuilder("Here are the tasks in your list:");
@@ -85,6 +96,11 @@ public class TaskList {
 
     /**
      * Retrieves a task after checking that the requested index exists.
+     *
+     * @param index Zero-based index of the task.
+     * @param action Action requested by the user, used in error messages.
+     * @return Task at the specified index.
+     * @throws RubyException If the index does not identify an existing task.
      */
     private Task getTask(int index, String action) throws RubyException {
         if (tasks.isEmpty()) {

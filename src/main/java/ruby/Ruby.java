@@ -1,9 +1,19 @@
+package ruby;
+
 import java.util.Scanner;
 
 /**
  * Starts the Ruby chatbot application.
  */
 public class Ruby {
+    private Ruby() {
+    }
+
+    /**
+     * Starts Ruby and processes commands until the input ends or the user exits.
+     *
+     * @param args Command-line arguments; not used by Ruby.
+     */
     public static void main(String[] args) {
         Ui ui = new Ui();
         TaskList taskList = new TaskList();
@@ -29,11 +39,11 @@ public class Ruby {
     /**
      * Processes one user command while keeping the main input loop running.
      *
-     * @param userInput raw command entered by the user
-     * @param taskList tasks stored during this session
-     * @param ui interface used to display responses
-     * @return false only when the chatbot should exit
-     * @throws RubyException if the command is unknown or malformed
+     * @param userInput Raw command entered by the user.
+     * @param taskList Tasks stored during this session.
+     * @param ui Interface used to display responses.
+     * @return False only when the chatbot should exit.
+     * @throws RubyException If the command is unknown or malformed.
      */
     private static boolean processCommand(String userInput, TaskList taskList, Ui ui)
             throws RubyException {

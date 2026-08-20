@@ -16,6 +16,7 @@ from pathlib import Path
 
 DIVIDER = "____________________________________________________________"
 DEFAULT_TIMEOUT_SECONDS = 5.0
+MAIN_CLASS = "ruby.Ruby"
 
 
 @dataclass
@@ -188,7 +189,7 @@ def run_case(
 ) -> bool:
     """Run one test case, stopping immediately on its first mismatch."""
     process = subprocess.Popen(
-        ["java", "-cp", str(class_directory), "Ruby"],
+        ["java", "-cp", str(class_directory), MAIN_CLASS],
         stdin=subprocess.PIPE,
         stdout=subprocess.PIPE,
         stderr=subprocess.STDOUT,
@@ -208,7 +209,7 @@ def run_case(
 
     print(f"\n=== {test_case.name} ===")
     print(f"Aim: {test_case.aim}")
-    print("$ java Ruby")
+    print(f"$ java {MAIN_CLASS}")
 
     try:
         actual_startup = read_ui_block(output_queue, timeout_seconds)
@@ -263,7 +264,7 @@ def verify_java_25() -> None:
 
 def compile_project(repository: Path, class_directory: Path) -> None:
     """Compile all project Java sources into a temporary directory."""
-    sources = sorted((repository / "src" / "main" / "java").glob("*.java"))
+    sources = sorted((repository / "src" / "main" / "java").rglob("*.java"))
     if not sources:
         raise RuntimeError("No Java sources found in src/main/java")
     result = subprocess.run(

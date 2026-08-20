@@ -32,6 +32,8 @@ Ensure that Java 25 is used when running the application or build tasks. On macO
 
 Use lightweight tags unless the user requests an annotated tag.
 When proposing or creating a commit message, include enough detail to explain the rationale for the change.
+Keep commit subjects within 50 characters when practical and never exceed 72 characters.
+Wrap commit message body lines at 72 characters.
 Do not commit or push unless explicitly asked.
 
 ## UI regression testing
