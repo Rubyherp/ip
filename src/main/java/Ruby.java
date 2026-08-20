@@ -26,7 +26,21 @@ public class Ruby {
                 continue;
             }
 
-            String response = taskList.addItem(userInput);
+            if (userInput.startsWith("mark ")) {
+                int taskNumber = Integer.parseInt(userInput.substring("mark ".length()));
+                String response = taskList.markItem(taskNumber - 1);
+                ui.printMessage(response);
+                continue;
+            }
+
+            if (userInput.startsWith("unmark ")) {
+                int taskNumber = Integer.parseInt(userInput.substring("unmark ".length()));
+                String response = taskList.unmarkItem(taskNumber - 1);
+                ui.printMessage(response);
+                continue;
+            }
+
+            String response = taskList.addItem(new Task(userInput));
             ui.printMessage(response);
         }
 
