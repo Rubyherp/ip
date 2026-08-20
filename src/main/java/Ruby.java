@@ -40,6 +40,41 @@ public class Ruby {
                 continue;
             }
 
+            if (userInput.startsWith("todo ")) {
+                String description = userInput.substring("todo ".length());
+                String response = taskList.addItem(new Todo(description));
+                ui.printMessage(response);
+                continue;
+            }
+
+            if (userInput.startsWith("deadline ")) {
+                String details = userInput.substring("deadline ".length());
+                String[] parts = details.split(" /by ", 2);
+
+                String description = parts[0];
+                String deadline = parts[1];
+                Task task = new Deadline(description, deadline);
+
+                String response = taskList.addItem(task);
+                ui.printMessage(response);
+                continue;
+            }
+
+            if (userInput.startsWith("event ")) {
+                String details = userInput.substring("event ".length());
+                String[] descriptionAndDates = details.split(" /from ", 2);
+                String description = descriptionAndDates[0];
+                String[] dates = descriptionAndDates[1].split(" /to ", 2);
+
+                String startDate = dates[0];
+                String endDate = dates[1];
+                Task task = new Event(description, startDate, endDate);
+
+                String response = taskList.addItem(task);
+                ui.printMessage(response);
+                continue;
+            }
+
             String response = taskList.addItem(new Task(userInput));
             ui.printMessage(response);
         }

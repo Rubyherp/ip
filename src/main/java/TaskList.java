@@ -15,7 +15,11 @@ public class TaskList {
     public String addItem(Task task) {
         tasks[taskCount] = task;
         taskCount++;
-        return "added: " + task;
+        return "Got it. I've added this task:\n  "
+                + task
+                + "\nNow you have "
+                + taskCount
+                + " tasks in the list.";
     }
 
     /**
@@ -54,7 +58,7 @@ public class TaskList {
         for (int i = 0; i < taskCount; i++) {
             response.append('\n')
                     .append(i + 1)
-                    .append(". ")
+                    .append(".")
                     .append(tasks[i]);
         }
 
