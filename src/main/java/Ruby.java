@@ -6,9 +6,12 @@ import java.util.Scanner;
 public class Ruby {
     public static void main(String[] args) {
         Ui ui = new Ui();
+        TaskList taskList = new TaskList();
+
         ui.printWelcome();
 
         Scanner scanner = new Scanner(System.in);
+
         while (scanner.hasNextLine()) {
             String userInput = scanner.nextLine();
 
@@ -17,7 +20,14 @@ public class Ruby {
                 break;
             }
 
-            ui.printMessage(userInput);
+            if ("list".equals(userInput)) {
+                String response = taskList.listItems();
+                ui.printMessage(response);
+                continue;
+            }
+
+            String response = taskList.addItem(userInput);
+            ui.printMessage(response);
         }
 
         scanner.close();
