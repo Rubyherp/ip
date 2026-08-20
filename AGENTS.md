@@ -9,8 +9,8 @@ Unless the user says otherwise, assume that you are assisting a student working 
 # Student profile
 
 * Prior knowledge: Basic Java and OOP concepts.
-* Level of programming experience: [to be filled]
-* IDE and level of expertise: [to be filled]
+* Level of programming experience: low - intermediate
+* IDE and level of expertise: NVim, 1 year of experience
 
 # Guidance for interacting with users
 
@@ -33,3 +33,11 @@ Ensure that Java 25 is used when running the application or build tasks. On macO
 Use lightweight tags unless the user requests an annotated tag.
 When proposing or creating a commit message, include enough detail to explain the rationale for the change.
 Do not commit or push unless explicitly asked.
+
+## UI regression testing
+
+After each code update:
+
+* Update `test/ui-test-plan.md` if commands, expected output, or relevant test coverage changed.
+* Invoke the project-specific `test-ui` skill in `.codex/skills/test-ui/`.
+* Stop at the first failed UI test and report the command together with the expected and actual output.
