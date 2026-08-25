@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeParseException;
 import java.util.Scanner;
 
 /**
@@ -100,14 +102,16 @@ public class Storage {
                 if (parts.length < 4) {
                     throw new RubyException("The data file contains a malformed deadline.");
                 }
-                task = new Deadline(joinParts(parts, 2, parts.length - 1), parts[parts.length - 1]);
+                task = new Deadline(joinParts(parts, 2, parts.length - 1),
+                        parseSavedDateTime(parts[parts.length - 1]));
                 break;
             case "E":
                 if (parts.length < 5) {
                     throw new RubyException("The data file contains a malformed event.");
                 }
                 task = new Event(joinParts(parts, 2, parts.length - 2),
-                        parts[parts.length - 2], parts[parts.length - 1]);
+                        parseSavedDateTime(parts[parts.length - 2]),
+                        parseSavedDateTime(parts[parts.length - 1]));
                 break;
             default:
                 throw new RubyException("The data file contains an unknown task type: " + type);
@@ -138,5 +142,20 @@ public class Storage {
             joined.append(parts[i]);
         }
         return joined.toString();
+    }
+
+    /**
+     * Reads a date stored in the ISO format written by toDataString().
+     *
+     * @param text Date text from the data file.
+     * @return The parsed date and time.
+     * @throws RubyException If the text is not a valid ISO date and time.
+     */
+    private static LocalDateTime parseSavedDateTime(String text) throws RubyException {
+        try {
+            return LocalDateTime.parse(text);
+        } catch (DateTimeParseException exception) {
+            throw new RubyException("The data file contains an unreadable date.");
+        }
     }
 }

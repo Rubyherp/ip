@@ -1,25 +1,27 @@
 package ruby;
 
+import java.time.LocalDateTime;
+
 /**
  * Represents a task that must be completed by a specified date or time.
  */
 public class Deadline extends Task {
-    private final String deadline;
+    private final LocalDateTime deadline;
 
     /**
-     * Creates a deadline with the specified description and due date or time.
+     * Creates a deadline with the specified description and due date and time.
      *
      * @param description Description of the deadline.
-     * @param deadline Due date or time, stored as entered by the user.
+     * @param deadline    Due date and time.
      */
-    public Deadline(String description, String deadline) {
+    public Deadline(String description, LocalDateTime deadline) {
         super(description);
         this.deadline = deadline;
     }
 
     @Override
     public String toString() {
-        return "[D]" + super.toString() + " (by: " + deadline + ")";
+        return "[D]" + super.toString() + " (by: " + Parser.formatDateTime(deadline) + ")";
     }
 
     @Override
