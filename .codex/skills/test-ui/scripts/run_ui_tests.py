@@ -31,6 +31,8 @@ class TestCase:
     aim: str
     startup_output: str
     steps: list[TestStep]
+    data_file: str = ""
+    saved_data: str = ""
 
 
 def read_fenced_block(lines: list[str], start: int) -> tuple[str, int]:
@@ -82,6 +84,14 @@ def parse_plan(plan_path: Path) -> list[TestCase]:
 
         if current is not None and line == "### Startup output":
             current.startup_output, index = read_fenced_block(lines, index + 1)
+            continue
+
+        if current is not None and line == "### Data file":
+            current.data_file, index = read_fenced_block(lines, index + 1)
+            continue
+
+        if current is not None and line == "### Saved data":
+            current.saved_data, index = read_fenced_block(lines, index + 1)
             continue
 
         if current is not None and line == "### Input":
@@ -185,9 +195,16 @@ def print_failure(
 def run_case(
     test_case: TestCase,
     class_directory: Path,
+    case_directory: Path,
     timeout_seconds: float,
 ) -> bool:
     """Run one test case, stopping immediately on its first mismatch."""
+    case_directory.mkdir(parents=True, exist_ok=True)
+    if test_case.data_file:
+        data_dir = case_directory / "data"
+        data_dir.mkdir(parents=True, exist_ok=True)
+        (data_dir / "ruby.txt").write_text(test_case.data_file, encoding="utf-8")
+
     process = subprocess.Popen(
         ["java", "-cp", str(class_directory), MAIN_CLASS],
         stdin=subprocess.PIPE,
@@ -195,6 +212,7 @@ def run_case(
         stderr=subprocess.STDOUT,
         text=True,
         bufsize=1,
+        cwd=case_directory,
     )
     assert process.stdin is not None
     assert process.stdout is not None
@@ -236,6 +254,20 @@ def run_case(
                 return False
 
         stop_process(process)
+        if test_case.saved_data:
+            data_path = case_directory / "data" / "ruby.txt"
+            if not data_path.exists():
+                print_failure(
+                    test_case,
+                    "<saved data>",
+                    test_case.saved_data,
+                    "<no data file was written>",
+                )
+                return False
+            actual_data = data_path.read_text(encoding="utf-8").rstrip("\n")
+            if actual_data != test_case.saved_data.rstrip("\n"):
+                print_failure(test_case, "<saved data>", test_case.saved_data, actual_data)
+                return False
         print(f"PASS: {test_case.name}")
         return True
     except (BrokenPipeError, RuntimeError, TimeoutError) as error:
@@ -301,8 +333,9 @@ def main() -> int:
         with tempfile.TemporaryDirectory(prefix="ruby-ui-tests-") as temp_directory:
             class_directory = Path(temp_directory)
             compile_project(repository, class_directory)
-            for test_case in test_cases:
-                if not run_case(test_case, class_directory, args.timeout):
+            for index, test_case in enumerate(test_cases):
+                case_directory = class_directory / f"case-{index + 1}"
+                if not run_case(test_case, class_directory, case_directory, args.timeout):
                     return 1
     except (OSError, RuntimeError, ValueError) as error:
         print(f"ERROR: {error}", file=sys.stderr)

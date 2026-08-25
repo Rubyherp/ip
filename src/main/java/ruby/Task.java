@@ -44,4 +44,13 @@ public class Task {
     public String toString() {
         return "[" + getStatusIcon() + "] " + description;
     }
+
+    /**
+     * Returns this task as one line of the saved data file.
+     *
+     * @return The done flag and description, separated by {@code " | "}.
+     */
+    public String toDataString() {
+        return (isDone ? "1" : "0") + " | " + description;
+    }
 }

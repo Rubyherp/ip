@@ -95,6 +95,23 @@ public class TaskList {
     }
 
     /**
+     * Formats every task as one line of the saved data file.
+     *
+     * @return One task per line, or an empty string when there are no tasks.
+     */
+    public String toDataString() {
+        StringBuilder response = new StringBuilder();
+        for (int i = 0; i < tasks.size(); i++) {
+            if (i > 0) {
+                response.append('\n');
+            }
+            response.append(tasks.get(i).toDataString());
+        }
+
+        return response.toString();
+    }
+
+    /**
      * Retrieves a task after checking that the requested index exists.
      *
      * @param index Zero-based index of the task.

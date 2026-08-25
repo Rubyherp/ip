@@ -16,7 +16,16 @@ public class Ruby {
      */
     public static void main(String[] args) {
         Ui ui = new Ui();
-        TaskList taskList = new TaskList();
+        Storage storage = new Storage();
+
+        TaskList taskList;
+        try {
+            taskList = storage.load();
+        } catch (RubyException exception) {
+            ui.printMessage("Sorry, I couldn't load your saved tasks: "
+                    + exception.getMessage());
+            taskList = new TaskList();
+        }
 
         ui.printWelcome();
 
@@ -25,7 +34,7 @@ public class Ruby {
         while (scanner.hasNextLine()) {
             String userInput = scanner.nextLine();
             try {
-                if (!processCommand(userInput, taskList, ui)) {
+                if (!processCommand(userInput, taskList, ui, storage)) {
                     break;
                 }
             } catch (RubyException exception) {
@@ -42,11 +51,12 @@ public class Ruby {
      * @param userInput Raw command entered by the user.
      * @param taskList Tasks stored during this session.
      * @param ui Interface used to display responses.
+     * @param storage Persists the task list to disk after every change.
      * @return False only when the chatbot should exit.
      * @throws RubyException If the command is unknown or malformed.
      */
-    private static boolean processCommand(String userInput, TaskList taskList, Ui ui)
-            throws RubyException {
+    private static boolean processCommand(String userInput, TaskList taskList, Ui ui,
+            Storage storage) throws RubyException {
         String command = userInput.strip();
         if (command.isEmpty()) {
             throw new RubyException("Please enter a command.");
@@ -63,20 +73,23 @@ public class Ruby {
         }
 
         if (isCommand(command, "mark")) {
-            int index = parseTaskIndex(command, "mark");
+            int index = Parser.parseTaskIndex(command, "mark");
             ui.printMessage(taskList.markItem(index));
+            storage.save(taskList);
             return true;
         }
 
         if (isCommand(command, "unmark")) {
-            int index = parseTaskIndex(command, "unmark");
+            int index = Parser.parseTaskIndex(command, "unmark");
             ui.printMessage(taskList.unmarkItem(index));
+            storage.save(taskList);
             return true;
         }
 
         if (isCommand(command, "delete")) {
-            int index = parseTaskIndex(command, "delete");
+            int index = Parser.parseTaskIndex(command, "delete");
             ui.printMessage(taskList.deleteItem(index));
+            storage.save(taskList);
             return true;
         }
 
@@ -86,16 +99,19 @@ public class Ruby {
                 throw new RubyException("A todo needs a description.");
             }
             ui.printMessage(taskList.addItem(new Todo(description)));
+            storage.save(taskList);
             return true;
         }
 
         if (isCommand(command, "deadline")) {
-            ui.printMessage(taskList.addItem(parseDeadline(command)));
+            ui.printMessage(taskList.addItem(Parser.parseDeadline(command)));
+            storage.save(taskList);
             return true;
         }
 
         if (isCommand(command, "event")) {
-            ui.printMessage(taskList.addItem(parseEvent(command)));
+            ui.printMessage(taskList.addItem(Parser.parseEvent(command)));
+            storage.save(taskList);
             return true;
         }
 
@@ -109,102 +125,5 @@ public class Ruby {
         return input.equals(commandWord)
                 || (input.startsWith(commandWord)
                 && Character.isWhitespace(input.charAt(commandWord.length())));
-    }
-
-    /**
-     * Parses a one-based task number and converts it to a zero-based index.
-     */
-    private static int parseTaskIndex(String input, String commandWord) throws RubyException {
-        String taskNumber = input.substring(commandWord.length()).strip();
-        if (taskNumber.isEmpty()) {
-            throw new RubyException("Give me a task number after " + commandWord + ".");
-        }
-
-        try {
-            int oneBasedIndex = Integer.parseInt(taskNumber);
-            if (oneBasedIndex <= 0) {
-                throw new RubyException("Task numbers must be positive whole numbers.");
-            }
-            return oneBasedIndex - 1;
-        } catch (NumberFormatException exception) {
-            throw new RubyException(
-                    "The task number for " + commandWord + " must be a whole number."
-            );
-        }
-    }
-
-    /**
-     * Parses a deadline command into its description and deadline text.
-     */
-    private static Deadline parseDeadline(String input) throws RubyException {
-        String details = input.substring("deadline".length()).strip();
-        int byIndex = findDelimiter(details, "/by");
-        if (byIndex < 0) {
-            throw new RubyException("Use: deadline DESCRIPTION /by DATE_OR_TIME.");
-        }
-
-        String description = details.substring(0, byIndex).strip();
-        String deadline = details.substring(byIndex + "/by".length()).strip();
-        if (description.isEmpty()) {
-            throw new RubyException("A deadline needs a description.");
-        }
-        if (deadline.isEmpty()) {
-            throw new RubyException("A deadline needs a date or time after /by.");
-        }
-        return new Deadline(description, deadline);
-    }
-
-    /**
-     * Parses an event command into its description, start, and end text.
-     */
-    private static Event parseEvent(String input) throws RubyException {
-        String details = input.substring("event".length()).strip();
-        int fromIndex = findDelimiter(details, "/from");
-        if (fromIndex < 0) {
-            throw new RubyException("Use: event DESCRIPTION /from START /to END.");
-        }
-
-        String description = details.substring(0, fromIndex).strip();
-        String dates = details.substring(fromIndex + "/from".length()).strip();
-        int toIndex = findDelimiter(dates, "/to");
-        if (description.isEmpty()) {
-            throw new RubyException("An event needs a description.");
-        }
-        if (toIndex < 0) {
-            throw new RubyException("An event needs an end after /to.");
-        }
-
-        String startDate = dates.substring(0, toIndex).strip();
-        String endDate = dates.substring(toIndex + "/to".length()).strip();
-        if (startDate.isEmpty()) {
-            throw new RubyException("An event needs a start after /from.");
-        }
-        if (endDate.isEmpty()) {
-            throw new RubyException("An event needs an end after /to.");
-        }
-        return new Event(description, startDate, endDate);
-    }
-
-    /**
-     * Finds a delimiter only when it appears as a complete whitespace-separated token.
-     */
-    private static int findDelimiter(String text, String delimiter) {
-        int searchFrom = 0;
-        while (searchFrom < text.length()) {
-            int index = text.indexOf(delimiter, searchFrom);
-            if (index < 0) {
-                return -1;
-            }
-
-            int afterDelimiter = index + delimiter.length();
-            boolean hasLeftBoundary = index == 0 || Character.isWhitespace(text.charAt(index - 1));
-            boolean hasRightBoundary = afterDelimiter == text.length()
-                    || Character.isWhitespace(text.charAt(afterDelimiter));
-            if (hasLeftBoundary && hasRightBoundary) {
-                return index;
-            }
-            searchFrom = index + delimiter.length();
-        }
-        return -1;
     }
 }
