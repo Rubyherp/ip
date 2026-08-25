@@ -2,6 +2,8 @@
 
 The `test-ui` skill runs each test case in a fresh Ruby process. Each `### Input` block contains one command, and the following `### Expected output` block contains its exact response. Keep the headings and fenced blocks unchanged so the test runner can parse them.
 
+Optional persistence blocks: `### Data file` seeds `data/ruby.txt` before the process starts, and `### Saved data` asserts the exact contents of `data/ruby.txt` after the process exits.
+
 ## Greeting and exit
 
 Aim: Verify that Ruby prints its banner and greeting on startup, then exits with the required farewell.
@@ -760,6 +762,193 @@ list
 ____________________________________________________________
  Here are the tasks in your list:
  1.[T][ ] read book
+____________________________________________________________
+```
+
+### Input
+
+```text
+bye
+```
+
+### Expected output
+
+```text
+____________________________________________________________
+ Bye. Hope to see you again soon!
+____________________________________________________________
+```
+
+## Level 7 tasks are saved to disk
+
+Aim: Verify that adding, marking, and deleting tasks writes the data file in the expected format.
+
+### Startup output
+
+```text
+____________________________________________________________
+ /$$$$$$$            /$$
+ | $$__  $$          | $$
+ | $$  \ $$ /$$   /$$| $$$$$$$  /$$   /$$
+ | $$$$$$$/| $$  | $$| $$__  $$| $$  | $$
+ | $$__  $$| $$  | $$| $$  \ $$| $$  | $$
+ | $$  \ $$| $$  | $$| $$  | $$| $$  | $$
+ | $$  | $$|  $$$$$$/| $$$$$$$/|  $$$$$$$
+ |__/  |__/ \______/ |_______/  \____  $$
+                                /$$  | $$
+                               |  $$$$$$/
+                                \______/
+ Hello! I'm Ruby.
+ What can I do for you?
+____________________________________________________________
+```
+
+### Input
+
+```text
+todo read book
+```
+
+### Expected output
+
+```text
+____________________________________________________________
+ Got it. I've added this task:
+   [T][ ] read book
+ Now you have 1 tasks in the list.
+____________________________________________________________
+```
+
+### Input
+
+```text
+deadline submit report /by Sunday
+```
+
+### Expected output
+
+```text
+____________________________________________________________
+ Got it. I've added this task:
+   [D][ ] submit report (by: Sunday)
+ Now you have 2 tasks in the list.
+____________________________________________________________
+```
+
+### Input
+
+```text
+event project meeting /from Aug 6th 2pm /to 4pm
+```
+
+### Expected output
+
+```text
+____________________________________________________________
+ Got it. I've added this task:
+   [E][ ] project meeting (from: Aug 6th 2pm to: 4pm)
+ Now you have 3 tasks in the list.
+____________________________________________________________
+```
+
+### Input
+
+```text
+mark 2
+```
+
+### Expected output
+
+```text
+____________________________________________________________
+ Nice! I've marked this task as done:
+   [D][X] submit report (by: Sunday)
+____________________________________________________________
+```
+
+### Input
+
+```text
+delete 1
+```
+
+### Expected output
+
+```text
+____________________________________________________________
+ Noted. I've removed this task:
+   [T][ ] read book
+ Now you have 2 tasks in the list.
+____________________________________________________________
+```
+
+### Input
+
+```text
+bye
+```
+
+### Expected output
+
+```text
+____________________________________________________________
+ Bye. Hope to see you again soon!
+____________________________________________________________
+```
+
+### Saved data
+
+```text
+D | 1 | submit report | Sunday
+E | 0 | project meeting | Aug 6th 2pm | 4pm
+```
+
+## Level 7 saved tasks are loaded at startup
+
+Aim: Verify that tasks saved in the data file are restored on startup with their type and done status.
+
+### Data file
+
+```text
+T | 1 | read book
+D | 0 | return book | June 6th
+E | 1 | project meeting | Aug 6th 2pm | 4pm
+```
+
+### Startup output
+
+```text
+____________________________________________________________
+ /$$$$$$$            /$$
+ | $$__  $$          | $$
+ | $$  \ $$ /$$   /$$| $$$$$$$  /$$   /$$
+ | $$$$$$$/| $$  | $$| $$__  $$| $$  | $$
+ | $$__  $$| $$  | $$| $$  \ $$| $$  | $$
+ | $$  \ $$| $$  | $$| $$  | $$| $$  | $$
+ | $$  | $$|  $$$$$$/| $$$$$$$/|  $$$$$$$
+ |__/  |__/ \______/ |_______/  \____  $$
+                                /$$  | $$
+                               |  $$$$$$/
+                                \______/
+ Hello! I'm Ruby.
+ What can I do for you?
+____________________________________________________________
+```
+
+### Input
+
+```text
+list
+```
+
+### Expected output
+
+```text
+____________________________________________________________
+ Here are the tasks in your list:
+ 1.[T][X] read book
+ 2.[D][ ] return book (by: June 6th)
+ 3.[E][X] project meeting (from: Aug 6th 2pm to: 4pm)
 ____________________________________________________________
 ```
 
