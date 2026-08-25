@@ -85,7 +85,7 @@ ____________________________________________________________
 ### Input
 
 ```text
-deadline return book /by Sunday
+deadline return book /by 2019-06-06
 ```
 
 ### Expected output
@@ -93,7 +93,7 @@ deadline return book /by Sunday
 ```text
 ____________________________________________________________
  Got it. I've added this task:
-   [D][ ] return book (by: Sunday)
+   [D][ ] return book (by: Jun 06 2019)
  Now you have 2 tasks in the list.
 ____________________________________________________________
 ```
@@ -101,7 +101,7 @@ ____________________________________________________________
 ### Input
 
 ```text
-event project meeting /from Mon 2pm /to 4pm
+event project meeting /from 2019-08-06 1400 /to 2019-08-06 1600
 ```
 
 ### Expected output
@@ -109,7 +109,7 @@ event project meeting /from Mon 2pm /to 4pm
 ```text
 ____________________________________________________________
  Got it. I've added this task:
-   [E][ ] project meeting (from: Mon 2pm to: 4pm)
+   [E][ ] project meeting (from: Aug 06 2019, 14:00 to: Aug 06 2019, 16:00)
  Now you have 3 tasks in the list.
 ____________________________________________________________
 ```
@@ -126,8 +126,8 @@ list
 ____________________________________________________________
  Here are the tasks in your list:
  1.[T][ ] borrow book
- 2.[D][ ] return book (by: Sunday)
- 3.[E][ ] project meeting (from: Mon 2pm to: 4pm)
+ 2.[D][ ] return book (by: Jun 06 2019)
+ 3.[E][ ] project meeting (from: Aug 06 2019, 14:00 to: Aug 06 2019, 16:00)
 ____________________________________________________________
 ```
 
@@ -142,7 +142,7 @@ mark 2
 ```text
 ____________________________________________________________
  Nice! I've marked this task as done:
-   [D][X] return book (by: Sunday)
+   [D][X] return book (by: Jun 06 2019)
 ____________________________________________________________
 ```
 
@@ -157,7 +157,7 @@ unmark 2
 ```text
 ____________________________________________________________
  OK, I've marked this task as not done yet:
-   [D][ ] return book (by: Sunday)
+   [D][ ] return book (by: Jun 06 2019)
 ____________________________________________________________
 ```
 
@@ -337,8 +337,22 @@ deadline submit report /by Sunday
 
 ```text
 ____________________________________________________________
+ Sorry, I couldn't process that: I don't understand that date. Use yyyy-mm-dd (e.g. 2019-10-15) or yyyy-mm-dd HHmm (e.g. 2019-10-15 1800).
+____________________________________________________________
+```
+
+### Input
+
+```text
+deadline submit report /by 2019-06-06
+```
+
+### Expected output
+
+```text
+____________________________________________________________
  Got it. I've added this task:
-   [D][ ] submit report (by: Sunday)
+   [D][ ] submit report (by: Jun 06 2019)
  Now you have 2 tasks in the list.
 ____________________________________________________________
 ```
@@ -430,7 +444,7 @@ ____________________________________________________________
 ### Input
 
 ```text
-event meeting /from Mon /to Tue
+event meeting /from 2019-08-06 1400 /to 2019-08-06 1600
 ```
 
 ### Expected output
@@ -438,7 +452,7 @@ event meeting /from Mon /to Tue
 ```text
 ____________________________________________________________
  Got it. I've added this task:
-   [E][ ] meeting (from: Mon to: Tue)
+   [E][ ] meeting (from: Aug 06 2019, 14:00 to: Aug 06 2019, 16:00)
  Now you have 3 tasks in the list.
 ____________________________________________________________
 ```
@@ -496,7 +510,7 @@ mark 2
 ```text
 ____________________________________________________________
  Nice! I've marked this task as done:
-   [D][X] submit report (by: Sunday)
+   [D][X] submit report (by: Jun 06 2019)
 ____________________________________________________________
 ```
 
@@ -526,8 +540,8 @@ list
 ____________________________________________________________
  Here are the tasks in your list:
  1.[T][ ] read book
- 2.[D][X] submit report (by: Sunday)
- 3.[E][ ] meeting (from: Mon to: Tue)
+ 2.[D][X] submit report (by: Jun 06 2019)
+ 3.[E][ ] meeting (from: Aug 06 2019, 14:00 to: Aug 06 2019, 16:00)
 ____________________________________________________________
 ```
 
@@ -616,7 +630,7 @@ ____________________________________________________________
 ### Input
 
 ```text
-deadline return book /by Sunday
+deadline return book /by 2019-06-06
 ```
 
 ### Expected output
@@ -624,7 +638,7 @@ deadline return book /by Sunday
 ```text
 ____________________________________________________________
  Got it. I've added this task:
-   [D][ ] return book (by: Sunday)
+   [D][ ] return book (by: Jun 06 2019)
  Now you have 2 tasks in the list.
 ____________________________________________________________
 ```
@@ -632,7 +646,7 @@ ____________________________________________________________
 ### Input
 
 ```text
-event project meeting /from Mon 2pm /to 4pm
+event project meeting /from 2019-08-06 1400 /to 2019-08-06 1600
 ```
 
 ### Expected output
@@ -640,7 +654,7 @@ event project meeting /from Mon 2pm /to 4pm
 ```text
 ____________________________________________________________
  Got it. I've added this task:
-   [E][ ] project meeting (from: Mon 2pm to: 4pm)
+   [E][ ] project meeting (from: Aug 06 2019, 14:00 to: Aug 06 2019, 16:00)
  Now you have 3 tasks in the list.
 ____________________________________________________________
 ```
@@ -698,7 +712,7 @@ delete 2
 ```text
 ____________________________________________________________
  Noted. I've removed this task:
-   [D][ ] return book (by: Sunday)
+   [D][ ] return book (by: Jun 06 2019)
  Now you have 2 tasks in the list.
 ____________________________________________________________
 ```
@@ -715,7 +729,7 @@ list
 ____________________________________________________________
  Here are the tasks in your list:
  1.[T][ ] read book
- 2.[E][ ] project meeting (from: Mon 2pm to: 4pm)
+ 2.[E][ ] project meeting (from: Aug 06 2019, 14:00 to: Aug 06 2019, 16:00)
 ____________________________________________________________
 ```
 
@@ -730,7 +744,7 @@ mark 2
 ```text
 ____________________________________________________________
  Nice! I've marked this task as done:
-   [E][X] project meeting (from: Mon 2pm to: 4pm)
+   [E][X] project meeting (from: Aug 06 2019, 14:00 to: Aug 06 2019, 16:00)
 ____________________________________________________________
 ```
 
@@ -745,7 +759,7 @@ delete 2
 ```text
 ____________________________________________________________
  Noted. I've removed this task:
-   [E][X] project meeting (from: Mon 2pm to: 4pm)
+   [E][X] project meeting (from: Aug 06 2019, 14:00 to: Aug 06 2019, 16:00)
  Now you have 1 tasks in the list.
 ____________________________________________________________
 ```
@@ -822,7 +836,7 @@ ____________________________________________________________
 ### Input
 
 ```text
-deadline submit report /by Sunday
+deadline submit report /by 2019-06-06
 ```
 
 ### Expected output
@@ -830,7 +844,7 @@ deadline submit report /by Sunday
 ```text
 ____________________________________________________________
  Got it. I've added this task:
-   [D][ ] submit report (by: Sunday)
+   [D][ ] submit report (by: Jun 06 2019)
  Now you have 2 tasks in the list.
 ____________________________________________________________
 ```
@@ -838,7 +852,7 @@ ____________________________________________________________
 ### Input
 
 ```text
-event project meeting /from Aug 6th 2pm /to 4pm
+event project meeting /from 2019-08-06 1400 /to 2019-08-06 1600
 ```
 
 ### Expected output
@@ -846,7 +860,7 @@ event project meeting /from Aug 6th 2pm /to 4pm
 ```text
 ____________________________________________________________
  Got it. I've added this task:
-   [E][ ] project meeting (from: Aug 6th 2pm to: 4pm)
+   [E][ ] project meeting (from: Aug 06 2019, 14:00 to: Aug 06 2019, 16:00)
  Now you have 3 tasks in the list.
 ____________________________________________________________
 ```
@@ -862,7 +876,7 @@ mark 2
 ```text
 ____________________________________________________________
  Nice! I've marked this task as done:
-   [D][X] submit report (by: Sunday)
+   [D][X] submit report (by: Jun 06 2019)
 ____________________________________________________________
 ```
 
@@ -899,8 +913,8 @@ ____________________________________________________________
 ### Saved data
 
 ```text
-D | 1 | submit report | Sunday
-E | 0 | project meeting | Aug 6th 2pm | 4pm
+D | 1 | submit report | 2019-06-06T00:00
+E | 0 | project meeting | 2019-08-06T14:00 | 2019-08-06T16:00
 ```
 
 ## Level 7 saved tasks are loaded at startup
@@ -911,8 +925,8 @@ Aim: Verify that tasks saved in the data file are restored on startup with their
 
 ```text
 T | 1 | read book
-D | 0 | return book | June 6th
-E | 1 | project meeting | Aug 6th 2pm | 4pm
+D | 0 | return book | 2019-06-06T00:00
+E | 1 | project meeting | 2019-08-06T14:00 | 2019-08-06T16:00
 ```
 
 ### Startup output
@@ -947,8 +961,8 @@ list
 ____________________________________________________________
  Here are the tasks in your list:
  1.[T][X] read book
- 2.[D][ ] return book (by: June 6th)
- 3.[E][X] project meeting (from: Aug 6th 2pm to: 4pm)
+ 2.[D][ ] return book (by: Jun 06 2019)
+ 3.[E][X] project meeting (from: Aug 06 2019, 14:00 to: Aug 06 2019, 16:00)
 ____________________________________________________________
 ```
 
