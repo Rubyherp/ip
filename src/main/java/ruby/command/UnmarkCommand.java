@@ -1,4 +1,9 @@
-package ruby;
+package ruby.command;
+
+import ruby.RubyException;
+import ruby.storage.Storage;
+import ruby.task.TaskList;
+import ruby.ui.Ui;
 
 /** Marks one task as incomplete. */
 public class UnmarkCommand extends Command {

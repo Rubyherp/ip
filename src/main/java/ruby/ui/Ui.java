@@ -1,4 +1,4 @@
-package ruby;
+package ruby.ui;
 
 import java.util.Scanner;
 

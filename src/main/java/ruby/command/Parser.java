@@ -1,4 +1,4 @@
-package ruby;
+package ruby.command;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -6,15 +6,19 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.Locale;
+import ruby.RubyException;
+import ruby.task.Deadline;
+import ruby.task.Event;
 
 /**
  * Parses raw user input into executable commands.
  */
 public class Parser {
 
-    private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("MMM dd yyyy", Locale.ENGLISH);
-    private static final DateTimeFormatter DATE_TIME_FORMAT = DateTimeFormatter.ofPattern("MMM dd yyyy, HH:mm",
-            Locale.ENGLISH);
+    private static final DateTimeFormatter DATE_FORMAT =
+            DateTimeFormatter.ofPattern("MMM dd yyyy", Locale.ENGLISH);
+    private static final DateTimeFormatter DATE_TIME_FORMAT =
+            DateTimeFormatter.ofPattern("MMM dd yyyy, HH:mm", Locale.ENGLISH);
 
     private Parser() {
     }

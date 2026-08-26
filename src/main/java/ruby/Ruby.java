@@ -1,5 +1,11 @@
 package ruby;
 
+import ruby.command.Command;
+import ruby.command.Parser;
+import ruby.storage.Storage;
+import ruby.task.TaskList;
+import ruby.ui.Ui;
+
 /**
  * Starts the Ruby chatbot application.
  */

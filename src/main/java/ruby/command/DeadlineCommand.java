@@ -1,4 +1,10 @@
-package ruby;
+package ruby.command;
+
+import ruby.RubyException;
+import ruby.storage.Storage;
+import ruby.task.Deadline;
+import ruby.task.TaskList;
+import ruby.ui.Ui;
 
 /** Adds a deadline task to Ruby's task list. */
 public class DeadlineCommand extends Command {

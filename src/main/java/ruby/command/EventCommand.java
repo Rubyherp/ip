@@ -1,4 +1,10 @@
-package ruby;
+package ruby.command;
+
+import ruby.RubyException;
+import ruby.storage.Storage;
+import ruby.task.Event;
+import ruby.task.TaskList;
+import ruby.ui.Ui;
 
 /** Adds an event task to Ruby's task list. */
 public class EventCommand extends Command {

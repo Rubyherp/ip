@@ -1,4 +1,4 @@
-package ruby;
+package ruby.task;
 
 /**
  * Represents a task without an associated date or time.
