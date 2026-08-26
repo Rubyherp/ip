@@ -1,20 +1,22 @@
 package ruby;
 
+import java.time.LocalDateTime;
+
 /**
  * Represents a task that occurs between specified start and end times.
  */
 public class Event extends Task {
-    private final String startDate;
-    private final String endDate;
+    private final LocalDateTime startDate;
+    private final LocalDateTime endDate;
 
     /**
      * Creates an event with the specified description, start, and end.
      *
      * @param description Description of the event.
-     * @param startDate Start date or time, stored as entered by the user.
-     * @param endDate End date or time, stored as entered by the user.
+     * @param startDate   Start date and time.
+     * @param endDate     End date and time.
      */
-    public Event(String description, String startDate, String endDate) {
+    public Event(String description, LocalDateTime startDate, LocalDateTime endDate) {
         super(description);
         this.startDate = startDate;
         this.endDate = endDate;
@@ -22,7 +24,8 @@ public class Event extends Task {
 
     @Override
     public String toString() {
-        return "[E]" + super.toString() + " (from: " + startDate + " to: " + endDate + ")";
+        return "[E]" + super.toString() + " (from: " + Parser.formatDateTime(startDate) + " to: "
+                + Parser.formatDateTime(endDate) + ")";
     }
 
     @Override

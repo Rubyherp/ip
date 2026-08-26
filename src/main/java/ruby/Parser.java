@@ -1,9 +1,21 @@
 package ruby;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.util.Locale;
+
 /**
  * Parses raw user input into executable commands.
  */
 public class Parser {
+
+    private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("MMM dd yyyy", Locale.ENGLISH);
+    private static final DateTimeFormatter DATE_TIME_FORMAT = DateTimeFormatter.ofPattern("MMM dd yyyy, HH:mm",
+            Locale.ENGLISH);
+
     private Parser() {
     }
 
@@ -65,10 +77,11 @@ public class Parser {
     /**
      * Parses a one-based task number and converts it to a zero-based index.
      *
-     * @param input Raw command entered by the user.
+     * @param input       Raw command entered by the user.
      * @param commandWord Command word that precedes the task number.
      * @return Zero-based index of the task.
-     * @throws RubyException If the task number is missing, invalid, or not positive.
+     * @throws RubyException If the task number is missing, invalid, or not
+     *                       positive.
      */
     public static int parseTaskIndex(String input, String commandWord) throws RubyException {
         String taskNumber = input.substring(commandWord.length()).strip();
@@ -84,8 +97,7 @@ public class Parser {
             return oneBasedIndex - 1;
         } catch (NumberFormatException exception) {
             throw new RubyException(
-                    "The task number for " + commandWord + " must be a whole number."
-            );
+                    "The task number for " + commandWord + " must be a whole number.");
         }
     }
 
@@ -111,7 +123,7 @@ public class Parser {
         if (deadline.isEmpty()) {
             throw new RubyException("A deadline needs a date or time after /by.");
         }
-        return new Deadline(description, deadline);
+        return new Deadline(description, parseDateTime(deadline));
     }
 
     /**
@@ -119,7 +131,8 @@ public class Parser {
      *
      * @param input Raw event command.
      * @return The parsed event.
-     * @throws RubyException If the command is missing its description, start, or end.
+     * @throws RubyException If the command is missing its description, start, or
+     *                       end.
      */
     public static Event parseEvent(String input) throws RubyException {
         String details = input.substring("event".length()).strip();
@@ -146,15 +159,17 @@ public class Parser {
         if (endDate.isEmpty()) {
             throw new RubyException("An event needs an end after /to.");
         }
-        return new Event(description, startDate, endDate);
+        return new Event(description, parseDateTime(startDate), parseDateTime(endDate));
     }
 
     /**
-     * Finds a delimiter only when it appears as a complete whitespace-separated token.
+     * Finds a delimiter only when it appears as a complete whitespace-separated
+     * token.
      *
-     * @param text Text to search in.
+     * @param text      Text to search in.
      * @param delimiter Delimiter to search for.
-     * @return Index of the delimiter, or -1 when it is not found as a complete token.
+     * @return Index of the delimiter, or -1 when it is not found as a complete
+     *         token.
      */
     private static int findDelimiter(String text, String delimiter) {
         int searchFrom = 0;
@@ -177,11 +192,54 @@ public class Parser {
     }
 
     /**
-     * Returns whether the input is a command word, optionally followed by arguments.
+     * Returns whether the input is a command word, optionally followed by
+     * arguments.
      */
     private static boolean isCommand(String input, String commandWord) {
         return input.equals(commandWord)
                 || (input.startsWith(commandWord)
                         && Character.isWhitespace(input.charAt(commandWord.length())));
+    }
+
+    /**
+     * Parses a user-supplied date or date and time into a LocalDateTime.
+     *
+     * @param input Date text, e.g. "2019-10-15" or "2019-10-15 1800".
+     * @return The parsed date and time; a date without a time becomes midnight.
+     * @throws RubyException If the text is not in a recognised format.
+     */
+    public static LocalDateTime parseDateTime(String input) throws RubyException {
+        String text = input.strip();
+        if (text.isEmpty()) {
+            throw new RubyException("A deadline needs a date or time after /by.");
+        }
+
+        try {
+            return LocalDateTime.parse(text, DateTimeFormatter.ofPattern("yyyy-MM-dd HHmm"));
+        } catch (DateTimeParseException exception) {
+            // Not a date with a time; try a date alone below.
+        }
+
+        try {
+            return LocalDate.parse(text).atStartOfDay();
+        } catch (DateTimeParseException exception) {
+            throw new RubyException(
+                    "I don't understand that date. Use yyyy-mm-dd (e.g. 2019-10-15)"
+                            + " or yyyy-mm-dd HHmm (e.g. 2019-10-15 1800).");
+        }
+    }
+
+    /**
+     * Formats a date for display as "Oct 15 2019", appending the time only
+     * when it was given (a midnight time means the user supplied no time).
+     *
+     * @param dateTime Date and time to format.
+     * @return The formatted date, with a time when one is present.
+     */
+    public static String formatDateTime(LocalDateTime dateTime) {
+        if (dateTime.toLocalTime().equals(LocalTime.MIDNIGHT)) {
+            return dateTime.format(DATE_FORMAT);
+        }
+        return dateTime.format(DATE_TIME_FORMAT);
     }
 }
