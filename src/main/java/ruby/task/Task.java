@@ -1,4 +1,4 @@
-package ruby;
+package ruby.task;
 
 /**
  * Represents a task and whether the user has completed it.

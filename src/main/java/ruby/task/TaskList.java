@@ -1,7 +1,8 @@
-package ruby;
+package ruby.task;
 
 import java.util.ArrayList;
 import java.util.List;
+import ruby.RubyException;
 
 /**
  * Stores the tasks added during the current chatbot session.

@@ -1,4 +1,4 @@
-package ruby;
+package ruby.command;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -6,17 +6,76 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.Locale;
+import ruby.RubyException;
+import ruby.task.Deadline;
+import ruby.task.Event;
 
 /**
- * Parses user commands into the arguments and objects Ruby needs.
+ * Parses raw user input into executable commands.
  */
 public class Parser {
 
-    private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("MMM dd yyyy", Locale.ENGLISH);
-    private static final DateTimeFormatter DATE_TIME_FORMAT = DateTimeFormatter.ofPattern("MMM dd yyyy, HH:mm",
-            Locale.ENGLISH);
+    private static final DateTimeFormatter DATE_FORMAT =
+            DateTimeFormatter.ofPattern("MMM dd yyyy", Locale.ENGLISH);
+    private static final DateTimeFormatter DATE_TIME_FORMAT =
+            DateTimeFormatter.ofPattern("MMM dd yyyy, HH:mm", Locale.ENGLISH);
 
     private Parser() {
+    }
+
+    /**
+     * Parses one complete user command.
+     *
+     * @param userInput Raw text entered by the user.
+     * @return The command represented by the input.
+     * @throws RubyException If the command is unknown or malformed.
+     */
+    public static Command parse(String userInput) throws RubyException {
+        String command = userInput.strip();
+        if (command.isEmpty()) {
+            throw new RubyException("Please enter a command.");
+        }
+
+        if ("bye".equals(command)) {
+            return new ExitCommand();
+        }
+        if ("list".equals(command)) {
+            return new ListCommand();
+        }
+        if (isCommand(command, "mark")) {
+            return new MarkCommand(parseTaskIndex(command, "mark"));
+        }
+        if (isCommand(command, "unmark")) {
+            return new UnmarkCommand(parseTaskIndex(command, "unmark"));
+        }
+        if (isCommand(command, "delete")) {
+            return new DeleteCommand(parseTaskIndex(command, "delete"));
+        }
+        if (isCommand(command, "todo")) {
+            return new TodoCommand(parseTodo(command));
+        }
+        if (isCommand(command, "deadline")) {
+            return new DeadlineCommand(parseDeadline(command));
+        }
+        if (isCommand(command, "event")) {
+            return new EventCommand(parseEvent(command));
+        }
+        throw new RubyException("I don't recognise that command.");
+    }
+
+    /**
+     * Parses a todo command into its description.
+     *
+     * @param input Raw todo command.
+     * @return The todo description.
+     * @throws RubyException If the description is missing.
+     */
+    private static String parseTodo(String input) throws RubyException {
+        String description = input.substring("todo".length()).strip();
+        if (description.isEmpty()) {
+            throw new RubyException("A todo needs a description.");
+        }
+        return description;
     }
 
     /**
@@ -137,6 +196,16 @@ public class Parser {
     }
 
     /**
+     * Returns whether the input is a command word, optionally followed by
+     * arguments.
+     */
+    private static boolean isCommand(String input, String commandWord) {
+        return input.equals(commandWord)
+                || (input.startsWith(commandWord)
+                        && Character.isWhitespace(input.charAt(commandWord.length())));
+    }
+
+    /**
      * Parses a user-supplied date or date and time into a LocalDateTime.
      *
      * @param input Date text, e.g. "2019-10-15" or "2019-10-15 1800".
@@ -177,5 +246,4 @@ public class Parser {
         }
         return dateTime.format(DATE_TIME_FORMAT);
     }
-
 }
