@@ -10,12 +10,15 @@ import java.util.Scanner;
  * Loads tasks from and saves tasks to a data file on the hard disk.
  */
 public class Storage {
-    private final String FILE_PATH = "data/ruby.txt";
+    private final String filePath;
 
     /**
-     * Creates a storage handler for the default data file.
+     * Creates a storage handler for the specified data file.
+     *
+     * @param filePath Location of the data file.
      */
-    public Storage() {
+    public Storage(String filePath) {
+        this.filePath = filePath;
     }
 
     /**
@@ -25,7 +28,7 @@ public class Storage {
      * @throws RubyException If the data file exists but cannot be read.
      */
     public TaskList load() throws RubyException {
-        File file = new File(FILE_PATH);
+        File file = new File(filePath);
         TaskList taskList = new TaskList();
         File parentDir = file.getParentFile();
 
@@ -59,7 +62,7 @@ public class Storage {
      * @throws RubyException If the data file cannot be written.
      */
     public void save(TaskList taskList) throws RubyException {
-        File file = new File(FILE_PATH);
+        File file = new File(filePath);
         File parentDir = file.getParentFile();
 
         if (parentDir != null) {

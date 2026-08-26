@@ -1,5 +1,7 @@
 package ruby;
 
+import java.util.Scanner;
+
 /**
  * Handles all user interaction, formatting every message with a consistent
  * indentation and horizontal line.
@@ -23,11 +25,13 @@ public class Ui {
             + "                              |  $$$$$$/\n"
             + "                               \\______/";
     private static final String INDENT = " ";
+    private final Scanner scanner;
 
     /**
      * Creates a user interface for the Ruby chatbot.
      */
     public Ui() {
+        scanner = new Scanner(System.in);
     }
 
     private void printHorizontalLine() {
@@ -70,6 +74,24 @@ public class Ui {
      */
     public void printFarewell() {
         printMessage(FAREWELL);
+    }
+
+    /**
+     * Returns whether another command can be read from the user.
+     *
+     * @return True when another input line is available.
+     */
+    public boolean hasNextCommand() {
+        return scanner.hasNextLine();
+    }
+
+    /**
+     * Reads one complete command from the user.
+     *
+     * @return The user's raw command text.
+     */
+    public String readCommand() {
+        return scanner.nextLine();
     }
 
 }
