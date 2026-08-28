@@ -113,6 +113,34 @@ public class TaskList {
     }
 
     /**
+     * Finds tasks whose stored text contains the given keyword.
+     *
+     * @param keyword Text to search for, matched case-insensitively.
+     * @return The matching tasks as a numbered list, or a message when there
+     *         are no matches.
+     */
+    public String find(String keyword) {
+        StringBuilder response = new StringBuilder("Here are the matching tasks in your list:");
+        int matchCount = 0;
+        String lowerKeyword = keyword.toLowerCase();
+
+        for (int i = 0; i < tasks.size(); i++) {
+            if (tasks.get(i).toString().toLowerCase().contains(lowerKeyword)) {
+                response.append('\n')
+                        .append(i + 1)
+                        .append(".")
+                        .append(tasks.get(i));
+                matchCount++;
+            }
+        }
+
+        if (matchCount == 0) {
+            return "No matching tasks found.";
+        }
+        return response.toString();
+    }
+
+    /**
      * Retrieves a task after checking that the requested index exists.
      *
      * @param index Zero-based index of the task.

@@ -979,3 +979,157 @@ ____________________________________________________________
  Bye. Hope to see you again soon!
 ____________________________________________________________
 ```
+
+## Level 9 find
+
+Aim: Verify that find lists matching tasks, matches case-insensitively, reports no matches, and leaves the data file unchanged.
+
+### Startup output
+
+```text
+____________________________________________________________
+ /$$$$$$$            /$$
+ | $$__  $$          | $$
+ | $$  \ $$ /$$   /$$| $$$$$$$  /$$   /$$
+ | $$$$$$$/| $$  | $$| $$__  $$| $$  | $$
+ | $$__  $$| $$  | $$| $$  \ $$| $$  | $$
+ | $$  \ $$| $$  | $$| $$  | $$| $$  | $$
+ | $$  | $$|  $$$$$$/| $$$$$$$/|  $$$$$$$
+ |__/  |__/ \______/ |_______/  \____  $$
+                                /$$  | $$
+                               |  $$$$$$/
+                                \______/
+ Hello! I'm Ruby.
+ What can I do for you?
+____________________________________________________________
+```
+
+### Input
+
+```text
+todo read book
+```
+
+### Expected output
+
+```text
+____________________________________________________________
+ Got it. I've added this task:
+   [T][ ] read book
+ Now you have 1 tasks in the list.
+____________________________________________________________
+```
+
+### Input
+
+```text
+deadline return book /by 2019-06-06
+```
+
+### Expected output
+
+```text
+____________________________________________________________
+ Got it. I've added this task:
+   [D][ ] return book (by: Jun 06 2019)
+ Now you have 2 tasks in the list.
+____________________________________________________________
+```
+
+### Input
+
+```text
+event project meeting /from 2019-08-06 1400 /to 2019-08-06 1600
+```
+
+### Expected output
+
+```text
+____________________________________________________________
+ Got it. I've added this task:
+   [E][ ] project meeting (from: Aug 06 2019, 14:00 to: Aug 06 2019, 16:00)
+ Now you have 3 tasks in the list.
+____________________________________________________________
+```
+
+### Input
+
+```text
+find book
+```
+
+### Expected output
+
+```text
+____________________________________________________________
+ Here are the matching tasks in your list:
+ 1.[T][ ] read book
+ 2.[D][ ] return book (by: Jun 06 2019)
+____________________________________________________________
+```
+
+### Input
+
+```text
+find BOOK
+```
+
+### Expected output
+
+```text
+____________________________________________________________
+ Here are the matching tasks in your list:
+ 1.[T][ ] read book
+ 2.[D][ ] return book (by: Jun 06 2019)
+____________________________________________________________
+```
+
+### Input
+
+```text
+find dance
+```
+
+### Expected output
+
+```text
+____________________________________________________________
+ No matching tasks found.
+____________________________________________________________
+```
+
+### Input
+
+```text
+find
+```
+
+### Expected output
+
+```text
+____________________________________________________________
+ Sorry, I couldn't process that: Give me a keyword to search for after find.
+____________________________________________________________
+```
+
+### Input
+
+```text
+bye
+```
+
+### Expected output
+
+```text
+____________________________________________________________
+ Bye. Hope to see you again soon!
+____________________________________________________________
+```
+
+### Saved data
+
+```text
+T | 0 | read book
+D | 0 | return book | 2019-06-06T00:00
+E | 0 | project meeting | 2019-08-06T14:00 | 2019-08-06T16:00
+```

@@ -3,6 +3,7 @@ package ruby.task;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import java.time.LocalDateTime;
 import org.junit.jupiter.api.Test;
 
 import ruby.RubyException;
@@ -90,5 +91,44 @@ class TaskListTest {
         TaskList taskList = new TaskList();
         RubyException exception = assertThrows(RubyException.class, () -> taskList.deleteItem(0));
         assertEquals("There are no tasks to delete.", exception.getMessage());
+    }
+
+    @Test
+    void find_matchingTasks_returnsNumberedMatches() {
+        TaskList taskList = taskListWith(new Todo("read book"), new Todo("return book"),
+                new Todo("buy milk"));
+        assertEquals("Here are the matching tasks in your list:\n1.[T][ ] read book"
+                        + "\n2.[T][ ] return book",
+                taskList.find("book"));
+    }
+
+    @Test
+    void find_keepsOriginalListNumbering() {
+        TaskList taskList = taskListWith(new Todo("read book"), new Todo("buy milk"),
+                new Todo("return book"));
+        assertEquals("Here are the matching tasks in your list:\n1.[T][ ] read book"
+                        + "\n3.[T][ ] return book",
+                taskList.find("book"));
+    }
+
+    @Test
+    void find_caseInsensitive_matchesRegardlessOfCase() {
+        TaskList taskList = taskListWith(new Todo("Read Book"));
+        assertEquals("Here are the matching tasks in your list:\n1.[T][ ] Read Book",
+                taskList.find("BOOK"));
+    }
+
+    @Test
+    void find_noMatches_returnsMessage() {
+        TaskList taskList = taskListWith(new Todo("read book"));
+        assertEquals("No matching tasks found.", taskList.find("dance"));
+    }
+
+    @Test
+    void find_matchesOnFullTaskText_includesDeadlineDate() {
+        TaskList taskList = taskListWith(new Deadline("return book",
+                LocalDateTime.of(2019, 6, 6, 0, 0)));
+        assertEquals("Here are the matching tasks in your list:\n1.[D][ ] return book (by: Jun 06 2019)",
+                taskList.find("Jun 06"));
     }
 }
