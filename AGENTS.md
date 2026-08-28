@@ -36,6 +36,13 @@ Keep commit subjects within 50 characters when practical and never exceed 72 cha
 Wrap commit message body lines at 72 characters.
 Do not commit or push unless explicitly asked.
 
+## JUnit testing
+
+* Write JUnit 5 tests in `src/test/java/`, mirroring the package structure of `src/main/java/`.
+* Test coverage target: the top ~50% of highest-value methods, prioritizing complex, core, or critical business logic (e.g. parsing, task operations, and storage round-tripping) over trivial getters and wiring.
+* Update the JUnit tests after each code change so the coverage target continues to hold.
+* Run the full suite with `./gradlew test`; all tests must pass before work is considered complete.
+
 ## UI regression testing
 
 After each code update:
