@@ -1,9 +1,9 @@
 package ruby.task;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import java.time.LocalDateTime;
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class EventTest {
     private static final LocalDateTime START = LocalDateTime.of(2026, 8, 26, 14, 0);

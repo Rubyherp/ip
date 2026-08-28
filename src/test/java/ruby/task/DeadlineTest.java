@@ -1,9 +1,9 @@
 package ruby.task;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import java.time.LocalDateTime;
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class DeadlineTest {
     private static final LocalDateTime DATE_TIME = LocalDateTime.of(2026, 8, 26, 18, 0);
