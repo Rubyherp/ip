@@ -109,4 +109,14 @@ class ParserTest {
     void parse_todoCommand_returnsTodoCommand() throws RubyException {
         assertInstanceOf(TodoCommand.class, Parser.parse("todo read book"));
     }
+
+    @Test
+    void parse_findCommand_returnsFindCommand() throws RubyException {
+        assertInstanceOf(FindCommand.class, Parser.parse("find book"));
+    }
+
+    @Test
+    void parse_findCommand_missingKeyword_throws() {
+        assertThrows(RubyException.class, () -> Parser.parse("find"));
+    }
 }

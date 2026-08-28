@@ -60,6 +60,9 @@ public class Parser {
         if (isCommand(command, "event")) {
             return new EventCommand(parseEvent(command));
         }
+        if (isCommand(command, "find")) {
+            return new FindCommand(parseFindKeyword(command));
+        }
         throw new RubyException("I don't recognise that command.");
     }
 
@@ -164,6 +167,21 @@ public class Parser {
             throw new RubyException("An event needs an end after /to.");
         }
         return new Event(description, parseDateTime(startDate), parseDateTime(endDate));
+    }
+
+    /**
+     * Parses a find command into its search keyword.
+     *
+     * @param input Raw find command.
+     * @return The keyword to search for.
+     * @throws RubyException If the keyword is missing.
+     */
+    private static String parseFindKeyword(String input) throws RubyException {
+        String keyword = input.substring("find".length()).strip();
+        if (keyword.isEmpty()) {
+            throw new RubyException("Give me a keyword to search for after find.");
+        }
+        return keyword;
     }
 
     /**
