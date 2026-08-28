@@ -34,6 +34,9 @@ public class Ui {
         scanner = new Scanner(System.in);
     }
 
+    /**
+     * Prints the horizontal divider line that frames every message.
+     */
     private void printHorizontalLine() {
         System.out.println(HORIZONTAL_LINE);
     }
