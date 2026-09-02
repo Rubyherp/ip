@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.time.LocalDateTime;
+
 import org.junit.jupiter.api.Test;
 
 import ruby.RubyException;
@@ -69,8 +70,7 @@ class ParserTest {
 
     @Test
     void parseEvent_missingTo_throws() {
-        assertThrows(RubyException.class,
-                () -> Parser.parseEvent("event project meeting /from 2019-10-15 1400"));
+        assertThrows(RubyException.class, () -> Parser.parseEvent("event project meeting /from 2019-10-15 1400"));
     }
 
     @Test
@@ -116,7 +116,7 @@ class ParserTest {
     }
 
     @Test
-    void parse_findCommand_missingKeyword_throws() {
+    void parse_findCommandWithoutKeyword_throws() {
         assertThrows(RubyException.class, () -> Parser.parse("find"));
     }
 }
