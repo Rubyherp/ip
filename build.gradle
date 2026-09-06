@@ -42,7 +42,7 @@ test {
 }
 
 application {
-    mainClass = 'ruby.Ruby'
+    mainClass = 'ruby.Launcher'
 }
 
 jar {
@@ -58,4 +58,5 @@ shadowJar {
 
 run {
     standardInput = System.in
+    jvmArgs '--enable-native-access=javafx.graphics'
 }

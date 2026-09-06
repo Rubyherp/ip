@@ -27,11 +27,24 @@ public class Ruby {
         try {
             loadedTaskList = storage.load();
         } catch (RubyException exception) {
-            ui.printMessage("Sorry, I couldn't load your saved tasks: "
-                    + exception.getMessage());
             loadedTaskList = new TaskList();
         }
         taskList = loadedTaskList;
+    }
+
+    /**
+     * Answers one command with the text Ruby would display in response.
+     *
+     * @param input The user's raw command text.
+     * @return Ruby's response to the command.
+     */
+    public String getResponse(String input) {
+        try {
+            Command command = Parser.parse(input);
+            return command.execute(taskList, storage);
+        } catch (RubyException exception) {
+            return "Sorry, I couldn't process that: " + exception.getMessage();
+        }
     }
 
     /**
@@ -44,7 +57,8 @@ public class Ruby {
         while (!isExit && ui.hasNextCommand()) {
             try {
                 Command command = Parser.parse(ui.readCommand());
-                command.execute(taskList, ui, storage);
+                String response = command.execute(taskList, storage);
+                ui.printMessage(response);
                 isExit = command.isExit();
             } catch (RubyException exception) {
                 ui.printMessage("Sorry, I couldn't process that: " + exception.getMessage());

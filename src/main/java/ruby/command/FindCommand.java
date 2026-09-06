@@ -2,7 +2,6 @@ package ruby.command;
 
 import ruby.storage.Storage;
 import ruby.task.TaskList;
-import ruby.ui.Ui;
 
 /** Finds tasks whose stored text contains the search keyword. */
 public class FindCommand extends Command {
@@ -14,7 +13,8 @@ public class FindCommand extends Command {
     }
 
     @Override
-    public void execute(TaskList tasks, Ui ui, Storage storage) {
-        ui.printMessage(tasks.find(keyword));
+    public String execute(TaskList tasks, Storage storage) {
+        String response = tasks.find(keyword);
+        return response;
     }
 }

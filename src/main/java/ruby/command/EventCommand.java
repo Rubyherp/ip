@@ -4,7 +4,6 @@ import ruby.RubyException;
 import ruby.storage.Storage;
 import ruby.task.Event;
 import ruby.task.TaskList;
-import ruby.ui.Ui;
 
 /** Adds an event task to Ruby's task list. */
 public class EventCommand extends Command {
@@ -16,8 +15,9 @@ public class EventCommand extends Command {
     }
 
     @Override
-    public void execute(TaskList tasks, Ui ui, Storage storage) throws RubyException {
-        ui.printMessage(tasks.addItem(event));
+    public String execute(TaskList tasks, Storage storage) throws RubyException {
+        String response = tasks.addItem(event);
         storage.save(tasks);
+        return response;
     }
 }
