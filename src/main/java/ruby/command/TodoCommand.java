@@ -4,7 +4,6 @@ import ruby.RubyException;
 import ruby.storage.Storage;
 import ruby.task.TaskList;
 import ruby.task.Todo;
-import ruby.ui.Ui;
 
 /** Adds a todo task to Ruby's task list. */
 public class TodoCommand extends Command {
@@ -16,8 +15,9 @@ public class TodoCommand extends Command {
     }
 
     @Override
-    public void execute(TaskList tasks, Ui ui, Storage storage) throws RubyException {
-        ui.printMessage(tasks.addItem(new Todo(description)));
+    public String execute(TaskList tasks, Storage storage) throws RubyException {
+        String response = tasks.addItem(new Todo(description));
         storage.save(tasks);
+        return response;
     }
 }

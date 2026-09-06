@@ -3,7 +3,6 @@ package ruby.command;
 import ruby.RubyException;
 import ruby.storage.Storage;
 import ruby.task.TaskList;
-import ruby.ui.Ui;
 
 /** Marks one task as complete. */
 public class MarkCommand extends Command {
@@ -15,8 +14,9 @@ public class MarkCommand extends Command {
     }
 
     @Override
-    public void execute(TaskList tasks, Ui ui, Storage storage) throws RubyException {
-        ui.printMessage(tasks.markItem(index));
+    public String execute(TaskList tasks, Storage storage) throws RubyException {
+        String response = tasks.markItem(index);
         storage.save(tasks);
+        return response;
     }
 }

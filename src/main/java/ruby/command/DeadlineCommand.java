@@ -4,7 +4,6 @@ import ruby.RubyException;
 import ruby.storage.Storage;
 import ruby.task.Deadline;
 import ruby.task.TaskList;
-import ruby.ui.Ui;
 
 /** Adds a deadline task to Ruby's task list. */
 public class DeadlineCommand extends Command {
@@ -16,8 +15,9 @@ public class DeadlineCommand extends Command {
     }
 
     @Override
-    public void execute(TaskList tasks, Ui ui, Storage storage) throws RubyException {
-        ui.printMessage(tasks.addItem(deadline));
+    public String execute(TaskList tasks, Storage storage) throws RubyException {
+        String response = tasks.addItem(deadline);
         storage.save(tasks);
+        return response;
     }
 }
