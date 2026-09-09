@@ -22,6 +22,15 @@ public class Parser {
     private static final String DEADLINE_DELIMITER = "/by";
     private static final String EVENT_START_DELIMITER = "/from";
     private static final String EVENT_END_DELIMITER = "/to";
+    private static final String TODO_COMMAND = "todo";
+    private static final String DEADLINE_COMMAND = "deadline";
+    private static final String EVENT_COMMAND = "event";
+    private static final String FIND_COMMAND = "find";
+    private static final String MARK_COMMAND = "mark";
+    private static final String UNMARK_COMMAND = "unmark";
+    private static final String DELETE_COMMAND = "delete";
+    private static final String LIST_COMMAND = "list";
+    private static final String EXIT_COMMAND = "bye";
 
     /**
      * Parses one complete user command.
@@ -36,31 +45,31 @@ public class Parser {
             throw new RubyException("Please enter a command.");
         }
 
-        if ("bye".equals(command)) {
+        if (EXIT_COMMAND.equals(command)) {
             return new ExitCommand();
         }
-        if ("list".equals(command)) {
+        if (LIST_COMMAND.equals(command)) {
             return new ListCommand();
         }
-        if (isCommand(command, "mark")) {
-            return new MarkCommand(parseTaskIndex(command, "mark"));
+        if (isCommand(command, MARK_COMMAND)) {
+            return new MarkCommand(parseTaskIndex(command, MARK_COMMAND));
         }
-        if (isCommand(command, "unmark")) {
-            return new UnmarkCommand(parseTaskIndex(command, "unmark"));
+        if (isCommand(command, UNMARK_COMMAND)) {
+            return new UnmarkCommand(parseTaskIndex(command, UNMARK_COMMAND));
         }
-        if (isCommand(command, "delete")) {
-            return new DeleteCommand(parseTaskIndex(command, "delete"));
+        if (isCommand(command, DELETE_COMMAND)) {
+            return new DeleteCommand(parseTaskIndex(command, DELETE_COMMAND));
         }
-        if (isCommand(command, "todo")) {
+        if (isCommand(command, TODO_COMMAND)) {
             return new TodoCommand(parseTodo(command));
         }
-        if (isCommand(command, "deadline")) {
+        if (isCommand(command, DEADLINE_COMMAND)) {
             return new DeadlineCommand(parseDeadline(command));
         }
-        if (isCommand(command, "event")) {
+        if (isCommand(command, EVENT_COMMAND)) {
             return new EventCommand(parseEvent(command));
         }
-        if (isCommand(command, "find")) {
+        if (isCommand(command, FIND_COMMAND)) {
             return new FindCommand(parseFindKeyword(command));
         }
         throw new RubyException("I don't recognise that command.");
@@ -74,7 +83,7 @@ public class Parser {
      * @throws RubyException If the description is missing.
      */
     private static String parseTodo(String input) throws RubyException {
-        String description = input.substring("todo".length()).strip();
+        String description = input.substring(TODO_COMMAND.length()).strip();
         if (description.isEmpty()) {
             throw new RubyException("A todo needs a description.");
         }
@@ -116,7 +125,7 @@ public class Parser {
      * @throws RubyException If the command is missing its description or deadline.
      */
     public static Deadline parseDeadline(String input) throws RubyException {
-        String details = input.substring("deadline".length()).strip();
+        String details = input.substring(DEADLINE_COMMAND.length()).strip();
         int byIndex = findDelimiter(details, DEADLINE_DELIMITER);
         if (byIndex < 0) {
             throw new RubyException("Use: deadline DESCRIPTION " + DEADLINE_DELIMITER + " DATE_OR_TIME.");
@@ -142,7 +151,7 @@ public class Parser {
      *                       end.
      */
     public static Event parseEvent(String input) throws RubyException {
-        String details = input.substring("event".length()).strip();
+        String details = input.substring(EVENT_COMMAND.length()).strip();
         int fromIndex = findDelimiter(details, EVENT_START_DELIMITER);
         if (fromIndex < 0) {
             throw new RubyException(
@@ -182,7 +191,7 @@ public class Parser {
      * @throws RubyException If the keyword is missing.
      */
     private static String parseFindKeyword(String input) throws RubyException {
-        String keyword = input.substring("find".length()).strip();
+        String keyword = input.substring(FIND_COMMAND.length()).strip();
         if (keyword.isEmpty()) {
             throw new RubyException("Give me a keyword to search for after find.");
         }
@@ -252,7 +261,7 @@ public class Parser {
         } catch (DateTimeParseException exception) {
             throw new RubyException(
                     "I don't understand that date. Use yyyy-mm-dd (e.g. 2019-10-15)"
-                            + " or yyyy-mm-dd HHmm (e.g. 2019-10-15 1800).");
+                            + " or yyyy-mm-dd HHmm (e.g. 2026-10-15 1800).");
         }
     }
 
