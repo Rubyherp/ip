@@ -16,10 +16,9 @@ import ruby.task.Event;
  */
 public class Parser {
 
-    private static final DateTimeFormatter DATE_FORMAT =
-            DateTimeFormatter.ofPattern("MMM dd yyyy", Locale.ENGLISH);
-    private static final DateTimeFormatter DATE_TIME_FORMAT =
-            DateTimeFormatter.ofPattern("MMM dd yyyy, HH:mm", Locale.ENGLISH);
+    private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("MMM dd yyyy", Locale.ENGLISH);
+    private static final DateTimeFormatter DATE_TIME_FORMAT = DateTimeFormatter.ofPattern("MMM dd yyyy, HH:mm",
+            Locale.ENGLISH);
 
     private Parser() {
     }
@@ -36,6 +35,8 @@ public class Parser {
         if (command.isEmpty()) {
             throw new RubyException("Please enter a command.");
         }
+
+        assert command != null : "caller always passes a non-null string";
 
         if ("bye".equals(command)) {
             return new ExitCommand();
@@ -260,6 +261,7 @@ public class Parser {
      * @return The formatted date, with a time when one is present.
      */
     public static String formatDateTime(LocalDateTime dateTime) {
+        assert dateTime != null : "caller always passes a parsed date";
         if (dateTime.toLocalTime().equals(LocalTime.MIDNIGHT)) {
             return dateTime.format(DATE_FORMAT);
         }
