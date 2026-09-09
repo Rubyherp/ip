@@ -23,11 +23,17 @@ public class Deadline extends Task {
 
     @Override
     public String toString() {
-        return "[D]" + super.toString() + " (by: " + Parser.formatDateTime(deadline) + ")";
+        return "[" + TaskDataFormat.DEADLINE_TYPE + "]"
+                + super.toString()
+                + " (by: " + Parser.formatDateTime(deadline) + ")";
     }
 
     @Override
     public String toDataString() {
-        return "D | " + super.toDataString() + " | " + deadline;
+        return TaskDataFormat.DEADLINE_TYPE
+                + TaskDataFormat.PART_SEPARATOR
+                + super.toDataString()
+                + TaskDataFormat.PART_SEPARATOR
+                + deadline;
     }
 }

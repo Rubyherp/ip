@@ -26,12 +26,19 @@ public class Event extends Task {
 
     @Override
     public String toString() {
-        return "[E]" + super.toString() + " (from: " + Parser.formatDateTime(startDate) + " to: "
-                + Parser.formatDateTime(endDate) + ")";
+        return "[" + TaskDataFormat.EVENT_TYPE + "]"
+                + super.toString()
+                + " (from: " + Parser.formatDateTime(startDate) + " to: " + Parser.formatDateTime(endDate) + ")";
     }
 
     @Override
     public String toDataString() {
-        return "E | " + super.toDataString() + " | " + startDate + " | " + endDate;
+        return TaskDataFormat.EVENT_TYPE
+                + TaskDataFormat.PART_SEPARATOR
+                + super.toDataString()
+                + TaskDataFormat.PART_SEPARATOR
+                + startDate
+                + TaskDataFormat.PART_SEPARATOR
+                + endDate;
     }
 }

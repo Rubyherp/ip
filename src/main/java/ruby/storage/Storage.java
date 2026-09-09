@@ -12,6 +12,7 @@ import ruby.RubyException;
 import ruby.task.Deadline;
 import ruby.task.Event;
 import ruby.task.Task;
+import ruby.task.TaskDataFormat;
 import ruby.task.TaskList;
 import ruby.task.Todo;
 
@@ -19,6 +20,11 @@ import ruby.task.Todo;
  * Loads tasks from and saves tasks to a data file on the hard disk.
  */
 public class Storage {
+    private static final String PART_SEPARATOR_REGEX = " \\| ";
+    private static final int MIN_TASK_FIELDS = 3;
+    private static final int MIN_DEADLINE_FIELDS = 4;
+    private static final int MIN_EVENT_FIELDS = 5;
+
     private final String filePath;
 
     /**
@@ -37,7 +43,27 @@ public class Storage {
      * @throws RubyException If the data file exists but cannot be read.
      */
     public TaskList load() throws RubyException {
-        File file = new File(filePath);
+        return loadTasksFromFile(new File(filePath));
+    }
+
+    /**
+     * Writes every task to the data file, overwriting any previous contents.
+     *
+     * @param taskList Tasks to save.
+     * @throws RubyException If the data file cannot be written.
+     */
+    public void save(TaskList taskList) throws RubyException {
+        saveTasksToFile(taskList, new File(filePath));
+    }
+
+    /**
+     * Reads the tasks saved in the data file.
+     *
+     * @param file The data file to read.
+     * @return The saved tasks, or an empty list when no data file exists yet.
+     * @throws RubyException If the data file exists but cannot be read.
+     */
+    private TaskList loadTasksFromFile(File file) throws RubyException {
         TaskList taskList = new TaskList();
         File parentDir = file.getParentFile();
 
@@ -68,10 +94,10 @@ public class Storage {
      * Writes every task to the data file, overwriting any previous contents.
      *
      * @param taskList Tasks to save.
+     * @param file     The data file to write.
      * @throws RubyException If the data file cannot be written.
      */
-    public void save(TaskList taskList) throws RubyException {
-        File file = new File(filePath);
+    private static void saveTasksToFile(TaskList taskList, File file) throws RubyException {
         File parentDir = file.getParentFile();
 
         if (parentDir != null) {
@@ -95,28 +121,29 @@ public class Storage {
      *                       unknown type.
      */
     private static Task parseLine(String line) throws RubyException {
-        String[] parts = line.split(" \\| ", -1);
-        if (parts.length < 3) {
+        String[] parts = line.split(PART_SEPARATOR_REGEX, -1);
+        if (parts.length < MIN_TASK_FIELDS) {
             throw new RubyException("The data file contains a malformed task line.");
         }
 
         String type = parts[0];
-        boolean isDone = "1".equals(parts[1]);
+        String mark = parts[1];
+        boolean isDone = TaskDataFormat.DONE_MARKER.equals(mark);
 
         Task task;
         switch (type) {
-            case "T":
+            case TaskDataFormat.TODO_TYPE:
                 task = new Todo(joinParts(parts, 2, parts.length));
                 break;
-            case "D":
-                if (parts.length < 4) {
+            case TaskDataFormat.DEADLINE_TYPE:
+                if (parts.length < MIN_DEADLINE_FIELDS) {
                     throw new RubyException("The data file contains a malformed deadline.");
                 }
                 task = new Deadline(joinParts(parts, 2, parts.length - 1),
                         parseSavedDateTime(parts[parts.length - 1]));
                 break;
-            case "E":
-                if (parts.length < 5) {
+            case TaskDataFormat.EVENT_TYPE:
+                if (parts.length < MIN_EVENT_FIELDS) {
                     throw new RubyException("The data file contains a malformed event.");
                 }
                 task = new Event(joinParts(parts, 2, parts.length - 2),
@@ -147,7 +174,7 @@ public class Storage {
         StringBuilder joined = new StringBuilder();
         for (int i = start; i < end; i++) {
             if (i > start) {
-                joined.append(" | ");
+                joined.append(TaskDataFormat.PART_SEPARATOR);
             }
             joined.append(parts[i]);
         }
