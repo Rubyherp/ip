@@ -7,7 +7,6 @@ import ruby.task.TaskList;
 public class ListCommand extends Command {
     @Override
     public String execute(TaskList tasks, Storage storage) {
-        String response = tasks.listItems();
-        return response;
+        return tasks.listItems();
     }
 }

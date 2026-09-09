@@ -25,6 +25,7 @@ public class TaskList {
      * @return Confirmation containing the task and updated task count.
      */
     public String addItem(Task task) {
+        assert task != null : "Task cannot be null";
         tasks.add(task);
         return "Got it. I've added this task:\n  "
                 + task
@@ -41,6 +42,7 @@ public class TaskList {
      * @throws RubyException If the index does not identify an existing task.
      */
     public String markItem(int index) throws RubyException {
+        assert index >= 0 : "Parser only produces non-negative task indexes";
         Task task = getTask(index, "mark");
         task.markAsDone();
 
@@ -55,6 +57,7 @@ public class TaskList {
      * @throws RubyException If the index does not identify an existing task.
      */
     public String unmarkItem(int index) throws RubyException {
+        assert index >= 0 : "Parser only produces non-negative task indexes";
         Task task = getTask(index, "unmark");
         task.markAsNotDone();
 
@@ -69,6 +72,7 @@ public class TaskList {
      * @throws RubyException If the index does not identify an existing task.
      */
     public String deleteItem(int index) throws RubyException {
+        assert index >= 0 : "Parser only produces non-negative task indexes";
         Task task = getTask(index, "delete");
         tasks.remove(index);
 
@@ -144,7 +148,7 @@ public class TaskList {
     /**
      * Retrieves a task after checking that the requested index exists.
      *
-     * @param index Zero-based index of the task.
+     * @param index  Zero-based index of the task.
      * @param action Action requested by the user, used in error messages.
      * @return Task at the specified index.
      * @throws RubyException If the index does not identify an existing task.
@@ -158,9 +162,9 @@ public class TaskList {
                     "Task " + (index + 1)
                             + " does not exist; choose a number from 1 to "
                             + tasks.size()
-                            + "."
-            );
+                            + ".");
         }
+        assert tasks.get(index) != null : "Task at index " + index + " should not be null";
         return tasks.get(index);
     }
 }
