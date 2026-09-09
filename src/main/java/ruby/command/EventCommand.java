@@ -5,11 +5,15 @@ import ruby.storage.Storage;
 import ruby.task.Event;
 import ruby.task.TaskList;
 
-/** Adds an event task to Ruby's task list. */
+/**
+ * Adds an event task to Ruby's task list.
+ */
 public class EventCommand extends Command {
     private final Event event;
 
-    /** Creates a command that adds the parsed event. */
+    /**
+     * Creates a command that adds the parsed event.
+     */
     public EventCommand(Event event) {
         this.event = event;
     }

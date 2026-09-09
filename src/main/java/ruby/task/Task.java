@@ -52,6 +52,8 @@ public class Task {
      * @return The done flag and description, separated by {@code " | "}.
      */
     public String toDataString() {
-        return (isDone ? "1" : "0") + " | " + description;
+        return (isDone ? TaskDataFormat.DONE_MARKER : TaskDataFormat.NOT_DONE_MARKER)
+                + TaskDataFormat.PART_SEPARATOR
+                + description;
     }
 }

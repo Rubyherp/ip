@@ -15,11 +15,14 @@ public class Todo extends Task {
 
     @Override
     public String toString() {
-        return "[T]" + super.toString();
+        return "[" + TaskDataFormat.TODO_TYPE + "]"
+                + super.toString();
     }
 
     @Override
     public String toDataString() {
-        return "T | " + super.toDataString();
+        return TaskDataFormat.TODO_TYPE
+                + TaskDataFormat.PART_SEPARATOR
+                + super.toDataString();
     }
 }

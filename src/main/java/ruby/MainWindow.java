@@ -17,8 +17,7 @@ import ruby.control.DialogBox;
  * area, the input field, and the send button.
  */
 public class MainWindow extends AnchorPane {
-    private static final String WELCOME_MESSAGE =
-            "Hello! I'm Ruby.\nWhat can I do for you?";
+    private static final String WELCOME_MESSAGE = "Hello! I'm Ruby.\nWhat can I do for you?";
     private static final String RUBY_IMAGE_PATH = "/image/cat.jpg";
     private static final String USER_IMAGE_PATH = "/image/mona.jpg";
     private static final String EXIT_COMMAND = "bye";
@@ -64,10 +63,10 @@ public class MainWindow extends AnchorPane {
     /**
      * Supplies the Ruby instance the window should talk to and greets the user.
      *
-     * @param r Ruby instance that answers the user's commands.
+     * @param ruby instance that answers the user's commands.
      */
-    public void setRuby(Ruby r) {
-        ruby = r;
+    public void setRuby(Ruby ruby) {
+        this.ruby = ruby;
         dialogContainer.getChildren().add(DialogBox.getRubyDialog(WELCOME_MESSAGE, rubyImage));
     }
 

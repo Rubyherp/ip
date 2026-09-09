@@ -5,11 +5,15 @@ import ruby.storage.Storage;
 import ruby.task.TaskList;
 import ruby.task.Todo;
 
-/** Adds a todo task to Ruby's task list. */
+/**
+ * Adds a todo task to Ruby's task list.
+ */
 public class TodoCommand extends Command {
     private final String description;
 
-    /** Creates a command that adds a todo with the given description. */
+    /**
+     * Creates a command that adds a todo with the given description.
+     */
     public TodoCommand(String description) {
         this.description = description;
     }

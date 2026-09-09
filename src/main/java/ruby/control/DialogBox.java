@@ -37,8 +37,8 @@ public class DialogBox extends HBox {
             fxmlLoader.setController(this);
             fxmlLoader.setRoot(this);
             fxmlLoader.load();
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (IOException exception) {
+            throw new IllegalStateException("DialogBox.fxml could not be loaded", exception);
         }
 
         dialog.setText(text);
@@ -50,9 +50,9 @@ public class DialogBox extends HBox {
      * the avatar after the label.
      */
     private void flip() {
-        ObservableList<Node> temp = FXCollections.observableArrayList(this.getChildren());
-        Collections.reverse(temp);
-        getChildren().setAll(temp);
+        ObservableList<Node> reverseChildren = FXCollections.observableArrayList(this.getChildren());
+        Collections.reverse(reverseChildren);
+        getChildren().setAll(reverseChildren);
         setAlignment(Pos.TOP_LEFT);
         dialog.getStyleClass().add("reply-label");
     }
@@ -65,9 +65,9 @@ public class DialogBox extends HBox {
      * @return The user's dialog box.
      */
     public static DialogBox getUserDialog(String text, Image img) {
-        DialogBox db = new DialogBox(text, img);
-        db.getStyleClass().add("user-dialog");
-        return db;
+        DialogBox dialogBox = new DialogBox(text, img);
+        dialogBox.getStyleClass().add("user-dialog");
+        return dialogBox;
     }
 
     /**
@@ -78,9 +78,9 @@ public class DialogBox extends HBox {
      * @return Ruby's dialog box.
      */
     public static DialogBox getRubyDialog(String text, Image img) {
-        DialogBox db = new DialogBox(text, img);
-        db.flip();
-        db.getStyleClass().add("ruby-dialog");
-        return db;
+        DialogBox dialogBox = new DialogBox(text, img);
+        dialogBox.flip();
+        dialogBox.getStyleClass().add("ruby-dialog");
+        return dialogBox;
     }
 }

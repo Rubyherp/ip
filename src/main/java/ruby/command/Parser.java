@@ -19,6 +19,18 @@ public class Parser {
     private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("MMM dd yyyy", Locale.ENGLISH);
     private static final DateTimeFormatter DATE_TIME_FORMAT = DateTimeFormatter.ofPattern("MMM dd yyyy, HH:mm",
             Locale.ENGLISH);
+    private static final String DEADLINE_DELIMITER = "/by";
+    private static final String EVENT_START_DELIMITER = "/from";
+    private static final String EVENT_END_DELIMITER = "/to";
+    private static final String TODO_COMMAND = "todo";
+    private static final String DEADLINE_COMMAND = "deadline";
+    private static final String EVENT_COMMAND = "event";
+    private static final String FIND_COMMAND = "find";
+    private static final String MARK_COMMAND = "mark";
+    private static final String UNMARK_COMMAND = "unmark";
+    private static final String DELETE_COMMAND = "delete";
+    private static final String LIST_COMMAND = "list";
+    private static final String EXIT_COMMAND = "bye";
 
     private Parser() {
     }
@@ -38,31 +50,31 @@ public class Parser {
 
         assert command != null : "caller always passes a non-null string";
 
-        if ("bye".equals(command)) {
+        if (EXIT_COMMAND.equals(command)) {
             return new ExitCommand();
         }
-        if ("list".equals(command)) {
+        if (LIST_COMMAND.equals(command)) {
             return new ListCommand();
         }
-        if (isCommand(command, "mark")) {
-            return new MarkCommand(parseTaskIndex(command, "mark"));
+        if (isCommand(command, MARK_COMMAND)) {
+            return new MarkCommand(parseTaskIndex(command, MARK_COMMAND));
         }
-        if (isCommand(command, "unmark")) {
-            return new UnmarkCommand(parseTaskIndex(command, "unmark"));
+        if (isCommand(command, UNMARK_COMMAND)) {
+            return new UnmarkCommand(parseTaskIndex(command, UNMARK_COMMAND));
         }
-        if (isCommand(command, "delete")) {
-            return new DeleteCommand(parseTaskIndex(command, "delete"));
+        if (isCommand(command, DELETE_COMMAND)) {
+            return new DeleteCommand(parseTaskIndex(command, DELETE_COMMAND));
         }
-        if (isCommand(command, "todo")) {
+        if (isCommand(command, TODO_COMMAND)) {
             return new TodoCommand(parseTodo(command));
         }
-        if (isCommand(command, "deadline")) {
+        if (isCommand(command, DEADLINE_COMMAND)) {
             return new DeadlineCommand(parseDeadline(command));
         }
-        if (isCommand(command, "event")) {
+        if (isCommand(command, EVENT_COMMAND)) {
             return new EventCommand(parseEvent(command));
         }
-        if (isCommand(command, "find")) {
+        if (isCommand(command, FIND_COMMAND)) {
             return new FindCommand(parseFindKeyword(command));
         }
         throw new RubyException("I don't recognise that command.");
@@ -76,7 +88,7 @@ public class Parser {
      * @throws RubyException If the description is missing.
      */
     private static String parseTodo(String input) throws RubyException {
-        String description = input.substring("todo".length()).strip();
+        String description = input.substring(TODO_COMMAND.length()).strip();
         if (description.isEmpty()) {
             throw new RubyException("A todo needs a description.");
         }
@@ -118,19 +130,19 @@ public class Parser {
      * @throws RubyException If the command is missing its description or deadline.
      */
     public static Deadline parseDeadline(String input) throws RubyException {
-        String details = input.substring("deadline".length()).strip();
-        int byIndex = findDelimiter(details, "/by");
+        String details = input.substring(DEADLINE_COMMAND.length()).strip();
+        int byIndex = findDelimiter(details, DEADLINE_DELIMITER);
         if (byIndex < 0) {
-            throw new RubyException("Use: deadline DESCRIPTION /by DATE_OR_TIME.");
+            throw new RubyException("Use: deadline DESCRIPTION " + DEADLINE_DELIMITER + " DATE_OR_TIME.");
         }
 
         String description = details.substring(0, byIndex).strip();
-        String deadline = details.substring(byIndex + "/by".length()).strip();
+        String deadline = details.substring(byIndex + DEADLINE_DELIMITER.length()).strip();
         if (description.isEmpty()) {
             throw new RubyException("A deadline needs a description.");
         }
         if (deadline.isEmpty()) {
-            throw new RubyException("A deadline needs a date or time after /by.");
+            throw new RubyException("A deadline needs a date or time after " + DEADLINE_DELIMITER + ".");
         }
         return new Deadline(description, parseDateTime(deadline));
     }
@@ -144,29 +156,34 @@ public class Parser {
      *                       end.
      */
     public static Event parseEvent(String input) throws RubyException {
-        String details = input.substring("event".length()).strip();
-        int fromIndex = findDelimiter(details, "/from");
+        String details = input.substring(EVENT_COMMAND.length()).strip();
+        int fromIndex = findDelimiter(details, EVENT_START_DELIMITER);
         if (fromIndex < 0) {
-            throw new RubyException("Use: event DESCRIPTION /from START /to END.");
+            throw new RubyException(
+                    "Use: event DESCRIPTION "
+                            + EVENT_START_DELIMITER
+                            + " START "
+                            + EVENT_END_DELIMITER
+                            + " END.");
         }
 
         String description = details.substring(0, fromIndex).strip();
-        String dates = details.substring(fromIndex + "/from".length()).strip();
-        int toIndex = findDelimiter(dates, "/to");
+        String dates = details.substring(fromIndex + EVENT_START_DELIMITER.length()).strip();
+        int toIndex = findDelimiter(dates, EVENT_END_DELIMITER);
         if (description.isEmpty()) {
             throw new RubyException("An event needs a description.");
         }
         if (toIndex < 0) {
-            throw new RubyException("An event needs an end after /to.");
+            throw new RubyException("An event needs an end after " + EVENT_END_DELIMITER + ".");
         }
 
         String startDate = dates.substring(0, toIndex).strip();
-        String endDate = dates.substring(toIndex + "/to".length()).strip();
+        String endDate = dates.substring(toIndex + EVENT_END_DELIMITER.length()).strip();
         if (startDate.isEmpty()) {
-            throw new RubyException("An event needs a start after /from.");
+            throw new RubyException("An event needs a start after " + EVENT_START_DELIMITER + ".");
         }
         if (endDate.isEmpty()) {
-            throw new RubyException("An event needs an end after /to.");
+            throw new RubyException("An event needs an end after " + EVENT_END_DELIMITER + ".");
         }
         return new Event(description, parseDateTime(startDate), parseDateTime(endDate));
     }
@@ -179,7 +196,7 @@ public class Parser {
      * @throws RubyException If the keyword is missing.
      */
     private static String parseFindKeyword(String input) throws RubyException {
-        String keyword = input.substring("find".length()).strip();
+        String keyword = input.substring(FIND_COMMAND.length()).strip();
         if (keyword.isEmpty()) {
             throw new RubyException("Give me a keyword to search for after find.");
         }
@@ -235,7 +252,7 @@ public class Parser {
     public static LocalDateTime parseDateTime(String input) throws RubyException {
         String text = input.strip();
         if (text.isEmpty()) {
-            throw new RubyException("A deadline needs a date or time after /by.");
+            throw new RubyException("A deadline needs a date or time after " + DEADLINE_DELIMITER + ".");
         }
 
         try {
@@ -249,7 +266,7 @@ public class Parser {
         } catch (DateTimeParseException exception) {
             throw new RubyException(
                     "I don't understand that date. Use yyyy-mm-dd (e.g. 2019-10-15)"
-                            + " or yyyy-mm-dd HHmm (e.g. 2019-10-15 1800).");
+                            + " or yyyy-mm-dd HHmm (e.g. 2026-10-15 1800).");
         }
     }
 
