@@ -16,13 +16,9 @@ import ruby.task.Event;
  */
 public class Parser {
 
-    private static final DateTimeFormatter DATE_FORMAT =
-            DateTimeFormatter.ofPattern("MMM dd yyyy", Locale.ENGLISH);
-    private static final DateTimeFormatter DATE_TIME_FORMAT =
-            DateTimeFormatter.ofPattern("MMM dd yyyy, HH:mm", Locale.ENGLISH);
-
-    private Parser() {
-    }
+    private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("MMM dd yyyy", Locale.ENGLISH);
+    private static final DateTimeFormatter DATE_TIME_FORMAT = DateTimeFormatter.ofPattern("MMM dd yyyy, HH:mm",
+            Locale.ENGLISH);
 
     /**
      * Parses one complete user command.
