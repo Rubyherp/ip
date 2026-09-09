@@ -100,6 +100,8 @@ public class Storage {
     private static void saveTasksToFile(TaskList taskList, File file) throws RubyException {
         File parentDir = file.getParentFile();
 
+        assert taskList != null : "TaskList should not be null when saving.";
+
         if (parentDir != null) {
             parentDir.mkdirs();
         }
@@ -172,6 +174,7 @@ public class Storage {
      */
     private static String joinParts(String[] parts, int start, int end) {
         StringBuilder joined = new StringBuilder();
+        assert start >= 0 && start <= end && end <= parts.length : "Invalid range for joining parts.";
         for (int i = start; i < end; i++) {
             if (i > start) {
                 joined.append(TaskDataFormat.PART_SEPARATOR);

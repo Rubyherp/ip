@@ -13,12 +13,13 @@ public class FindCommand extends Command {
      * Creates a command that searches for tasks containing the given keyword.
      */
     public FindCommand(String keyword) {
+        assert keyword != null : "Keyword cannot be null";
         this.keyword = keyword;
     }
 
     @Override
     public String execute(TaskList tasks, Storage storage) {
-        String response = tasks.find(keyword);
-        return response;
+        assert tasks != null : "Task list cannot be null";
+        return tasks.find(keyword);
     }
 }
