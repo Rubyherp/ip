@@ -4,7 +4,6 @@ import ruby.command.Command;
 import ruby.command.Parser;
 import ruby.storage.Storage;
 import ruby.task.TaskList;
-import ruby.ui.Ui;
 
 /**
  * Starts the Ruby chatbot application.
@@ -12,7 +11,6 @@ import ruby.ui.Ui;
 public class Ruby {
     private final Storage storage;
     private final TaskList taskList;
-    private final Ui ui;
 
     /**
      * Creates Ruby and restores any tasks saved at the given file path.
@@ -20,7 +18,6 @@ public class Ruby {
      * @param filePath Location of Ruby's saved task data.
      */
     public Ruby(String filePath) {
-        ui = new Ui();
         storage = new Storage(filePath);
 
         TaskList loadedTaskList;
@@ -47,31 +44,4 @@ public class Ruby {
         }
     }
 
-    /**
-     * Runs Ruby until the user exits or the input stream ends.
-     */
-    public void run() {
-        ui.printWelcome();
-        boolean isExit = false;
-
-        while (!isExit && ui.hasNextCommand()) {
-            try {
-                Command command = Parser.parse(ui.readCommand());
-                String response = command.execute(taskList, storage);
-                ui.printMessage(response);
-                isExit = command.isExit();
-            } catch (RubyException exception) {
-                ui.printMessage("Sorry, I couldn't process that: " + exception.getMessage());
-            }
-        }
-    }
-
-    /**
-     * Starts Ruby and processes commands until the input ends or the user exits.
-     *
-     * @param args Command-line arguments; not used by Ruby.
-     */
-    public static void main(String[] args) {
-        new Ruby("data/ruby.txt").run();
-    }
 }
