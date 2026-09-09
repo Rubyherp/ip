@@ -7,6 +7,8 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeParseException;
 import java.util.Scanner;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import ruby.RubyException;
 import ruby.task.Deadline;
@@ -173,15 +175,10 @@ public class Storage {
      * @return The joined text, or an empty string when the range is empty.
      */
     private static String joinParts(String[] parts, int start, int end) {
-        StringBuilder joined = new StringBuilder();
         assert start >= 0 && start <= end && end <= parts.length : "Invalid range for joining parts.";
-        for (int i = start; i < end; i++) {
-            if (i > start) {
-                joined.append(TaskDataFormat.PART_SEPARATOR);
-            }
-            joined.append(parts[i]);
-        }
-        return joined.toString();
+        return IntStream.range(start, end)
+                .mapToObj(i -> parts[i])
+                .collect(Collectors.joining(TaskDataFormat.PART_SEPARATOR));
     }
 
     /**

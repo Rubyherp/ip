@@ -2,6 +2,8 @@ package ruby.task;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import ruby.RubyException;
 
@@ -89,15 +91,10 @@ public class TaskList {
      * @return Numbered tasks, or only the list heading when there are no tasks.
      */
     public String listItems() {
-        StringBuilder response = new StringBuilder("Here are the tasks in your list:");
-        for (int i = 0; i < tasks.size(); i++) {
-            response.append('\n')
-                    .append(i + 1)
-                    .append(".")
-                    .append(tasks.get(i));
-        }
-
-        return response.toString();
+        return "Here are the tasks in your list:"
+                + IntStream.range(0, tasks.size())
+                        .mapToObj(i -> "\n" + (i + 1) + "." + tasks.get(i))
+                        .collect(Collectors.joining());
     }
 
     /**
@@ -106,15 +103,9 @@ public class TaskList {
      * @return One task per line, or an empty string when there are no tasks.
      */
     public String toDataString() {
-        StringBuilder response = new StringBuilder();
-        for (int i = 0; i < tasks.size(); i++) {
-            if (i > 0) {
-                response.append('\n');
-            }
-            response.append(tasks.get(i).toDataString());
-        }
-
-        return response.toString();
+        return IntStream.range(0, tasks.size())
+                .mapToObj(i -> tasks.get(i).toDataString())
+                .collect(Collectors.joining("\n"));
     }
 
     /**
@@ -125,24 +116,16 @@ public class TaskList {
      *         are no matches.
      */
     public String find(String keyword) {
-        StringBuilder response = new StringBuilder("Here are the matching tasks in your list:");
-        int matchCount = 0;
         String lowerKeyword = keyword.toLowerCase();
+        String result = IntStream.range(0, tasks.size())
+                .filter(i -> tasks.get(i).toString().toLowerCase().contains(lowerKeyword))
+                .mapToObj(i -> "\n" + (i + 1) + "." + tasks.get(i))
+                .collect(Collectors.joining());
 
-        for (int i = 0; i < tasks.size(); i++) {
-            if (tasks.get(i).toString().toLowerCase().contains(lowerKeyword)) {
-                response.append('\n')
-                        .append(i + 1)
-                        .append(".")
-                        .append(tasks.get(i));
-                matchCount++;
-            }
-        }
-
-        if (matchCount == 0) {
+        if (result.isEmpty()) {
             return "No matching tasks found.";
         }
-        return response.toString();
+        return "Here are the matching tasks in your list:" + result;
     }
 
     /**
