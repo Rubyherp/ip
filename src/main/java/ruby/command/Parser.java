@@ -19,6 +19,9 @@ public class Parser {
     private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("MMM dd yyyy", Locale.ENGLISH);
     private static final DateTimeFormatter DATE_TIME_FORMAT = DateTimeFormatter.ofPattern("MMM dd yyyy, HH:mm",
             Locale.ENGLISH);
+    private static final String DEADLINE_DELIMITER = "/by";
+    private static final String EVENT_START_DELIMITER = "/from";
+    private static final String EVENT_END_DELIMITER = "/to";
 
     /**
      * Parses one complete user command.
@@ -114,18 +117,18 @@ public class Parser {
      */
     public static Deadline parseDeadline(String input) throws RubyException {
         String details = input.substring("deadline".length()).strip();
-        int byIndex = findDelimiter(details, "/by");
+        int byIndex = findDelimiter(details, DEADLINE_DELIMITER);
         if (byIndex < 0) {
-            throw new RubyException("Use: deadline DESCRIPTION /by DATE_OR_TIME.");
+            throw new RubyException("Use: deadline DESCRIPTION " + DEADLINE_DELIMITER + " DATE_OR_TIME.");
         }
 
         String description = details.substring(0, byIndex).strip();
-        String deadline = details.substring(byIndex + "/by".length()).strip();
+        String deadline = details.substring(byIndex + DEADLINE_DELIMITER.length()).strip();
         if (description.isEmpty()) {
             throw new RubyException("A deadline needs a description.");
         }
         if (deadline.isEmpty()) {
-            throw new RubyException("A deadline needs a date or time after /by.");
+            throw new RubyException("A deadline needs a date or time after " + DEADLINE_DELIMITER + ".");
         }
         return new Deadline(description, parseDateTime(deadline));
     }
@@ -140,28 +143,33 @@ public class Parser {
      */
     public static Event parseEvent(String input) throws RubyException {
         String details = input.substring("event".length()).strip();
-        int fromIndex = findDelimiter(details, "/from");
+        int fromIndex = findDelimiter(details, EVENT_START_DELIMITER);
         if (fromIndex < 0) {
-            throw new RubyException("Use: event DESCRIPTION /from START /to END.");
+            throw new RubyException(
+                    "Use: event DESCRIPTION "
+                            + EVENT_START_DELIMITER
+                            + " START "
+                            + EVENT_END_DELIMITER
+                            + " END.");
         }
 
         String description = details.substring(0, fromIndex).strip();
-        String dates = details.substring(fromIndex + "/from".length()).strip();
-        int toIndex = findDelimiter(dates, "/to");
+        String dates = details.substring(fromIndex + EVENT_START_DELIMITER.length()).strip();
+        int toIndex = findDelimiter(dates, EVENT_END_DELIMITER);
         if (description.isEmpty()) {
             throw new RubyException("An event needs a description.");
         }
         if (toIndex < 0) {
-            throw new RubyException("An event needs an end after /to.");
+            throw new RubyException("An event needs an end after " + EVENT_END_DELIMITER + ".");
         }
 
         String startDate = dates.substring(0, toIndex).strip();
-        String endDate = dates.substring(toIndex + "/to".length()).strip();
+        String endDate = dates.substring(toIndex + EVENT_END_DELIMITER.length()).strip();
         if (startDate.isEmpty()) {
-            throw new RubyException("An event needs a start after /from.");
+            throw new RubyException("An event needs a start after " + EVENT_START_DELIMITER + ".");
         }
         if (endDate.isEmpty()) {
-            throw new RubyException("An event needs an end after /to.");
+            throw new RubyException("An event needs an end after " + EVENT_END_DELIMITER + ".");
         }
         return new Event(description, parseDateTime(startDate), parseDateTime(endDate));
     }
@@ -230,7 +238,7 @@ public class Parser {
     public static LocalDateTime parseDateTime(String input) throws RubyException {
         String text = input.strip();
         if (text.isEmpty()) {
-            throw new RubyException("A deadline needs a date or time after /by.");
+            throw new RubyException("A deadline needs a date or time after " + DEADLINE_DELIMITER + ".");
         }
 
         try {
