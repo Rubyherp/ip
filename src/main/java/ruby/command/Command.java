@@ -16,13 +16,4 @@ public abstract class Command {
      * @throws RubyException If the command cannot be completed.
      */
     public abstract String execute(TaskList tasks, Storage storage) throws RubyException;
-
-    /**
-     * Returns whether this command terminates Ruby.
-     *
-     * @return False unless a subclass represents an exit command.
-     */
-    public boolean isExit() {
-        return false;
-    }
 }
