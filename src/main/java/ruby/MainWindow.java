@@ -86,6 +86,7 @@ public class MainWindow extends AnchorPane {
     private void handleUserInput() {
         String input = userInput.getText();
         String response = ruby.getResponse(input);
+        assert response != null : "Ruby's response should not be null";
         dialogContainer.getChildren().addAll(
                 DialogBox.getUserDialog(input, userImage),
                 DialogBox.getRubyDialog(response, rubyImage));

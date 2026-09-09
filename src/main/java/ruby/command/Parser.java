@@ -32,6 +32,9 @@ public class Parser {
     private static final String LIST_COMMAND = "list";
     private static final String EXIT_COMMAND = "bye";
 
+    private Parser() {
+    }
+
     /**
      * Parses one complete user command.
      *
@@ -44,6 +47,8 @@ public class Parser {
         if (command.isEmpty()) {
             throw new RubyException("Please enter a command.");
         }
+
+        assert command != null : "caller always passes a non-null string";
 
         if (EXIT_COMMAND.equals(command)) {
             return new ExitCommand();
@@ -273,6 +278,7 @@ public class Parser {
      * @return The formatted date, with a time when one is present.
      */
     public static String formatDateTime(LocalDateTime dateTime) {
+        assert dateTime != null : "caller always passes a parsed date";
         if (dateTime.toLocalTime().equals(LocalTime.MIDNIGHT)) {
             return dateTime.format(DATE_FORMAT);
         }
