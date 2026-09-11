@@ -11,6 +11,9 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import ruby.RubyException;
+import ruby.contact.Contact;
+import ruby.contact.ContactDataFormat;
+import ruby.contact.ContactList;
 import ruby.task.Deadline;
 import ruby.task.Event;
 import ruby.task.Task;
@@ -19,13 +22,14 @@ import ruby.task.TaskList;
 import ruby.task.Todo;
 
 /**
- * Loads tasks from and saves tasks to a data file on the hard disk.
+ * Loads tasks and contacts from and saves them to a data file on the hard disk.
  */
 public class Storage {
     private static final String PART_SEPARATOR_REGEX = " \\| ";
     private static final int MIN_TASK_FIELDS = 3;
     private static final int MIN_DEADLINE_FIELDS = 4;
     private static final int MIN_EVENT_FIELDS = 5;
+    private static final int CONTACT_FIELDS = 5;
 
     private final String filePath;
 
@@ -39,34 +43,48 @@ public class Storage {
     }
 
     /**
-     * Reads the tasks saved in the data file.
+     * The tasks and contacts restored from the data file.
      *
-     * @return The saved tasks, or an empty list when no data file exists yet.
-     * @throws RubyException If the data file exists but cannot be read.
+     * @param tasks    Tasks restored from disk.
+     * @param contacts Contacts restored from disk.
      */
-    public TaskList load() throws RubyException {
-        return loadTasksFromFile(new File(filePath));
+    public record Data(TaskList tasks, ContactList contacts) {
     }
 
     /**
-     * Writes every task to the data file, overwriting any previous contents.
+     * Reads the data saved in the data file.
      *
-     * @param taskList Tasks to save.
+     * @return The saved tasks and contacts, or empty lists when no data file
+     *         exists yet.
+     * @throws RubyException If the data file exists but cannot be read.
+     */
+    public Data load() throws RubyException {
+        return loadDataFromFile(new File(filePath));
+    }
+
+    /**
+     * Writes every task and contact to the data file, overwriting any previous
+     * contents.
+     *
+     * @param taskList    Tasks to save.
+     * @param contactList Contacts to save.
      * @throws RubyException If the data file cannot be written.
      */
-    public void save(TaskList taskList) throws RubyException {
-        saveTasksToFile(taskList, new File(filePath));
+    public void save(TaskList taskList, ContactList contactList) throws RubyException {
+        saveDataToFile(taskList, contactList, new File(filePath));
     }
 
     /**
-     * Reads the tasks saved in the data file.
+     * Reads the data saved in the data file.
      *
      * @param file The data file to read.
-     * @return The saved tasks, or an empty list when no data file exists yet.
+     * @return The saved tasks and contacts, or empty lists when no data file
+     *         exists yet.
      * @throws RubyException If the data file exists but cannot be read.
      */
-    private TaskList loadTasksFromFile(File file) throws RubyException {
+    private Data loadDataFromFile(File file) throws RubyException {
         TaskList taskList = new TaskList();
+        ContactList contactList = new ContactList();
         File parentDir = file.getParentFile();
 
         if (parentDir != null) {
@@ -74,7 +92,7 @@ public class Storage {
         }
 
         if (!file.exists()) {
-            return taskList;
+            return new Data(taskList, contactList);
         }
 
         try (Scanner scanner = new Scanner(file)) {
@@ -83,49 +101,67 @@ public class Storage {
                 if (line.isBlank()) {
                     continue;
                 }
-                taskList.addItem(parseLine(line));
+                parseLine(line, taskList, contactList);
             }
         } catch (FileNotFoundException exception) {
             throw new RubyException("The data file could not be found.");
         }
 
-        return taskList;
+        return new Data(taskList, contactList);
     }
 
     /**
-     * Writes every task to the data file, overwriting any previous contents.
+     * Writes every task and contact to the data file, overwriting any previous
+     * contents.
      *
-     * @param taskList Tasks to save.
-     * @param file     The data file to write.
+     * @param taskList    Tasks to save.
+     * @param contactList Contacts to save.
+     * @param file        The data file to write.
      * @throws RubyException If the data file cannot be written.
      */
-    private static void saveTasksToFile(TaskList taskList, File file) throws RubyException {
+    private static void saveDataToFile(TaskList taskList, ContactList contactList, File file) throws RubyException {
         File parentDir = file.getParentFile();
 
         assert taskList != null : "TaskList should not be null when saving.";
+        assert contactList != null : "ContactList should not be null when saving.";
 
         if (parentDir != null) {
             parentDir.mkdirs();
         }
 
+        String taskData = taskList.toDataString();
+        String contactData = contactList.toDataString();
+
         try (FileWriter writer = new FileWriter(file)) {
-            writer.write(taskList.toDataString());
+            if (!taskData.isEmpty()) {
+                writer.write(taskData);
+            }
+            if (!taskData.isEmpty() && !contactData.isEmpty()) {
+                writer.write("\n");
+            }
+            if (!contactData.isEmpty()) {
+                writer.write(contactData);
+            }
         } catch (IOException exception) {
-            throw new RubyException("The tasks could not be saved to disk.");
+            throw new RubyException("The data could not be saved to disk.");
         }
     }
 
     /**
-     * Rebuilds a task from one line of the data file.
+     * Rebuilds one task or contact from one line of the data file and adds it
+     * to the matching list.
      *
-     * @param line One line in the format
-     *             {@code TYPE | DONE | DESCRIPTION [ | EXTRA ...]}.
-     * @return The reconstructed task.
-     * @throws RubyException If the line is missing required fields or has an
-     *                       unknown type.
+     * @param line        One line of the data file.
+     * @param taskList    List to add a parsed task to.
+     * @param contactList List to add a parsed contact to.
+     * @throws RubyException If the line is malformed or has an unknown type.
      */
-    private static Task parseLine(String line) throws RubyException {
+    private static void parseLine(String line, TaskList taskList, ContactList contactList) throws RubyException {
         String[] parts = line.split(PART_SEPARATOR_REGEX, -1);
+        if (parts.length > 0 && ContactDataFormat.CONTACT_TYPE.equals(parts[0])) {
+            contactList.addContact(parseContact(parts));
+            return;
+        }
         if (parts.length < MIN_TASK_FIELDS) {
             throw new RubyException("The data file contains a malformed task line.");
         }
@@ -161,7 +197,29 @@ public class Storage {
         if (isDone) {
             task.markAsDone();
         }
-        return task;
+        taskList.addItem(task);
+    }
+
+    /**
+     * Rebuilds a contact from the parts of a saved contact line.
+     *
+     * @param parts Parts of a split data line.
+     * @return The reconstructed contact.
+     * @throws RubyException If the line does not have exactly the required
+     *                       fields or has a blank name.
+     */
+    private static Contact parseContact(String[] parts) throws RubyException {
+        if (parts.length != CONTACT_FIELDS) {
+            throw new RubyException("The data file contains a malformed contact line.");
+        }
+        String name = parts[1];
+        if (name.isBlank()) {
+            throw new RubyException("The data file contains a contact with an empty name.");
+        }
+        String phoneNumber = parts[2];
+        String email = parts[3];
+        String address = parts[4];
+        return new Contact(name, phoneNumber, email, address);
     }
 
     /**

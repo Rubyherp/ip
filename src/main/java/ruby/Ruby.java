@@ -2,6 +2,7 @@ package ruby;
 
 import ruby.command.Command;
 import ruby.command.Parser;
+import ruby.contact.ContactList;
 import ruby.storage.Storage;
 import ruby.task.TaskList;
 
@@ -11,6 +12,7 @@ import ruby.task.TaskList;
 public class Ruby {
     private final Storage storage;
     private final TaskList taskList;
+    private final ContactList contactList;
 
     /**
      * Creates Ruby and restores any tasks saved at the given file path.
@@ -21,12 +23,17 @@ public class Ruby {
         storage = new Storage(filePath);
 
         TaskList loadedTaskList;
+        ContactList loadedContactList;
         try {
-            loadedTaskList = storage.load();
+            Storage.Data data = storage.load();
+            loadedTaskList = data.tasks();
+            loadedContactList = data.contacts();
         } catch (RubyException exception) {
             loadedTaskList = new TaskList();
+            loadedContactList = new ContactList();
         }
         taskList = loadedTaskList;
+        contactList = loadedContactList;
     }
 
     /**
@@ -38,7 +45,7 @@ public class Ruby {
     public String getResponse(String input) {
         try {
             Command command = Parser.parse(input);
-            return command.execute(taskList, storage);
+            return command.execute(taskList, contactList, storage);
         } catch (RubyException exception) {
             return "Sorry, I couldn't process that: " + exception.getMessage();
         }

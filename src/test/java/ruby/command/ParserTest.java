@@ -4,15 +4,27 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import java.nio.file.Path;
 import java.time.LocalDateTime;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 
 import ruby.RubyException;
+import ruby.contact.ContactList;
+import ruby.storage.Storage;
 import ruby.task.Deadline;
 import ruby.task.Event;
+import ruby.task.TaskList;
 
 class ParserTest {
+
+    @TempDir
+    Path tempDir;
+
+    private Storage storage() {
+        return new Storage(tempDir.resolve("ruby.txt").toString());
+    }
 
     @Test
     void parseDateTime_validDateTime_returnsDateTime() throws RubyException {
@@ -118,5 +130,102 @@ class ParserTest {
     @Test
     void parse_findCommandWithoutKeyword_throws() {
         assertThrows(RubyException.class, () -> Parser.parse("find"));
+    }
+
+    @Test
+    void parse_contactAddWithAllFields_parsesFieldsInOrder() throws RubyException {
+        Command command = Parser.parse(
+                "contact add John Doe /phone 91234567 /email john@example.com /address 123 Street");
+        ContactList contacts = new ContactList();
+
+        String response = command.execute(new TaskList(), contacts, storage());
+
+        assertEquals("Got it. I've added this contact:\n"
+                + "  John Doe | 91234567 | john@example.com | 123 Street\n"
+                + "Now you have 1 contacts in the list.", response);
+    }
+
+    @Test
+    void parse_contactAddTagsInAnyOrder_storesCanonicalOrder() throws RubyException {
+        Command command = Parser.parse("contact add John /email john@example.com /phone 91234567");
+        ContactList contacts = new ContactList();
+
+        String response = command.execute(new TaskList(), contacts, storage());
+
+        assertEquals("Got it. I've added this contact:\n"
+                + "  John | 91234567 | john@example.com\n"
+                + "Now you have 1 contacts in the list.", response);
+    }
+
+    @Test
+    void parse_contactAddWithNameOnly_returnsAddContactCommand() throws RubyException {
+        assertInstanceOf(AddContactCommand.class, Parser.parse("contact add John Doe"));
+    }
+
+    @Test
+    void parse_contactList_returnsListContactsCommand() throws RubyException {
+        assertInstanceOf(ListContactsCommand.class, Parser.parse("contact list"));
+    }
+
+    @Test
+    void parse_contactDelete_returnsDeleteContactsCommand() throws RubyException {
+        assertInstanceOf(DeleteContactsCommand.class, Parser.parse("contact delete 1"));
+    }
+
+    @Test
+    void parse_contactWithoutSubcommand_throws() {
+        assertThrows(RubyException.class, () -> Parser.parse("contact"));
+    }
+
+    @Test
+    void parse_contactUnknownSubcommand_throws() {
+        assertThrows(RubyException.class, () -> Parser.parse("contact frobnicate"));
+    }
+
+    @Test
+    void parse_contactListWithArguments_throws() {
+        assertThrows(RubyException.class, () -> Parser.parse("contact list extra"));
+    }
+
+    @Test
+    void parse_contactAddMissingName_throws() {
+        assertThrows(RubyException.class, () -> Parser.parse("contact add /phone 91234567"));
+    }
+
+    @Test
+    void parse_contactAddUnknownTag_throws() {
+        assertThrows(RubyException.class, () -> Parser.parse("contact add John /telegram @john"));
+    }
+
+    @Test
+    void parse_contactAddMissingValue_throws() {
+        assertThrows(RubyException.class, () -> Parser.parse("contact add John /phone"));
+    }
+
+    @Test
+    void parse_contactAddRepeatedTag_throws() {
+        String input = "contact add John /phone 91234567 /phone 98765432";
+        assertThrows(RubyException.class, () -> Parser.parse(input));
+    }
+
+    @Test
+    void parse_contactAddInvalidPhone_throws() {
+        assertThrows(RubyException.class, () -> Parser.parse("contact add John /phone abc"));
+    }
+
+    @Test
+    void parse_contactAddInvalidEmail_throws() {
+        assertThrows(RubyException.class, () -> Parser.parse("contact add John /email not-an-email"));
+    }
+
+    @Test
+    void parse_contactAddFieldSeparator_throws() {
+        assertThrows(RubyException.class, () -> Parser.parse("contact add John | Doe"));
+    }
+
+    @Test
+    void parse_contactDeleteInvalidIndex_throws() {
+        assertThrows(RubyException.class, () -> Parser.parse("contact delete abc"));
+        assertThrows(RubyException.class, () -> Parser.parse("contact delete 0"));
     }
 }

@@ -1,5 +1,6 @@
 package ruby.command;
 
+import ruby.contact.ContactList;
 import ruby.storage.Storage;
 import ruby.task.TaskList;
 
@@ -18,7 +19,7 @@ public class FindCommand extends Command {
     }
 
     @Override
-    public String execute(TaskList tasks, Storage storage) {
+    public String execute(TaskList tasks, ContactList contacts, Storage storage) {
         assert tasks != null : "Task list cannot be null";
         return tasks.find(keyword);
     }

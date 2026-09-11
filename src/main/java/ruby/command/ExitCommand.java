@@ -1,5 +1,6 @@
 package ruby.command;
 
+import ruby.contact.ContactList;
 import ruby.storage.Storage;
 import ruby.task.TaskList;
 
@@ -8,7 +9,7 @@ import ruby.task.TaskList;
  */
 public class ExitCommand extends Command {
     @Override
-    public String execute(TaskList tasks, Storage storage) {
+    public String execute(TaskList tasks, ContactList contacts, Storage storage) {
         return "Bye. Hope to see you again soon!";
     }
 }

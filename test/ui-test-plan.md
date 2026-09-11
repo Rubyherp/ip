@@ -1133,3 +1133,203 @@ T | 0 | read book
 D | 0 | return book | 2019-06-06T00:00
 E | 0 | project meeting | 2019-08-06T14:00 | 2019-08-06T16:00
 ```
+
+## Contacts
+
+Aim: Verify adding, listing, and deleting contacts, including validation errors.
+
+### Startup output
+
+```text
+____________________________________________________________
+ /$$$$$$$            /$$
+ | $$__  $$          | $$
+ | $$  \ $$ /$$   /$$| $$$$$$$  /$$   /$$
+ | $$$$$$$/| $$  | $$| $$__  $$| $$  | $$
+ | $$__  $$| $$  | $$| $$  \ $$| $$  | $$
+ | $$  \ $$| $$  | $$| $$  | $$| $$  | $$
+ | $$  | $$|  $$$$$$/| $$$$$$$/|  $$$$$$$
+ |__/  |__/ \______/ |_______/  \____  $$
+                                /$$  | $$
+                               |  $$$$$$/
+                                \______/
+ Hello! I'm Ruby.
+ What can I do for you?
+____________________________________________________________
+```
+
+### Input
+
+```text
+contact list
+```
+
+### Expected output
+
+```text
+____________________________________________________________
+ You have no contacts yet.
+____________________________________________________________
+```
+
+### Input
+
+```text
+contact add John Doe /phone 91234567 /email john@example.com /address 123 Street
+```
+
+### Expected output
+
+```text
+____________________________________________________________
+ Got it. I've added this contact:
+   John Doe | 91234567 | john@example.com | 123 Street
+ Now you have 1 contacts in the list.
+____________________________________________________________
+```
+
+### Input
+
+```text
+contact add Jane
+```
+
+### Expected output
+
+```text
+____________________________________________________________
+ Got it. I've added this contact:
+   Jane
+ Now you have 2 contacts in the list.
+____________________________________________________________
+```
+
+### Input
+
+```text
+contact list
+```
+
+### Expected output
+
+```text
+____________________________________________________________
+ Here are your contacts:
+ 1. John Doe | 91234567 | john@example.com | 123 Street
+ 2. Jane
+____________________________________________________________
+```
+
+### Input
+
+```text
+contact add John /phone abc
+```
+
+### Expected output
+
+```text
+____________________________________________________________
+ Sorry, I couldn't process that: The phone number must be at least 3 digits and may start with a +.
+____________________________________________________________
+```
+
+### Input
+
+```text
+contact add John /phone 91234567 /phone 98765432
+```
+
+### Expected output
+
+```text
+____________________________________________________________
+ Sorry, I couldn't process that: Use /phone only once.
+____________________________________________________________
+```
+
+### Input
+
+```text
+contact
+```
+
+### Expected output
+
+```text
+____________________________________________________________
+ Sorry, I couldn't process that: Use: contact add NAME [/phone PHONE] [/email EMAIL] [/address ADDRESS], contact list, or contact delete INDEX.
+____________________________________________________________
+```
+
+### Input
+
+```text
+contact frobnicate
+```
+
+### Expected output
+
+```text
+____________________________________________________________
+ Sorry, I couldn't process that: I don't recognise that contact command.
+____________________________________________________________
+```
+
+### Input
+
+```text
+contact delete 1
+```
+
+### Expected output
+
+```text
+____________________________________________________________
+ Noted. I've removed this contact:
+   John Doe | 91234567 | john@example.com | 123 Street
+ Now you have 1 contacts in the list.
+____________________________________________________________
+```
+
+### Input
+
+```text
+contact delete 5
+```
+
+### Expected output
+
+```text
+____________________________________________________________
+ Sorry, I couldn't process that: Contact 5 does not exist; choose a number from 1 to 1.
+____________________________________________________________
+```
+
+### Input
+
+```text
+contact delete 0
+```
+
+### Expected output
+
+```text
+____________________________________________________________
+ Sorry, I couldn't process that: Contact numbers must be positive whole numbers.
+____________________________________________________________
+```
+
+### Input
+
+```text
+bye
+```
+
+### Expected output
+
+```text
+____________________________________________________________
+ Bye. Hope to see you again soon!
+____________________________________________________________
+```
