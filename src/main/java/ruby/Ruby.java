@@ -1,10 +1,12 @@
 package ruby;
 
 import ruby.command.Command;
+import ruby.command.ExitCommand;
 import ruby.command.Parser;
 import ruby.contact.ContactList;
 import ruby.storage.Storage;
 import ruby.task.TaskList;
+import ruby.ui.Ui;
 
 /**
  * Starts the Ruby chatbot application.
@@ -49,6 +51,36 @@ public class Ruby {
         } catch (RubyException exception) {
             return "Sorry, I couldn't process that: " + exception.getMessage();
         }
+    }
+
+    /**
+     * Runs Ruby in the console until the user exits or the input stream ends.
+     */
+    public void run() {
+        Ui ui = new Ui();
+        ui.printWelcome();
+        boolean isExit = false;
+
+        while (!isExit && ui.hasNextCommand()) {
+            try {
+                Command command = Parser.parse(ui.readCommand());
+                String response = command.execute(taskList, contactList, storage);
+                ui.printMessage(response);
+                isExit = command instanceof ExitCommand;
+            } catch (RubyException exception) {
+                ui.printMessage("Sorry, I couldn't process that: " + exception.getMessage());
+            }
+        }
+    }
+
+    /**
+     * Starts Ruby in the console and processes commands until the input ends
+     * or the user exits.
+     *
+     * @param args Command-line arguments; not used by Ruby.
+     */
+    public static void main(String[] args) {
+        new Ruby("data/ruby.txt").run();
     }
 
 }

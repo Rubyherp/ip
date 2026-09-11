@@ -168,8 +168,8 @@ class ParserTest {
     }
 
     @Test
-    void parse_contactDelete_returnsDeleteContactsCommand() throws RubyException {
-        assertInstanceOf(DeleteContactsCommand.class, Parser.parse("contact delete 1"));
+    void parse_contactDelete_returnsDeleteContactCommand() throws RubyException {
+        assertInstanceOf(DeleteContactCommand.class, Parser.parse("contact delete 1"));
     }
 
     @Test

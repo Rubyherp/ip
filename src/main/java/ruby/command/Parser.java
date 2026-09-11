@@ -268,7 +268,7 @@ public class Parser {
                 }
                 return new ListContactsCommand();
             case CONTACT_DELETE:
-                return new DeleteContactsCommand(parseIndex(arguments, "contact delete", "contact"));
+                return new DeleteContactCommand(parseIndex(arguments, "contact delete", "contact"));
             default:
                 throw new RubyException("I don't recognise that contact command.");
         }

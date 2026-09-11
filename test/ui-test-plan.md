@@ -337,7 +337,7 @@ deadline submit report /by Sunday
 
 ```text
 ____________________________________________________________
- Sorry, I couldn't process that: I don't understand that date. Use yyyy-mm-dd (e.g. 2019-10-15) or yyyy-mm-dd HHmm (e.g. 2019-10-15 1800).
+ Sorry, I couldn't process that: I don't understand that date. Use yyyy-mm-dd (e.g. 2019-10-15) or yyyy-mm-dd HHmm (e.g. 2026-10-15 1800).
 ____________________________________________________________
 ```
 

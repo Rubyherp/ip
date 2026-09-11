@@ -8,7 +8,7 @@ import ruby.task.TaskList;
 /**
  * Deletes one contact from Ruby's contact list.
  */
-public class DeleteContactsCommand extends Command {
+public class DeleteContactCommand extends Command {
     private final int index;
 
     /**
@@ -16,7 +16,7 @@ public class DeleteContactsCommand extends Command {
      *
      * @param index Zero-based index of the contact to delete.
      */
-    public DeleteContactsCommand(int index) {
+    public DeleteContactCommand(int index) {
         this.index = index;
     }
 
