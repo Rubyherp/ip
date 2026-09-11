@@ -5,11 +5,11 @@ import ruby.storage.Storage;
 import ruby.task.TaskList;
 
 /**
- * Displays every task in Ruby's task list.
+ * Displays every contact in Ruby's contact list.
  */
-public class ListCommand extends Command {
+public class ListContactsCommand extends Command {
     @Override
     public String execute(TaskList tasks, ContactList contacts, Storage storage) {
-        return tasks.listItems();
+        return contacts.listContacts();
     }
 }

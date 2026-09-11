@@ -1,6 +1,7 @@
 package ruby.command;
 
 import ruby.RubyException;
+import ruby.contact.ContactList;
 import ruby.storage.Storage;
 import ruby.task.TaskList;
 import ruby.task.Todo;
@@ -19,9 +20,9 @@ public class TodoCommand extends Command {
     }
 
     @Override
-    public String execute(TaskList tasks, Storage storage) throws RubyException {
+    public String execute(TaskList tasks, ContactList contacts, Storage storage) throws RubyException {
         String response = tasks.addItem(new Todo(description));
-        storage.save(tasks);
+        storage.save(tasks, contacts);
         return response;
     }
 }

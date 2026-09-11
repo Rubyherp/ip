@@ -5,7 +5,10 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import ruby.RubyException;
 import ruby.task.Deadline;
@@ -31,6 +34,19 @@ public class Parser {
     private static final String DELETE_COMMAND = "delete";
     private static final String LIST_COMMAND = "list";
     private static final String EXIT_COMMAND = "bye";
+    private static final String CONTACT_COMMAND = "contact";
+    private static final String CONTACT_ADD = "add";
+    private static final String CONTACT_LIST = "list";
+    private static final String CONTACT_DELETE = "delete";
+    private static final String PHONE_TAG = "/phone";
+    private static final String EMAIL_TAG = "/email";
+    private static final String ADDRESS_TAG = "/address";
+    private static final String FIELD_SEPARATOR = "|";
+    private static final String PHONE_PATTERN = "\\+?\\d{3,}";
+    private static final String EMAIL_PATTERN = "[^@\\s]+@[^@\\s]+\\.[^@\\s]+";
+    private static final List<String> CONTACT_TAGS = List.of(PHONE_TAG, EMAIL_TAG, ADDRESS_TAG);
+    private static final String CONTACT_USAGE = "Use: contact add NAME [/phone PHONE] [/email EMAIL]"
+            + " [/address ADDRESS], contact list, or contact delete INDEX.";
 
     private Parser() {
     }
@@ -77,6 +93,9 @@ public class Parser {
         if (isCommand(command, FIND_COMMAND)) {
             return new FindCommand(parseFindKeyword(command));
         }
+        if (isCommand(command, CONTACT_COMMAND)) {
+            return parseContact(command);
+        }
         throw new RubyException("I don't recognise that command.");
     }
 
@@ -105,21 +124,41 @@ public class Parser {
      *                       positive.
      */
     public static int parseTaskIndex(String input, String commandWord) throws RubyException {
-        String taskNumber = input.substring(commandWord.length()).strip();
-        if (taskNumber.isEmpty()) {
-            throw new RubyException("Give me a task number after " + commandWord + ".");
-        }
+        return parseIndex(input.substring(commandWord.length()).strip(), commandWord, "task");
+    }
 
+    /**
+     * Parses a one-based number for the given noun and converts it to a
+     * zero-based index.
+     *
+     * @param numberText  Text containing only the number.
+     * @param commandWord Command that precedes the number, used in error
+     *                    messages.
+     * @param noun        Noun for the numbered items, e.g. "task" or "contact".
+     * @return Zero-based index of the item.
+     * @throws RubyException If the number is missing, invalid, or not positive.
+     */
+    private static int parseIndex(String numberText, String commandWord, String noun) throws RubyException {
+        String number = numberText.strip();
+        if (number.isEmpty()) {
+            throw new RubyException("Give me a " + noun + " number after " + commandWord + ".");
+        }
         try {
-            int oneBasedIndex = Integer.parseInt(taskNumber);
+            int oneBasedIndex = Integer.parseInt(number);
             if (oneBasedIndex <= 0) {
-                throw new RubyException("Task numbers must be positive whole numbers.");
+                throw new RubyException(capitalize(noun) + " numbers must be positive whole numbers.");
             }
             return oneBasedIndex - 1;
         } catch (NumberFormatException exception) {
-            throw new RubyException(
-                    "The task number for " + commandWord + " must be a whole number.");
+            throw new RubyException("The " + noun + " number for " + commandWord + " must be a whole number.");
         }
+    }
+
+    /**
+     * Capitalizes the first letter of a word.
+     */
+    private static String capitalize(String word) {
+        return Character.toUpperCase(word.charAt(0)) + word.substring(1);
     }
 
     /**
@@ -201,6 +240,153 @@ public class Parser {
             throw new RubyException("Give me a keyword to search for after find.");
         }
         return keyword;
+    }
+
+    /**
+     * Parses a contact command into one of its subcommands.
+     *
+     * @param input Raw contact command.
+     * @return The command represented by the contact subcommand.
+     * @throws RubyException If the subcommand is missing, unknown, or malformed.
+     */
+    private static Command parseContact(String input) throws RubyException {
+        String details = input.substring(CONTACT_COMMAND.length()).strip();
+        if (details.isEmpty()) {
+            throw new RubyException(CONTACT_USAGE);
+        }
+
+        int spaceIndex = indexOfWhitespace(details);
+        String subcommand = spaceIndex < 0 ? details : details.substring(0, spaceIndex);
+        String arguments = spaceIndex < 0 ? "" : details.substring(spaceIndex).strip();
+
+        switch (subcommand) {
+            case CONTACT_ADD:
+                return parseContactAdd(arguments);
+            case CONTACT_LIST:
+                if (!arguments.isEmpty()) {
+                    throw new RubyException("The contact list command does not take any arguments.");
+                }
+                return new ListContactsCommand();
+            case CONTACT_DELETE:
+                return new DeleteContactCommand(parseIndex(arguments, "contact delete", "contact"));
+            default:
+                throw new RubyException("I don't recognise that contact command.");
+        }
+    }
+
+    /**
+     * Parses the name and optional fields of a contact add command.
+     *
+     * @param details Text after the add subcommand.
+     * @return The command that adds the parsed contact.
+     * @throws RubyException If the name, tags, or field values are invalid.
+     */
+    private static AddContactCommand parseContactAdd(String details) throws RubyException {
+        StringBuilder name = new StringBuilder();
+        Map<String, StringBuilder> fields = new LinkedHashMap<>();
+        StringBuilder currentField = name;
+
+        for (String token : details.split("\\s+")) {
+            if (token.isEmpty()) {
+                continue;
+            }
+            if (token.startsWith("/")) {
+                if (!CONTACT_TAGS.contains(token)) {
+                    throw new RubyException("I don't know the field " + token + ". Use " + PHONE_TAG + ", " + EMAIL_TAG
+                            + ", or " + ADDRESS_TAG + ".");
+                }
+                if (fields.containsKey(token)) {
+                    throw new RubyException("Use " + token + " only once.");
+                }
+                currentField = new StringBuilder();
+                fields.put(token, currentField);
+            } else {
+                appendToken(currentField, token);
+            }
+        }
+
+        String contactName = name.toString();
+        if (contactName.isEmpty()) {
+            throw new RubyException("A contact needs a name.");
+        }
+
+        String phone = requireFieldValue(fields, PHONE_TAG);
+        String email = requireFieldValue(fields, EMAIL_TAG);
+        String address = requireFieldValue(fields, ADDRESS_TAG);
+
+        rejectFieldSeparator(contactName);
+        rejectFieldSeparator(phone);
+        rejectFieldSeparator(email);
+        rejectFieldSeparator(address);
+
+        if (!phone.isEmpty() && !phone.matches(PHONE_PATTERN)) {
+            throw new RubyException("The phone number must be at least 3 digits and may start with a +.");
+        }
+        if (!email.isEmpty() && !email.matches(EMAIL_PATTERN)) {
+            throw new RubyException("That email address looks invalid. Use name@example.com.");
+        }
+
+        return new AddContactCommand(contactName, phone, email, address);
+    }
+
+    /**
+     * Appends a token to a field, separating tokens with a single space.
+     *
+     * @param field Field text being built.
+     * @param token Token to append.
+     */
+    private static void appendToken(StringBuilder field, String token) {
+        if (field.length() > 0) {
+            field.append(' ');
+        }
+        field.append(token);
+    }
+
+    /**
+     * Returns the value of a tagged field, or an empty string when the tag is
+     * absent.
+     *
+     * @param fields Parsed fields keyed by tag.
+     * @param tag    Tag whose value to return.
+     * @return The field value, or an empty string when the tag is absent.
+     * @throws RubyException If the tag is present but has no value.
+     */
+    private static String requireFieldValue(Map<String, StringBuilder> fields, String tag) throws RubyException {
+        if (!fields.containsKey(tag)) {
+            return "";
+        }
+        String value = fields.get(tag).toString();
+        if (value.isEmpty()) {
+            throw new RubyException("The field " + tag + " must have a value after it.");
+        }
+        return value;
+    }
+
+    /**
+     * Rejects a field containing the data-file field separator.
+     *
+     * @param field Field value to check.
+     * @throws RubyException If the value contains the separator.
+     */
+    private static void rejectFieldSeparator(String field) throws RubyException {
+        if (field.contains(FIELD_SEPARATOR)) {
+            throw new RubyException("The character " + FIELD_SEPARATOR + " is not allowed in contact details.");
+        }
+    }
+
+    /**
+     * Returns the index of the first whitespace character in the text.
+     *
+     * @param text Text to search.
+     * @return Index of the first whitespace, or -1 when there is none.
+     */
+    private static int indexOfWhitespace(String text) {
+        for (int i = 0; i < text.length(); i++) {
+            if (Character.isWhitespace(text.charAt(i))) {
+                return i;
+            }
+        }
+        return -1;
     }
 
     /**

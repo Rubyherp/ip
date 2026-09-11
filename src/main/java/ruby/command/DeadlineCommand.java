@@ -1,6 +1,7 @@
 package ruby.command;
 
 import ruby.RubyException;
+import ruby.contact.ContactList;
 import ruby.storage.Storage;
 import ruby.task.Deadline;
 import ruby.task.TaskList;
@@ -19,9 +20,9 @@ public class DeadlineCommand extends Command {
     }
 
     @Override
-    public String execute(TaskList tasks, Storage storage) throws RubyException {
+    public String execute(TaskList tasks, ContactList contacts, Storage storage) throws RubyException {
         String response = tasks.addItem(deadline);
-        storage.save(tasks);
+        storage.save(tasks, contacts);
         return response;
     }
 }
