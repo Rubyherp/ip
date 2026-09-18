@@ -10,9 +10,8 @@ public class Ui {
     private static final String HORIZONTAL_LINE =
             "____________________________________________________________";
     private static final String CHATBOT_NAME = "Ruby";
-    private static final String GREETING = "Hello! I'm " + CHATBOT_NAME + ".";
-    private static final String PROMPT = "What can I do for you?";
-    private static final String FAREWELL = "Bye. Hope to see you again soon!";
+    private static final String GREETING = "Hi, I'm " + CHATBOT_NAME + " — the gem your task list has been missing.";
+    private static final String PROMPT = "What are we polishing today?";
     private static final String BANNER = "/$$$$$$$            /$$\n"
             + "| $$__  $$          | $$\n"
             + "| $$  \\ $$ /$$   /$$| $$$$$$$  /$$   /$$\n"

@@ -23,8 +23,8 @@ ____________________________________________________________
                                 /$$  | $$
                                |  $$$$$$/
                                 \______/
- Hello! I'm Ruby.
- What can I do for you?
+ Hi, I'm Ruby — the gem your task list has been missing.
+ What are we polishing today?
 ____________________________________________________________
 ```
 
@@ -38,7 +38,7 @@ bye
 
 ```text
 ____________________________________________________________
- Bye. Hope to see you again soon!
+ Bye. Your tasks are in precious hands.
 ____________________________________________________________
 ```
 
@@ -61,8 +61,8 @@ ____________________________________________________________
                                 /$$  | $$
                                |  $$$$$$/
                                 \______/
- Hello! I'm Ruby.
- What can I do for you?
+ Hi, I'm Ruby — the gem your task list has been missing.
+ What are we polishing today?
 ____________________________________________________________
 ```
 
@@ -76,9 +76,9 @@ todo borrow book
 
 ```text
 ____________________________________________________________
- Got it. I've added this task:
+ Added to the collection:
    [T][ ] borrow book
- Now you have 1 tasks in the list.
+ That's 1 task on your plate.
 ____________________________________________________________
 ```
 
@@ -92,9 +92,9 @@ deadline return book /by 2019-06-06
 
 ```text
 ____________________________________________________________
- Got it. I've added this task:
+ Added to the collection:
    [D][ ] return book (by: Jun 06 2019)
- Now you have 2 tasks in the list.
+ That's 2 tasks on your plate.
 ____________________________________________________________
 ```
 
@@ -108,9 +108,9 @@ event project meeting /from 2019-08-06 1400 /to 2019-08-06 1600
 
 ```text
 ____________________________________________________________
- Got it. I've added this task:
+ Added to the collection:
    [E][ ] project meeting (from: Aug 06 2019, 14:00 to: Aug 06 2019, 16:00)
- Now you have 3 tasks in the list.
+ That's 3 tasks on your plate.
 ____________________________________________________________
 ```
 
@@ -124,7 +124,7 @@ list
 
 ```text
 ____________________________________________________________
- Here are the tasks in your list:
+ Here's everything on your plate:
  1.[T][ ] borrow book
  2.[D][ ] return book (by: Jun 06 2019)
  3.[E][ ] project meeting (from: Aug 06 2019, 14:00 to: Aug 06 2019, 16:00)
@@ -141,7 +141,7 @@ mark 2
 
 ```text
 ____________________________________________________________
- Nice! I've marked this task as done:
+ Done — consider it polished:
    [D][X] return book (by: Jun 06 2019)
 ____________________________________________________________
 ```
@@ -156,7 +156,7 @@ unmark 2
 
 ```text
 ____________________________________________________________
- OK, I've marked this task as not done yet:
+ Undone — brilliance takes time:
    [D][ ] return book (by: Jun 06 2019)
 ____________________________________________________________
 ```
@@ -171,7 +171,7 @@ bye
 
 ```text
 ____________________________________________________________
- Bye. Hope to see you again soon!
+ Bye. Your tasks are in precious hands.
 ____________________________________________________________
 ```
 
@@ -194,8 +194,8 @@ ____________________________________________________________
                                 /$$  | $$
                                |  $$$$$$/
                                 \______/
- Hello! I'm Ruby.
- What can I do for you?
+ Hi, I'm Ruby — the gem your task list has been missing.
+ What are we polishing today?
 ____________________________________________________________
 ```
 
@@ -209,7 +209,7 @@ ____________________________________________________________
 
 ```text
 ____________________________________________________________
- Sorry, I couldn't process that: Please enter a command.
+ Hold on — I can't work with silence. Type a command.
 ____________________________________________________________
 ```
 
@@ -223,9 +223,9 @@ todo read book
 
 ```text
 ____________________________________________________________
- Got it. I've added this task:
+ Added to the collection:
    [T][ ] read book
- Now you have 1 tasks in the list.
+ That's 1 task on your plate.
 ____________________________________________________________
 ```
 
@@ -239,7 +239,7 @@ todo
 
 ```text
 ____________________________________________________________
- Sorry, I couldn't process that: A todo needs a description.
+ Hold on — A todo with no description? Give me something to work with after todo.
 ____________________________________________________________
 ```
 
@@ -253,7 +253,7 @@ blah
 
 ```text
 ____________________________________________________________
- Sorry, I couldn't process that: I don't recognise that command.
+ Hold on — That's not in my repertoire. Try a command I know.
 ____________________________________________________________
 ```
 
@@ -267,7 +267,7 @@ todoish read book
 
 ```text
 ____________________________________________________________
- Sorry, I couldn't process that: I don't recognise that command.
+ Hold on — That's not in my repertoire. Try a command I know.
 ____________________________________________________________
 ```
 
@@ -281,7 +281,7 @@ deadline /by Sunday
 
 ```text
 ____________________________________________________________
- Sorry, I couldn't process that: A deadline needs a description.
+ Hold on — A deadline with no description? Give me something to call it.
 ____________________________________________________________
 ```
 
@@ -295,7 +295,7 @@ deadline submit report
 
 ```text
 ____________________________________________________________
- Sorry, I couldn't process that: Use: deadline DESCRIPTION /by DATE_OR_TIME.
+ Hold on — That's not how deadlines work. Use: deadline DESCRIPTION /by DATE_OR_TIME.
 ____________________________________________________________
 ```
 
@@ -309,7 +309,7 @@ deadline submit report /bypass Sunday
 
 ```text
 ____________________________________________________________
- Sorry, I couldn't process that: Use: deadline DESCRIPTION /by DATE_OR_TIME.
+ Hold on — That's not how deadlines work. Use: deadline DESCRIPTION /by DATE_OR_TIME.
 ____________________________________________________________
 ```
 
@@ -323,7 +323,7 @@ deadline submit report /by
 
 ```text
 ____________________________________________________________
- Sorry, I couldn't process that: A deadline needs a date or time after /by.
+ Hold on — A deadline needs a date or time after /by — I can't read minds.
 ____________________________________________________________
 ```
 
@@ -337,7 +337,7 @@ deadline submit report /by Sunday
 
 ```text
 ____________________________________________________________
- Sorry, I couldn't process that: I don't understand that date. Use yyyy-mm-dd (e.g. 2019-10-15) or yyyy-mm-dd HHmm (e.g. 2026-10-15 1800).
+ Hold on — That date is a mystery even to me. Use yyyy-mm-dd (e.g. 2019-10-15) or yyyy-mm-dd HHmm (e.g. 2026-10-15 1800).
 ____________________________________________________________
 ```
 
@@ -351,9 +351,9 @@ deadline submit report /by 2019-06-06
 
 ```text
 ____________________________________________________________
- Got it. I've added this task:
+ Added to the collection:
    [D][ ] submit report (by: Jun 06 2019)
- Now you have 2 tasks in the list.
+ That's 2 tasks on your plate.
 ____________________________________________________________
 ```
 
@@ -367,7 +367,7 @@ event /from Mon /to Tue
 
 ```text
 ____________________________________________________________
- Sorry, I couldn't process that: An event needs a description.
+ Hold on — An event with no description? Give me something to call it.
 ____________________________________________________________
 ```
 
@@ -381,7 +381,7 @@ event meeting /to Tue
 
 ```text
 ____________________________________________________________
- Sorry, I couldn't process that: Use: event DESCRIPTION /from START /to END.
+ Hold on — That's not how events work. Use: event DESCRIPTION /from START /to END.
 ____________________________________________________________
 ```
 
@@ -395,7 +395,7 @@ event meeting /fromage Mon /to Tue
 
 ```text
 ____________________________________________________________
- Sorry, I couldn't process that: Use: event DESCRIPTION /from START /to END.
+ Hold on — That's not how events work. Use: event DESCRIPTION /from START /to END.
 ____________________________________________________________
 ```
 
@@ -409,7 +409,7 @@ event meeting /from Mon
 
 ```text
 ____________________________________________________________
- Sorry, I couldn't process that: An event needs an end after /to.
+ Hold on — An event needs an end after /to — don't leave me guessing.
 ____________________________________________________________
 ```
 
@@ -423,7 +423,7 @@ event meeting /from /to Tue
 
 ```text
 ____________________________________________________________
- Sorry, I couldn't process that: An event needs a start after /from.
+ Hold on — An event needs a start after /from — don't leave me guessing.
 ____________________________________________________________
 ```
 
@@ -437,7 +437,7 @@ event meeting /from Mon /to
 
 ```text
 ____________________________________________________________
- Sorry, I couldn't process that: An event needs an end after /to.
+ Hold on — An event needs an end after /to — don't leave me guessing.
 ____________________________________________________________
 ```
 
@@ -451,9 +451,9 @@ event meeting /from 2019-08-06 1400 /to 2019-08-06 1600
 
 ```text
 ____________________________________________________________
- Got it. I've added this task:
+ Added to the collection:
    [E][ ] meeting (from: Aug 06 2019, 14:00 to: Aug 06 2019, 16:00)
- Now you have 3 tasks in the list.
+ That's 3 tasks on your plate.
 ____________________________________________________________
 ```
 
@@ -467,7 +467,7 @@ mark
 
 ```text
 ____________________________________________________________
- Sorry, I couldn't process that: Give me a task number after mark.
+ Hold on — You forgot the number. Give me a task number after mark.
 ____________________________________________________________
 ```
 
@@ -481,7 +481,7 @@ mark banana
 
 ```text
 ____________________________________________________________
- Sorry, I couldn't process that: The task number for mark must be a whole number.
+ Hold on — That's not a number. Give me a whole number after mark.
 ____________________________________________________________
 ```
 
@@ -495,7 +495,7 @@ mark 7
 
 ```text
 ____________________________________________________________
- Sorry, I couldn't process that: Task 7 does not exist; choose a number from 1 to 3.
+ Hold on — Task 7? You only have 3. Pick a number from 1 to 3.
 ____________________________________________________________
 ```
 
@@ -509,7 +509,7 @@ mark 2
 
 ```text
 ____________________________________________________________
- Nice! I've marked this task as done:
+ Done — consider it polished:
    [D][X] submit report (by: Jun 06 2019)
 ____________________________________________________________
 ```
@@ -524,7 +524,7 @@ unmark
 
 ```text
 ____________________________________________________________
- Sorry, I couldn't process that: Give me a task number after unmark.
+ Hold on — You forgot the number. Give me a task number after unmark.
 ____________________________________________________________
 ```
 
@@ -538,7 +538,7 @@ list
 
 ```text
 ____________________________________________________________
- Here are the tasks in your list:
+ Here's everything on your plate:
  1.[T][ ] read book
  2.[D][X] submit report (by: Jun 06 2019)
  3.[E][ ] meeting (from: Aug 06 2019, 14:00 to: Aug 06 2019, 16:00)
@@ -555,7 +555,7 @@ bye
 
 ```text
 ____________________________________________________________
- Bye. Hope to see you again soon!
+ Bye. Your tasks are in precious hands.
 ____________________________________________________________
 ```
 
@@ -578,8 +578,8 @@ ____________________________________________________________
                                 /$$  | $$
                                |  $$$$$$/
                                 \______/
- Hello! I'm Ruby.
- What can I do for you?
+ Hi, I'm Ruby — the gem your task list has been missing.
+ What are we polishing today?
 ____________________________________________________________
 ```
 
@@ -593,7 +593,7 @@ delete
 
 ```text
 ____________________________________________________________
- Sorry, I couldn't process that: Give me a task number after delete.
+ Hold on — You forgot the number. Give me a task number after delete.
 ____________________________________________________________
 ```
 
@@ -607,7 +607,7 @@ delete 1
 
 ```text
 ____________________________________________________________
- Sorry, I couldn't process that: There are no tasks to delete.
+ Hold on — You have no tasks to delete — add one first.
 ____________________________________________________________
 ```
 
@@ -621,9 +621,9 @@ todo read book
 
 ```text
 ____________________________________________________________
- Got it. I've added this task:
+ Added to the collection:
    [T][ ] read book
- Now you have 1 tasks in the list.
+ That's 1 task on your plate.
 ____________________________________________________________
 ```
 
@@ -637,9 +637,9 @@ deadline return book /by 2019-06-06
 
 ```text
 ____________________________________________________________
- Got it. I've added this task:
+ Added to the collection:
    [D][ ] return book (by: Jun 06 2019)
- Now you have 2 tasks in the list.
+ That's 2 tasks on your plate.
 ____________________________________________________________
 ```
 
@@ -653,9 +653,9 @@ event project meeting /from 2019-08-06 1400 /to 2019-08-06 1600
 
 ```text
 ____________________________________________________________
- Got it. I've added this task:
+ Added to the collection:
    [E][ ] project meeting (from: Aug 06 2019, 14:00 to: Aug 06 2019, 16:00)
- Now you have 3 tasks in the list.
+ That's 3 tasks on your plate.
 ____________________________________________________________
 ```
 
@@ -669,7 +669,7 @@ delete banana
 
 ```text
 ____________________________________________________________
- Sorry, I couldn't process that: The task number for delete must be a whole number.
+ Hold on — That's not a number. Give me a whole number after delete.
 ____________________________________________________________
 ```
 
@@ -683,7 +683,7 @@ delete 0
 
 ```text
 ____________________________________________________________
- Sorry, I couldn't process that: Task numbers must be positive whole numbers.
+ Hold on — Since when is 0 a valid task number? Give me a positive whole number after delete.
 ____________________________________________________________
 ```
 
@@ -697,7 +697,7 @@ delete 4
 
 ```text
 ____________________________________________________________
- Sorry, I couldn't process that: Task 4 does not exist; choose a number from 1 to 3.
+ Hold on — Task 4? You only have 3. Pick a number from 1 to 3.
 ____________________________________________________________
 ```
 
@@ -711,9 +711,9 @@ delete 2
 
 ```text
 ____________________________________________________________
- Noted. I've removed this task:
+ Removed — gone without a trace:
    [D][ ] return book (by: Jun 06 2019)
- Now you have 2 tasks in the list.
+ That leaves 2 tasks on your plate.
 ____________________________________________________________
 ```
 
@@ -727,7 +727,7 @@ list
 
 ```text
 ____________________________________________________________
- Here are the tasks in your list:
+ Here's everything on your plate:
  1.[T][ ] read book
  2.[E][ ] project meeting (from: Aug 06 2019, 14:00 to: Aug 06 2019, 16:00)
 ____________________________________________________________
@@ -743,7 +743,7 @@ mark 2
 
 ```text
 ____________________________________________________________
- Nice! I've marked this task as done:
+ Done — consider it polished:
    [E][X] project meeting (from: Aug 06 2019, 14:00 to: Aug 06 2019, 16:00)
 ____________________________________________________________
 ```
@@ -758,9 +758,9 @@ delete 2
 
 ```text
 ____________________________________________________________
- Noted. I've removed this task:
+ Removed — gone without a trace:
    [E][X] project meeting (from: Aug 06 2019, 14:00 to: Aug 06 2019, 16:00)
- Now you have 1 tasks in the list.
+ That leaves 1 task on your plate.
 ____________________________________________________________
 ```
 
@@ -774,7 +774,7 @@ list
 
 ```text
 ____________________________________________________________
- Here are the tasks in your list:
+ Here's everything on your plate:
  1.[T][ ] read book
 ____________________________________________________________
 ```
@@ -789,7 +789,7 @@ bye
 
 ```text
 ____________________________________________________________
- Bye. Hope to see you again soon!
+ Bye. Your tasks are in precious hands.
 ____________________________________________________________
 ```
 
@@ -812,8 +812,8 @@ ____________________________________________________________
                                 /$$  | $$
                                |  $$$$$$/
                                 \______/
- Hello! I'm Ruby.
- What can I do for you?
+ Hi, I'm Ruby — the gem your task list has been missing.
+ What are we polishing today?
 ____________________________________________________________
 ```
 
@@ -827,9 +827,9 @@ todo read book
 
 ```text
 ____________________________________________________________
- Got it. I've added this task:
+ Added to the collection:
    [T][ ] read book
- Now you have 1 tasks in the list.
+ That's 1 task on your plate.
 ____________________________________________________________
 ```
 
@@ -843,9 +843,9 @@ deadline submit report /by 2019-06-06
 
 ```text
 ____________________________________________________________
- Got it. I've added this task:
+ Added to the collection:
    [D][ ] submit report (by: Jun 06 2019)
- Now you have 2 tasks in the list.
+ That's 2 tasks on your plate.
 ____________________________________________________________
 ```
 
@@ -859,9 +859,9 @@ event project meeting /from 2019-08-06 1400 /to 2019-08-06 1600
 
 ```text
 ____________________________________________________________
- Got it. I've added this task:
+ Added to the collection:
    [E][ ] project meeting (from: Aug 06 2019, 14:00 to: Aug 06 2019, 16:00)
- Now you have 3 tasks in the list.
+ That's 3 tasks on your plate.
 ____________________________________________________________
 ```
 
@@ -875,7 +875,7 @@ mark 2
 
 ```text
 ____________________________________________________________
- Nice! I've marked this task as done:
+ Done — consider it polished:
    [D][X] submit report (by: Jun 06 2019)
 ____________________________________________________________
 ```
@@ -890,9 +890,9 @@ delete 1
 
 ```text
 ____________________________________________________________
- Noted. I've removed this task:
+ Removed — gone without a trace:
    [T][ ] read book
- Now you have 2 tasks in the list.
+ That leaves 2 tasks on your plate.
 ____________________________________________________________
 ```
 
@@ -906,7 +906,7 @@ bye
 
 ```text
 ____________________________________________________________
- Bye. Hope to see you again soon!
+ Bye. Your tasks are in precious hands.
 ____________________________________________________________
 ```
 
@@ -944,8 +944,8 @@ ____________________________________________________________
                                 /$$  | $$
                                |  $$$$$$/
                                 \______/
- Hello! I'm Ruby.
- What can I do for you?
+ Hi, I'm Ruby — the gem your task list has been missing.
+ What are we polishing today?
 ____________________________________________________________
 ```
 
@@ -959,7 +959,7 @@ list
 
 ```text
 ____________________________________________________________
- Here are the tasks in your list:
+ Here's everything on your plate:
  1.[T][X] read book
  2.[D][ ] return book (by: Jun 06 2019)
  3.[E][X] project meeting (from: Aug 06 2019, 14:00 to: Aug 06 2019, 16:00)
@@ -976,7 +976,7 @@ bye
 
 ```text
 ____________________________________________________________
- Bye. Hope to see you again soon!
+ Bye. Your tasks are in precious hands.
 ____________________________________________________________
 ```
 
@@ -999,8 +999,8 @@ ____________________________________________________________
                                 /$$  | $$
                                |  $$$$$$/
                                 \______/
- Hello! I'm Ruby.
- What can I do for you?
+ Hi, I'm Ruby — the gem your task list has been missing.
+ What are we polishing today?
 ____________________________________________________________
 ```
 
@@ -1014,9 +1014,9 @@ todo read book
 
 ```text
 ____________________________________________________________
- Got it. I've added this task:
+ Added to the collection:
    [T][ ] read book
- Now you have 1 tasks in the list.
+ That's 1 task on your plate.
 ____________________________________________________________
 ```
 
@@ -1030,9 +1030,9 @@ deadline return book /by 2019-06-06
 
 ```text
 ____________________________________________________________
- Got it. I've added this task:
+ Added to the collection:
    [D][ ] return book (by: Jun 06 2019)
- Now you have 2 tasks in the list.
+ That's 2 tasks on your plate.
 ____________________________________________________________
 ```
 
@@ -1046,9 +1046,9 @@ event project meeting /from 2019-08-06 1400 /to 2019-08-06 1600
 
 ```text
 ____________________________________________________________
- Got it. I've added this task:
+ Added to the collection:
    [E][ ] project meeting (from: Aug 06 2019, 14:00 to: Aug 06 2019, 16:00)
- Now you have 3 tasks in the list.
+ That's 3 tasks on your plate.
 ____________________________________________________________
 ```
 
@@ -1062,7 +1062,7 @@ find book
 
 ```text
 ____________________________________________________________
- Here are the matching tasks in your list:
+ Found them — I never miss:
  1.[T][ ] read book
  2.[D][ ] return book (by: Jun 06 2019)
 ____________________________________________________________
@@ -1078,7 +1078,7 @@ find BOOK
 
 ```text
 ____________________________________________________________
- Here are the matching tasks in your list:
+ Found them — I never miss:
  1.[T][ ] read book
  2.[D][ ] return book (by: Jun 06 2019)
 ____________________________________________________________
@@ -1094,7 +1094,7 @@ find dance
 
 ```text
 ____________________________________________________________
- No matching tasks found.
+ Nothing. Even I can't find what isn't there.
 ____________________________________________________________
 ```
 
@@ -1108,7 +1108,7 @@ find
 
 ```text
 ____________________________________________________________
- Sorry, I couldn't process that: Give me a keyword to search for after find.
+ Hold on — Find what? Give me a keyword after find.
 ____________________________________________________________
 ```
 
@@ -1122,7 +1122,7 @@ bye
 
 ```text
 ____________________________________________________________
- Bye. Hope to see you again soon!
+ Bye. Your tasks are in precious hands.
 ____________________________________________________________
 ```
 
@@ -1153,8 +1153,8 @@ ____________________________________________________________
                                 /$$  | $$
                                |  $$$$$$/
                                 \______/
- Hello! I'm Ruby.
- What can I do for you?
+ Hi, I'm Ruby — the gem your task list has been missing.
+ What are we polishing today?
 ____________________________________________________________
 ```
 
@@ -1168,7 +1168,7 @@ contact list
 
 ```text
 ____________________________________________________________
- You have no contacts yet.
+ No contacts yet — a fresh, unpolished page.
 ____________________________________________________________
 ```
 
@@ -1182,9 +1182,9 @@ contact add John Doe /phone 91234567 /email john@example.com /address 123 Street
 
 ```text
 ____________________________________________________________
- Got it. I've added this contact:
+ Saved. I never forget a name:
    John Doe | 91234567 | john@example.com | 123 Street
- Now you have 1 contacts in the list.
+ That's 1 contact in your circle.
 ____________________________________________________________
 ```
 
@@ -1198,9 +1198,9 @@ contact add Jane
 
 ```text
 ____________________________________________________________
- Got it. I've added this contact:
+ Saved. I never forget a name:
    Jane
- Now you have 2 contacts in the list.
+ That's 2 contacts in your circle.
 ____________________________________________________________
 ```
 
@@ -1214,7 +1214,7 @@ contact list
 
 ```text
 ____________________________________________________________
- Here are your contacts:
+ Your circle, as requested:
  1. John Doe | 91234567 | john@example.com | 123 Street
  2. Jane
 ____________________________________________________________
@@ -1230,7 +1230,7 @@ contact add John /phone abc
 
 ```text
 ____________________________________________________________
- Sorry, I couldn't process that: The phone number must be at least 3 digits and may start with a +.
+ Hold on — What's a phone number without digits? Use a plus sign and at least 3 digits, e.g. +123456789.
 ____________________________________________________________
 ```
 
@@ -1244,7 +1244,7 @@ contact add John /phone 91234567 /phone 98765432
 
 ```text
 ____________________________________________________________
- Sorry, I couldn't process that: Use /phone only once.
+ Hold on — Once is enough — use /phone only once.
 ____________________________________________________________
 ```
 
@@ -1258,7 +1258,7 @@ contact
 
 ```text
 ____________________________________________________________
- Sorry, I couldn't process that: Use: contact add NAME [/phone PHONE] [/email EMAIL] [/address ADDRESS], contact list, or contact delete INDEX.
+ Hold on — Here's how contacts work: contact add NAME [/phone PHONE] [/email EMAIL] [/address ADDRESS], contact list, or contact delete INDEX.
 ____________________________________________________________
 ```
 
@@ -1272,7 +1272,7 @@ contact frobnicate
 
 ```text
 ____________________________________________________________
- Sorry, I couldn't process that: I don't recognise that contact command.
+ Hold on — That's not a contact command. Use contact add, contact list, or contact delete.
 ____________________________________________________________
 ```
 
@@ -1286,9 +1286,9 @@ contact delete 1
 
 ```text
 ____________________________________________________________
- Noted. I've removed this contact:
+ Removed from your circle:
    John Doe | 91234567 | john@example.com | 123 Street
- Now you have 1 contacts in the list.
+ That leaves 1 contact in your circle.
 ____________________________________________________________
 ```
 
@@ -1302,7 +1302,7 @@ contact delete 5
 
 ```text
 ____________________________________________________________
- Sorry, I couldn't process that: Contact 5 does not exist; choose a number from 1 to 1.
+ Hold on — Contact 5? You only have 1. Pick a number from 1 to 1.
 ____________________________________________________________
 ```
 
@@ -1316,7 +1316,7 @@ contact delete 0
 
 ```text
 ____________________________________________________________
- Sorry, I couldn't process that: Contact numbers must be positive whole numbers.
+ Hold on — Since when is 0 a valid contact number? Give me a positive whole number after contact delete.
 ____________________________________________________________
 ```
 
@@ -1330,6 +1330,6 @@ bye
 
 ```text
 ____________________________________________________________
- Bye. Hope to see you again soon!
+ Bye. Your tasks are in precious hands.
 ____________________________________________________________
 ```

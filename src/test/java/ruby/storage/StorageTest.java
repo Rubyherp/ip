@@ -31,8 +31,8 @@ class StorageTest {
     void load_noFile_returnsEmptyLists() throws RubyException {
         Storage storage = new Storage(dataFilePath());
         Storage.Data data = storage.load();
-        assertEquals("Here are the tasks in your list:", data.tasks().listItems());
-        assertEquals("You have no contacts yet.", data.contacts().listContacts());
+        assertEquals("Here's everything on your plate:", data.tasks().listItems());
+        assertEquals("No contacts yet — a fresh, unpolished page.", data.contacts().listContacts());
     }
 
     @Test

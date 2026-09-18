@@ -49,8 +49,18 @@ public class Ruby {
             Command command = Parser.parse(input);
             return command.execute(taskList, contactList, storage);
         } catch (RubyException exception) {
-            return "Sorry, I couldn't process that: " + exception.getMessage();
+            return errorMessage(exception);
         }
+    }
+
+    /**
+     * Formats a user-facing error with Ruby's voice.
+     *
+     * @param exception Error raised while processing a command.
+     * @return The error text with Ruby's error prefix.
+     */
+    private static String errorMessage(RubyException exception) {
+        return "Hold on — " + exception.getMessage();
     }
 
     /**
@@ -68,7 +78,7 @@ public class Ruby {
                 ui.printMessage(response);
                 isExit = command instanceof ExitCommand;
             } catch (RubyException exception) {
-                ui.printMessage("Sorry, I couldn't process that: " + exception.getMessage());
+                ui.printMessage(errorMessage(exception));
             }
         }
     }

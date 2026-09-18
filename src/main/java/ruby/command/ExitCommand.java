@@ -10,6 +10,6 @@ import ruby.task.TaskList;
 public class ExitCommand extends Command {
     @Override
     public String execute(TaskList tasks, ContactList contacts, Storage storage) {
-        return "Bye. Hope to see you again soon!";
+        return "Bye. Your tasks are in precious hands.";
     }
 }

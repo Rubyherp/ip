@@ -17,7 +17,8 @@ import ruby.control.DialogBox;
  * area, the input field, and the send button.
  */
 public class MainWindow extends AnchorPane {
-    private static final String WELCOME_MESSAGE = "Hello! I'm Ruby.\nWhat can I do for you?";
+    private static final String WELCOME_MESSAGE = "Hi, I'm Ruby — the gem your task list has been missing.\n"
+            + "What are we polishing today?";
     private static final String RUBY_IMAGE_PATH = "/image/cat.jpg";
     private static final String USER_IMAGE_PATH = "/image/mona.jpg";
     private static final String EXIT_COMMAND = "bye";

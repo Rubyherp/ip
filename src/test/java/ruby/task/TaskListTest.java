@@ -22,21 +22,21 @@ class TaskListTest {
     @Test
     void listItems_newList_returnsHeadingOnly() {
         TaskList taskList = new TaskList();
-        assertEquals("Here are the tasks in your list:", taskList.listItems());
+        assertEquals("Here's everything on your plate:", taskList.listItems());
     }
 
     @Test
     void addItem_addsTaskAndReportsCount() {
         TaskList taskList = taskListWith(new Todo("read book"));
         String response = taskList.addItem(new Todo("return book"));
-        assertEquals("Got it. I've added this task:\n  [T][ ] return book"
-                + "\nNow you have 2 tasks in the list.", response);
+        assertEquals("Added to the collection:\n  [T][ ] return book"
+                + "\nThat's 2 tasks on your plate.", response);
     }
 
     @Test
     void listItems_withTasks_returnsNumberedList() {
         TaskList taskList = taskListWith(new Todo("read book"), new Todo("return book"));
-        assertEquals("Here are the tasks in your list:\n1.[T][ ] read book\n2.[T][ ] return book",
+        assertEquals("Here's everything on your plate:\n1.[T][ ] read book\n2.[T][ ] return book",
                 taskList.listItems());
     }
 
@@ -44,8 +44,8 @@ class TaskListTest {
     void markItem_marksTaskAtIndexAsDone() throws RubyException {
         TaskList taskList = taskListWith(new Todo("read book"), new Todo("return book"));
         String response = taskList.markItem(0);
-        assertEquals("Nice! I've marked this task as done:\n  [T][X] read book", response);
-        assertEquals("Here are the tasks in your list:\n1.[T][X] read book\n2.[T][ ] return book",
+        assertEquals("Done — consider it polished:\n  [T][X] read book", response);
+        assertEquals("Here's everything on your plate:\n1.[T][X] read book\n2.[T][ ] return book",
                 taskList.listItems());
     }
 
@@ -54,16 +54,16 @@ class TaskListTest {
         TaskList taskList = taskListWith(new Todo("read book"), new Todo("return book"));
         taskList.markItem(0);
         String response = taskList.unmarkItem(0);
-        assertEquals("OK, I've marked this task as not done yet:\n  [T][ ] read book", response);
+        assertEquals("Undone — brilliance takes time:\n  [T][ ] read book", response);
     }
 
     @Test
     void deleteItem_removesTaskAtIndex() throws RubyException {
         TaskList taskList = taskListWith(new Todo("read book"), new Todo("return book"));
         String response = taskList.deleteItem(0);
-        assertEquals("Noted. I've removed this task:\n  [T][ ] read book"
-                + "\nNow you have 1 tasks in the list.", response);
-        assertEquals("Here are the tasks in your list:\n1.[T][ ] return book",
+        assertEquals("Removed — gone without a trace:\n  [T][ ] read book"
+                + "\nThat leaves 1 task on your plate.", response);
+        assertEquals("Here's everything on your plate:\n1.[T][ ] return book",
                 taskList.listItems());
     }
 
@@ -77,28 +77,28 @@ class TaskListTest {
     void markItem_emptyList_throws() {
         TaskList taskList = new TaskList();
         RubyException exception = assertThrows(RubyException.class, () -> taskList.markItem(0));
-        assertEquals("There are no tasks to mark.", exception.getMessage());
+        assertEquals("You have no tasks to mark — add one first.", exception.getMessage());
     }
 
     @Test
     void unmarkItem_outOfRangeIndex_throws() {
         TaskList taskList = taskListWith(new Todo("read book"), new Todo("return book"));
         RubyException exception = assertThrows(RubyException.class, () -> taskList.unmarkItem(5));
-        assertEquals("Task 6 does not exist; choose a number from 1 to 2.", exception.getMessage());
+        assertEquals("Task 6? You only have 2. Pick a number from 1 to 2.", exception.getMessage());
     }
 
     @Test
     void deleteItem_emptyList_throws() {
         TaskList taskList = new TaskList();
         RubyException exception = assertThrows(RubyException.class, () -> taskList.deleteItem(0));
-        assertEquals("There are no tasks to delete.", exception.getMessage());
+        assertEquals("You have no tasks to delete — add one first.", exception.getMessage());
     }
 
     @Test
     void find_matchingTasks_returnsNumberedMatches() {
         TaskList taskList = taskListWith(new Todo("read book"), new Todo("return book"),
                 new Todo("buy milk"));
-        assertEquals("Here are the matching tasks in your list:\n1.[T][ ] read book"
+        assertEquals("Found them — I never miss:\n1.[T][ ] read book"
                         + "\n2.[T][ ] return book",
                 taskList.find("book"));
     }
@@ -107,7 +107,7 @@ class TaskListTest {
     void find_keepsOriginalListNumbering() {
         TaskList taskList = taskListWith(new Todo("read book"), new Todo("buy milk"),
                 new Todo("return book"));
-        assertEquals("Here are the matching tasks in your list:\n1.[T][ ] read book"
+        assertEquals("Found them — I never miss:\n1.[T][ ] read book"
                         + "\n3.[T][ ] return book",
                 taskList.find("book"));
     }
@@ -115,21 +115,21 @@ class TaskListTest {
     @Test
     void find_caseInsensitive_matchesRegardlessOfCase() {
         TaskList taskList = taskListWith(new Todo("Read Book"));
-        assertEquals("Here are the matching tasks in your list:\n1.[T][ ] Read Book",
+        assertEquals("Found them — I never miss:\n1.[T][ ] Read Book",
                 taskList.find("BOOK"));
     }
 
     @Test
     void find_noMatches_returnsMessage() {
         TaskList taskList = taskListWith(new Todo("read book"));
-        assertEquals("No matching tasks found.", taskList.find("dance"));
+        assertEquals("Nothing. Even I can't find what isn't there.", taskList.find("dance"));
     }
 
     @Test
     void find_matchesOnFullTaskText_includesDeadlineDate() {
         TaskList taskList = taskListWith(new Deadline("return book",
                 LocalDateTime.of(2019, 6, 6, 0, 0)));
-        assertEquals("Here are the matching tasks in your list:\n1.[D][ ] return book (by: Jun 06 2019)",
+        assertEquals("Found them — I never miss:\n1.[D][ ] return book (by: Jun 06 2019)",
                 taskList.find("Jun 06"));
     }
 }

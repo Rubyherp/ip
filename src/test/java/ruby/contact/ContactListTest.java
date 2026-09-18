@@ -15,9 +15,9 @@ class ContactListTest {
 
         String response = contacts.addContact(new Contact("John Doe", "91234567", "john@example.com", ""));
 
-        assertEquals("Got it. I've added this contact:\n"
+        assertEquals("Saved. I never forget a name:\n"
                 + "  John Doe | 91234567 | john@example.com\n"
-                + "Now you have 1 contacts in the list.", response);
+                + "That's 1 contact in your circle.", response);
     }
 
     @Test
@@ -28,10 +28,10 @@ class ContactListTest {
 
         String response = contacts.deleteContact(0);
 
-        assertEquals("Noted. I've removed this contact:\n"
+        assertEquals("Removed from your circle:\n"
                 + "  John\n"
-                + "Now you have 1 contacts in the list.", response);
-        assertEquals("Here are your contacts:\n"
+                + "That leaves 1 contact in your circle.", response);
+        assertEquals("Your circle, as requested:\n"
                 + "1. Jane | 91234567", contacts.listContacts());
     }
 
@@ -39,7 +39,8 @@ class ContactListTest {
     void deleteContact_emptyList_throws() {
         ContactList contacts = new ContactList();
 
-        assertThrows(RubyException.class, () -> contacts.deleteContact(0));
+        RubyException exception = assertThrows(RubyException.class, () -> contacts.deleteContact(0));
+        assertEquals("You have no contacts to delete — add one first.", exception.getMessage());
     }
 
     @Test
@@ -47,14 +48,15 @@ class ContactListTest {
         ContactList contacts = new ContactList();
         contacts.addContact(new Contact("John", "", "", ""));
 
-        assertThrows(RubyException.class, () -> contacts.deleteContact(1));
+        RubyException exception = assertThrows(RubyException.class, () -> contacts.deleteContact(1));
+        assertEquals("Contact 2? You only have 1. Pick a number from 1 to 1.", exception.getMessage());
     }
 
     @Test
     void listContacts_emptyList_returnsNoContactsMessage() {
         ContactList contacts = new ContactList();
 
-        assertEquals("You have no contacts yet.", contacts.listContacts());
+        assertEquals("No contacts yet — a fresh, unpolished page.", contacts.listContacts());
     }
 
     @Test
@@ -63,7 +65,7 @@ class ContactListTest {
         contacts.addContact(new Contact("John", "", "", ""));
         contacts.addContact(new Contact("Jane", "91234567", "jane@example.com", ""));
 
-        assertEquals("Here are your contacts:\n"
+        assertEquals("Your circle, as requested:\n"
                 + "1. John\n"
                 + "2. Jane | 91234567 | jane@example.com", contacts.listContacts());
     }

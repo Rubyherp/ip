@@ -45,7 +45,7 @@ public class Parser {
     private static final String PHONE_PATTERN = "\\+?\\d{3,}";
     private static final String EMAIL_PATTERN = "[^@\\s]+@[^@\\s]+\\.[^@\\s]+";
     private static final List<String> CONTACT_TAGS = List.of(PHONE_TAG, EMAIL_TAG, ADDRESS_TAG);
-    private static final String CONTACT_USAGE = "Use: contact add NAME [/phone PHONE] [/email EMAIL]"
+    private static final String CONTACT_USAGE = "contact add NAME [/phone PHONE] [/email EMAIL]"
             + " [/address ADDRESS], contact list, or contact delete INDEX.";
 
     private Parser() {
@@ -61,7 +61,7 @@ public class Parser {
     public static Command parse(String userInput) throws RubyException {
         String command = userInput.strip();
         if (command.isEmpty()) {
-            throw new RubyException("Please enter a command.");
+            throw new RubyException("I can't work with silence. Type a command.");
         }
 
         assert command != null : "caller always passes a non-null string";
@@ -96,7 +96,7 @@ public class Parser {
         if (isCommand(command, CONTACT_COMMAND)) {
             return parseContact(command);
         }
-        throw new RubyException("I don't recognise that command.");
+        throw new RubyException("That's not in my repertoire. Try a command I know.");
     }
 
     /**
@@ -109,7 +109,7 @@ public class Parser {
     private static String parseTodo(String input) throws RubyException {
         String description = input.substring(TODO_COMMAND.length()).strip();
         if (description.isEmpty()) {
-            throw new RubyException("A todo needs a description.");
+            throw new RubyException("A todo with no description? Give me something to work with after todo.");
         }
         return description;
     }
@@ -141,24 +141,18 @@ public class Parser {
     private static int parseIndex(String numberText, String commandWord, String noun) throws RubyException {
         String number = numberText.strip();
         if (number.isEmpty()) {
-            throw new RubyException("Give me a " + noun + " number after " + commandWord + ".");
+            throw new RubyException("You forgot the number. Give me a " + noun + " number after " + commandWord + ".");
         }
         try {
             int oneBasedIndex = Integer.parseInt(number);
             if (oneBasedIndex <= 0) {
-                throw new RubyException(capitalize(noun) + " numbers must be positive whole numbers.");
+                throw new RubyException("Since when is " + oneBasedIndex + " a valid " + noun
+                        + " number? Give me a positive whole number after " + commandWord + ".");
             }
             return oneBasedIndex - 1;
         } catch (NumberFormatException exception) {
-            throw new RubyException("The " + noun + " number for " + commandWord + " must be a whole number.");
+            throw new RubyException("That's not a number. Give me a whole number after " + commandWord + ".");
         }
-    }
-
-    /**
-     * Capitalizes the first letter of a word.
-     */
-    private static String capitalize(String word) {
-        return Character.toUpperCase(word.charAt(0)) + word.substring(1);
     }
 
     /**
@@ -172,16 +166,18 @@ public class Parser {
         String details = input.substring(DEADLINE_COMMAND.length()).strip();
         int byIndex = findDelimiter(details, DEADLINE_DELIMITER);
         if (byIndex < 0) {
-            throw new RubyException("Use: deadline DESCRIPTION " + DEADLINE_DELIMITER + " DATE_OR_TIME.");
+            throw new RubyException("That's not how deadlines work. Use: deadline DESCRIPTION " + DEADLINE_DELIMITER
+                    + " DATE_OR_TIME.");
         }
 
         String description = details.substring(0, byIndex).strip();
         String deadline = details.substring(byIndex + DEADLINE_DELIMITER.length()).strip();
         if (description.isEmpty()) {
-            throw new RubyException("A deadline needs a description.");
+            throw new RubyException("A deadline with no description? Give me something to call it.");
         }
         if (deadline.isEmpty()) {
-            throw new RubyException("A deadline needs a date or time after " + DEADLINE_DELIMITER + ".");
+            throw new RubyException("A deadline needs a date or time after " + DEADLINE_DELIMITER
+                    + " — I can't read minds.");
         }
         return new Deadline(description, parseDateTime(deadline));
     }
@@ -199,7 +195,7 @@ public class Parser {
         int fromIndex = findDelimiter(details, EVENT_START_DELIMITER);
         if (fromIndex < 0) {
             throw new RubyException(
-                    "Use: event DESCRIPTION "
+                    "That's not how events work. Use: event DESCRIPTION "
                             + EVENT_START_DELIMITER
                             + " START "
                             + EVENT_END_DELIMITER
@@ -210,19 +206,22 @@ public class Parser {
         String dates = details.substring(fromIndex + EVENT_START_DELIMITER.length()).strip();
         int toIndex = findDelimiter(dates, EVENT_END_DELIMITER);
         if (description.isEmpty()) {
-            throw new RubyException("An event needs a description.");
+            throw new RubyException("An event with no description? Give me something to call it.");
         }
         if (toIndex < 0) {
-            throw new RubyException("An event needs an end after " + EVENT_END_DELIMITER + ".");
+            throw new RubyException("An event needs an end after " + EVENT_END_DELIMITER
+                    + " — don't leave me guessing.");
         }
 
         String startDate = dates.substring(0, toIndex).strip();
         String endDate = dates.substring(toIndex + EVENT_END_DELIMITER.length()).strip();
         if (startDate.isEmpty()) {
-            throw new RubyException("An event needs a start after " + EVENT_START_DELIMITER + ".");
+            throw new RubyException("An event needs a start after " + EVENT_START_DELIMITER
+                    + " — don't leave me guessing.");
         }
         if (endDate.isEmpty()) {
-            throw new RubyException("An event needs an end after " + EVENT_END_DELIMITER + ".");
+            throw new RubyException("An event needs an end after " + EVENT_END_DELIMITER
+                    + " — don't leave me guessing.");
         }
         return new Event(description, parseDateTime(startDate), parseDateTime(endDate));
     }
@@ -237,7 +236,7 @@ public class Parser {
     private static String parseFindKeyword(String input) throws RubyException {
         String keyword = input.substring(FIND_COMMAND.length()).strip();
         if (keyword.isEmpty()) {
-            throw new RubyException("Give me a keyword to search for after find.");
+            throw new RubyException("Find what? Give me a keyword after find.");
         }
         return keyword;
     }
@@ -252,7 +251,7 @@ public class Parser {
     private static Command parseContact(String input) throws RubyException {
         String details = input.substring(CONTACT_COMMAND.length()).strip();
         if (details.isEmpty()) {
-            throw new RubyException(CONTACT_USAGE);
+            throw new RubyException("Here's how contacts work: " + CONTACT_USAGE);
         }
 
         int spaceIndex = indexOfWhitespace(details);
@@ -264,13 +263,14 @@ public class Parser {
                 return parseContactAdd(arguments);
             case CONTACT_LIST:
                 if (!arguments.isEmpty()) {
-                    throw new RubyException("The contact list command does not take any arguments.");
+                    throw new RubyException("Contact list doesn't take arguments. Just type contact list.");
                 }
                 return new ListContactsCommand();
             case CONTACT_DELETE:
                 return new DeleteContactCommand(parseIndex(arguments, "contact delete", "contact"));
             default:
-                throw new RubyException("I don't recognise that contact command.");
+                throw new RubyException("That's not a contact command. Use contact add, contact list,"
+                        + " or contact delete.");
         }
     }
 
@@ -292,11 +292,11 @@ public class Parser {
             }
             if (token.startsWith("/")) {
                 if (!CONTACT_TAGS.contains(token)) {
-                    throw new RubyException("I don't know the field " + token + ". Use " + PHONE_TAG + ", " + EMAIL_TAG
+                    throw new RubyException("I don't know the field " + token + ". Try " + PHONE_TAG + ", " + EMAIL_TAG
                             + ", or " + ADDRESS_TAG + ".");
                 }
                 if (fields.containsKey(token)) {
-                    throw new RubyException("Use " + token + " only once.");
+                    throw new RubyException("Once is enough — use " + token + " only once.");
                 }
                 currentField = new StringBuilder();
                 fields.put(token, currentField);
@@ -307,7 +307,7 @@ public class Parser {
 
         String contactName = name.toString();
         if (contactName.isEmpty()) {
-            throw new RubyException("A contact needs a name.");
+            throw new RubyException("Contacts need a name. I can't remember someone with no name.");
         }
 
         String phone = requireFieldValue(fields, PHONE_TAG);
@@ -320,10 +320,11 @@ public class Parser {
         rejectFieldSeparator(address);
 
         if (!phone.isEmpty() && !phone.matches(PHONE_PATTERN)) {
-            throw new RubyException("The phone number must be at least 3 digits and may start with a +.");
+            throw new RubyException("What's a phone number without digits? Use a plus sign and at least 3 digits,"
+                    + " e.g. +123456789.");
         }
         if (!email.isEmpty() && !email.matches(EMAIL_PATTERN)) {
-            throw new RubyException("That email address looks invalid. Use name@example.com.");
+            throw new RubyException("That email won't reach anyone. Use name@example.com.");
         }
 
         return new AddContactCommand(contactName, phone, email, address);
@@ -438,7 +439,8 @@ public class Parser {
     public static LocalDateTime parseDateTime(String input) throws RubyException {
         String text = input.strip();
         if (text.isEmpty()) {
-            throw new RubyException("A deadline needs a date or time after " + DEADLINE_DELIMITER + ".");
+            throw new RubyException("A deadline needs a date or time after " + DEADLINE_DELIMITER
+                    + " — I can't read minds.");
         }
 
         try {
@@ -451,7 +453,7 @@ public class Parser {
             return LocalDate.parse(text).atStartOfDay();
         } catch (DateTimeParseException exception) {
             throw new RubyException(
-                    "I don't understand that date. Use yyyy-mm-dd (e.g. 2019-10-15)"
+                    "That date is a mystery even to me. Use yyyy-mm-dd (e.g. 2019-10-15)"
                             + " or yyyy-mm-dd HHmm (e.g. 2026-10-15 1800).");
         }
     }

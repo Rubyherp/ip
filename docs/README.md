@@ -2,7 +2,35 @@
 
 // Product screenshot goes here
 
-// Product intro goes here
+Ruby is a gem among task managers: brilliant, a little vain, and secretly
+proud of you. She tracks your tasks and contacts with high standards, teases
+your typos, and never forgets a name.
+
+## Meet Ruby
+
+* **Name:** Ruby.
+* **Personality:** a precious gem — confident, playful, and a perfectionist
+  about your schedule. She teases the mistake, never the person.
+* **Look:** rose and maroon, a cat for a face, and a fondness for shine.
+
+Example exchanges:
+
+```
+> todo read book
+Added to the collection:
+  [T][ ] read book
+That's 1 task on your plate.
+```
+
+```
+> nonsense
+Hold on — That's not in my repertoire. Try a command I know.
+```
+
+```
+> bye
+Bye. Your tasks are in precious hands.
+```
 
 ## Adding deadlines
 
@@ -28,16 +56,16 @@ Add a contact with `contact add`, supplying optional fields with `/phone`,
 
 ```
 contact add John Doe /phone 91234567 /email john@example.com /address 123 Street
-Got it. I've added this contact:
+Saved. I never forget a name:
   John Doe | 91234567 | john@example.com | 123 Street
-Now you have 1 contacts in the list.
+That's 1 contact in your circle.
 ```
 
 List your contacts with `contact list`:
 
 ```
 contact list
-Here are your contacts:
+Your circle, as requested:
 1. John Doe | 91234567 | john@example.com | 123 Street
 ```
 
@@ -45,14 +73,14 @@ Delete a contact by its number in the list with `contact delete INDEX`:
 
 ```
 contact delete 1
-Noted. I've removed this contact:
+Removed from your circle:
   John Doe | 91234567 | john@example.com | 123 Street
-Now you have 0 contacts in the list.
+That leaves 0 contacts in your circle.
 ```
 
 Rules:
 
-* A contact needs a name.
+* Contacts need a name. I can't remember someone with no name.
 * Phone numbers may contain digits only, with an optional leading `+`.
 * Emails must look like `name@example.com`.
 * The `|` character is not allowed in contact details.
