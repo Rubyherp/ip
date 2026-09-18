@@ -42,6 +42,53 @@ ____________________________________________________________
 ____________________________________________________________
 ```
 
+## Duplicate tasks in saved data
+
+Aim: Verify that tasks saved by an earlier version are restored even when the file contains duplicates.
+
+### Startup output
+
+```text
+____________________________________________________________
+ /$$$$$$$            /$$
+ | $$__  $$          | $$
+ | $$  \ $$ /$$   /$$| $$$$$$$  /$$   /$$
+ | $$$$$$$/| $$  | $$| $$__  $$| $$  | $$
+ | $$__  $$| $$  | $$| $$  \ $$| $$  | $$
+ | $$  \ $$| $$  | $$| $$  | $$| $$  | $$
+ | $$  | $$|  $$$$$$/| $$$$$$$/|  $$$$$$$
+ |__/  |__/ \______/ |_______/  \____  $$
+                                /$$  | $$
+                               |  $$$$$$/
+                                \______/
+ Hi, I'm Ruby — the gem your task list has been missing.
+ What are we polishing today?
+____________________________________________________________
+```
+
+### Data file
+
+```text
+T | 0 | read book
+T | 0 | read book
+```
+
+### Input
+
+```text
+list
+```
+
+### Expected output
+
+```text
+____________________________________________________________
+ Here's everything on your plate:
+ 1.[T][ ] read book
+ 2.[T][ ] read book
+____________________________________________________________
+```
+
 ## Level 4 task workflow
 
 Aim: Verify creation, listing, marking, and unmarking for todos, deadlines, and events.

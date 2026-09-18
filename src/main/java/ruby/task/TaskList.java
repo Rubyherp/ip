@@ -40,6 +40,18 @@ public class TaskList {
     }
 
     /**
+     * Restores a task from saved data without applying rules for new user input.
+     * Existing data can contain duplicates created by earlier app versions, and
+     * loading those tasks must not prevent the application from starting.
+     *
+     * @param task Task restored from storage.
+     */
+    public void restoreItem(Task task) {
+        assert task != null : "Restored task cannot be null";
+        tasks.add(task);
+    }
+
+    /**
      * Marks the task at the specified zero-based index as done.
      *
      * @param index Zero-based index of the task.

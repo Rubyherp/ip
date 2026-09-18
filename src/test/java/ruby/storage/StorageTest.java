@@ -105,6 +105,15 @@ class StorageTest {
     }
 
     @Test
+    void load_duplicateTasks_restoresAllTasks() throws IOException, RubyException {
+        Files.writeString(Path.of(dataFilePath()), "T | 0 | read book\nT | 0 | read book\n");
+
+        Storage.Data loaded = new Storage(dataFilePath()).load();
+
+        assertEquals("T | 0 | read book\nT | 0 | read book", loaded.tasks().toDataString());
+    }
+
+    @Test
     void load_malformedLine_throws() throws IOException {
         Files.writeString(Path.of(dataFilePath()), "T | 0\n");
         Storage storage = new Storage(dataFilePath());

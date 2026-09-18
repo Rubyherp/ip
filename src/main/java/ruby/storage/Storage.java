@@ -209,7 +209,7 @@ public class Storage {
         if (isDone) {
             task.markAsDone();
         }
-        taskList.addItem(task);
+        taskList.restoreItem(task);
     }
 
     /**
