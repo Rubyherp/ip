@@ -43,7 +43,7 @@ public class Storage {
     }
 
     /**
-     * The tasks and contacts restored from the data file.
+     * Represents the tasks and contacts restored from the data file.
      *
      * @param tasks    Tasks restored from disk.
      * @param contacts Contacts restored from disk.

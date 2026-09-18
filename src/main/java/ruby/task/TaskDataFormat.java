@@ -12,7 +12,7 @@ public final class TaskDataFormat {
     public static final String EVENT_TYPE = "E";
 
     /**
-     * Prevent instantiation: this class only holds constants.
+     * Prevents instantiation of this constants-only class.
      */
     private TaskDataFormat() {
     }

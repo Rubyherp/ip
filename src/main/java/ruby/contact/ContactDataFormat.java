@@ -8,7 +8,7 @@ public final class ContactDataFormat {
     public static final String CONTACT_TYPE = "C";
 
     /**
-     * Prevent instantiation: this class only holds constants.
+     * Prevents instantiation of this constants-only class.
      */
     private ContactDataFormat() {
     }
