@@ -53,6 +53,15 @@ class ContactListTest {
     }
 
     @Test
+    void deleteContact_lastContact_usesPluralZeroCount() throws RubyException {
+        ContactList contacts = new ContactList();
+        contacts.addContact(new Contact("John", "", "", ""));
+
+        assertEquals("Removed from your circle:\n  John\nThat leaves 0 contacts in your circle.",
+                contacts.deleteContact(0));
+    }
+
+    @Test
     void listContacts_emptyList_returnsNoContactsMessage() {
         ContactList contacts = new ContactList();
 
@@ -68,5 +77,14 @@ class ContactListTest {
         assertEquals("Your circle, as requested:\n"
                 + "1. John\n"
                 + "2. Jane | 91234567 | jane@example.com", contacts.listContacts());
+    }
+
+    @Test
+    void toDataString_multipleContacts_returnsOneLinePerContact() {
+        ContactList contacts = new ContactList();
+        contacts.addContact(new Contact("John", "", "", ""));
+        contacts.addContact(new Contact("Jane", "91234567", "", ""));
+
+        assertEquals("C | John |  |  | \nC | Jane | 91234567 |  | ", contacts.toDataString());
     }
 }

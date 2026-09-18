@@ -95,6 +95,23 @@ class TaskListTest {
     }
 
     @Test
+    void deleteItem_lastTask_usesPluralZeroCount() throws RubyException {
+        TaskList taskList = taskListWith(new Todo("read book"));
+
+        assertEquals("Removed — gone without a trace:\n  [T][ ] read book\nThat leaves 0 tasks on your plate.",
+                taskList.deleteItem(0));
+    }
+
+    @Test
+    void markItem_outOfRangeIndex_throws() {
+        TaskList taskList = taskListWith(new Todo("read book"));
+
+        RubyException exception = assertThrows(RubyException.class, () -> taskList.markItem(1));
+
+        assertEquals("Task 2? You only have 1. Pick a number from 1 to 1.", exception.getMessage());
+    }
+
+    @Test
     void find_matchingTasks_returnsNumberedMatches() {
         TaskList taskList = taskListWith(new Todo("read book"), new Todo("return book"),
                 new Todo("buy milk"));
@@ -123,6 +140,13 @@ class TaskListTest {
     void find_noMatches_returnsMessage() {
         TaskList taskList = taskListWith(new Todo("read book"));
         assertEquals("Nothing. Even I can't find what isn't there.", taskList.find("dance"));
+    }
+
+    @Test
+    void find_emptyKeyword_returnsEveryTask() {
+        TaskList taskList = taskListWith(new Todo("read book"), new Todo("buy milk"));
+
+        assertEquals("Found them — I never miss:\n1.[T][ ] read book\n2.[T][ ] buy milk", taskList.find(""));
     }
 
     @Test
