@@ -160,6 +160,9 @@ class StorageTest {
     private void assertMalformedData(String data) throws IOException {
         Files.writeString(Path.of(dataFilePath()), data);
         assertThrows(RubyException.class, () -> new Storage(dataFilePath()).load());
+    }
+
+    @Test
     void load_invalidTaskStatus_throws() throws IOException {
         Files.writeString(Path.of(dataFilePath()), "T | x | read book\n");
         assertThrows(RubyException.class, new Storage(dataFilePath())::load);

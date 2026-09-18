@@ -106,6 +106,9 @@ class ParserTest {
     void parseDateTime_blankAndInvalidCalendarDate_throw() {
         assertThrows(RubyException.class, () -> Parser.parseDateTime("   "));
         assertThrows(RubyException.class, () -> Parser.parseDateTime("2026-02-30"));
+    }
+
+    @Test
     void parseEvent_endNotAfterStart_throws() {
         assertThrows(RubyException.class, () ->
                 Parser.parseEvent("event meeting /from 2026-08-28 1800 /to 2026-08-28 1800"));
@@ -283,8 +286,8 @@ class ParserTest {
     }
 
     @Test
-    void parse_contactAddMultilineAddress_normalizesWhitespace() throws RubyException {
-        Command command = Parser.parse("contact add Jane   /address  123 Main Street");
+    void parse_contactAddAddressWithSpaces_preservesSingleSpacing() throws RubyException {
+        Command command = Parser.parse("contact add Jane /address 123 Main Street");
 
         String response = command.execute(new TaskList(), new ContactList(), storage());
 

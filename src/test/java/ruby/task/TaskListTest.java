@@ -109,7 +109,7 @@ class TaskListTest {
     }
 
     @Test
-    void markItem_outOfRangeIndex_throws() {
+    void markItem_outOfRangeIndex_throws() throws RubyException {
         TaskList taskList = taskListWith(new Todo("read book"));
 
         RubyException exception = assertThrows(RubyException.class, () -> taskList.markItem(1));
@@ -118,7 +118,6 @@ class TaskListTest {
     }
 
     @Test
-    void find_matchingTasks_returnsNumberedMatches() {
     void find_matchingTasks_returnsNumberedMatches() throws RubyException {
         TaskList taskList = taskListWith(new Todo("read book"), new Todo("return book"),
                 new Todo("buy milk"));
@@ -150,14 +149,13 @@ class TaskListTest {
     }
 
     @Test
-    void find_emptyKeyword_returnsEveryTask() {
+    void find_emptyKeyword_returnsEveryTask() throws RubyException {
         TaskList taskList = taskListWith(new Todo("read book"), new Todo("buy milk"));
 
         assertEquals("Found them — I never miss:\n1.[T][ ] read book\n2.[T][ ] buy milk", taskList.find(""));
     }
 
     @Test
-    void find_matchesOnFullTaskText_includesDeadlineDate() {
     void find_matchesOnFullTaskText_includesDeadlineDate() throws RubyException {
         TaskList taskList = taskListWith(new Deadline("return book",
                 LocalDateTime.of(2019, 6, 6, 0, 0)));

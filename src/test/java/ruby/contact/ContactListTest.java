@@ -88,7 +88,7 @@ class ContactListTest {
     }
 
     @Test
-    void toDataString_multipleContacts_returnsOneLinePerContact() {
+    void toDataString_multipleContacts_returnsOneLinePerContact() throws RubyException {
         ContactList contacts = new ContactList();
         contacts.addContact(new Contact("John", "", "", ""));
         contacts.addContact(new Contact("Jane", "91234567", "", ""));
