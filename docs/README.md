@@ -2,7 +2,35 @@
 
 // Product screenshot goes here
 
-// Product intro goes here
+Ruby is a gem among task managers: brilliant, a little vain, and secretly
+proud of you. She tracks your tasks and contacts with high standards, teases
+your typos, and never forgets a name.
+
+## Meet Ruby
+
+* **Name:** Ruby.
+* **Personality:** a precious gem — confident, playful, and a perfectionist
+  about your schedule. She teases the mistake, never the person.
+* **Look:** rose and maroon, a cat for a face, and a fondness for shine.
+
+Example exchanges:
+
+```
+> todo read book
+Added to the collection:
+  [T][ ] read book
+That's 1 task on your plate.
+```
+
+```
+> nonsense
+Hold on — That's not in my repertoire. Try a command I know.
+```
+
+```
+> bye
+Bye. Your tasks are in precious hands.
+```
 
 ## Adding deadlines
 
