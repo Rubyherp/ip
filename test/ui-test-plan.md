@@ -1168,7 +1168,7 @@ contact list
 
 ```text
 ____________________________________________________________
- You have no contacts yet.
+ No contacts yet — a fresh, unpolished page.
 ____________________________________________________________
 ```
 
@@ -1182,9 +1182,9 @@ contact add John Doe /phone 91234567 /email john@example.com /address 123 Street
 
 ```text
 ____________________________________________________________
- Got it. I've added this contact:
+ Saved. I never forget a name:
    John Doe | 91234567 | john@example.com | 123 Street
- Now you have 1 contacts in the list.
+ That's 1 contact in your circle.
 ____________________________________________________________
 ```
 
@@ -1198,9 +1198,9 @@ contact add Jane
 
 ```text
 ____________________________________________________________
- Got it. I've added this contact:
+ Saved. I never forget a name:
    Jane
- Now you have 2 contacts in the list.
+ That's 2 contacts in your circle.
 ____________________________________________________________
 ```
 
@@ -1214,7 +1214,7 @@ contact list
 
 ```text
 ____________________________________________________________
- Here are your contacts:
+ Your circle, as requested:
  1. John Doe | 91234567 | john@example.com | 123 Street
  2. Jane
 ____________________________________________________________
@@ -1286,9 +1286,9 @@ contact delete 1
 
 ```text
 ____________________________________________________________
- Noted. I've removed this contact:
+ Removed from your circle:
    John Doe | 91234567 | john@example.com | 123 Street
- Now you have 1 contacts in the list.
+ That leaves 1 contact in your circle.
 ____________________________________________________________
 ```
 
@@ -1302,7 +1302,7 @@ contact delete 5
 
 ```text
 ____________________________________________________________
- Sorry, I couldn't process that: Contact 5 does not exist; choose a number from 1 to 1.
+ Sorry, I couldn't process that: Contact 5? You only have 1. Pick a number from 1 to 1.
 ____________________________________________________________
 ```
 

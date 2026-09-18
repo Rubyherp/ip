@@ -32,7 +32,7 @@ class StorageTest {
         Storage storage = new Storage(dataFilePath());
         Storage.Data data = storage.load();
         assertEquals("Here's everything on your plate:", data.tasks().listItems());
-        assertEquals("You have no contacts yet.", data.contacts().listContacts());
+        assertEquals("No contacts yet — a fresh, unpolished page.", data.contacts().listContacts());
     }
 
     @Test

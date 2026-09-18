@@ -24,9 +24,9 @@ class AddContactCommandTest {
         String response = new AddContactCommand("John Doe", "91234567", "john@example.com", "")
                 .execute(new TaskList(), contacts, new Storage(tempDir.resolve("ruby.txt").toString()));
 
-        assertEquals("Got it. I've added this contact:\n"
+        assertEquals("Saved. I never forget a name:\n"
                 + "  John Doe | 91234567 | john@example.com\n"
-                + "Now you have 1 contacts in the list.", response);
+                + "That's 1 contact in your circle.", response);
     }
 
     @Test
@@ -36,8 +36,8 @@ class AddContactCommandTest {
         String response = new AddContactCommand("Jane", "", "", "")
                 .execute(new TaskList(), contacts, new Storage(tempDir.resolve("ruby.txt").toString()));
 
-        assertEquals("Got it. I've added this contact:\n"
+        assertEquals("Saved. I never forget a name:\n"
                 + "  Jane\n"
-                + "Now you have 1 contacts in the list.", response);
+                + "That's 1 contact in your circle.", response);
     }
 }

@@ -29,11 +29,11 @@ public class ContactList {
     public String addContact(Contact contact) {
         assert contact != null : "Contact cannot be null";
         contacts.add(contact);
-        return "Got it. I've added this contact:\n  "
+        int count = contacts.size();
+        String noun = count == 1 ? "contact" : "contacts";
+        return "Saved. I never forget a name:\n  "
                 + contact
-                + "\nNow you have "
-                + contacts.size()
-                + " contacts in the list.";
+                + "\nThat's " + count + " " + noun + " in your circle.";
     }
 
     /**
@@ -48,11 +48,11 @@ public class ContactList {
         Contact contact = getContact(index, "delete");
         contacts.remove(index);
 
-        return "Noted. I've removed this contact:\n  "
+        int count = contacts.size();
+        String noun = count == 1 ? "contact" : "contacts";
+        return "Removed from your circle:\n  "
                 + contact
-                + "\nNow you have "
-                + contacts.size()
-                + " contacts in the list.";
+                + "\nThat leaves " + count + " " + noun + " in your circle.";
     }
 
     /**
@@ -62,9 +62,9 @@ public class ContactList {
      */
     public String listContacts() {
         if (contacts.isEmpty()) {
-            return "You have no contacts yet.";
+            return "No contacts yet — a fresh, unpolished page.";
         }
-        return "Here are your contacts:"
+        return "Your circle, as requested:"
                 + IntStream.range(0, contacts.size())
                         .mapToObj(i -> "\n" + (i + 1) + ". " + contacts.get(i))
                         .collect(Collectors.joining());
@@ -92,14 +92,13 @@ public class ContactList {
      */
     private Contact getContact(int index, String action) throws RubyException {
         if (contacts.isEmpty()) {
-            throw new RubyException("There are no contacts to " + action + ".");
+            throw new RubyException("You have no contacts to " + action + " — add one first.");
         }
         if (index < 0 || index >= contacts.size()) {
             throw new RubyException(
                     "Contact " + (index + 1)
-                            + " does not exist; choose a number from 1 to "
-                            + contacts.size()
-                            + ".");
+                            + "? You only have " + contacts.size()
+                            + ". Pick a number from 1 to " + contacts.size() + ".");
         }
         assert contacts.get(index) != null : "Contact at index " + index + " should not be null";
         return contacts.get(index);

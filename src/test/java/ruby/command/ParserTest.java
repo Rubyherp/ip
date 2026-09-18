@@ -140,9 +140,9 @@ class ParserTest {
 
         String response = command.execute(new TaskList(), contacts, storage());
 
-        assertEquals("Got it. I've added this contact:\n"
+        assertEquals("Saved. I never forget a name:\n"
                 + "  John Doe | 91234567 | john@example.com | 123 Street\n"
-                + "Now you have 1 contacts in the list.", response);
+                + "That's 1 contact in your circle.", response);
     }
 
     @Test
@@ -152,9 +152,9 @@ class ParserTest {
 
         String response = command.execute(new TaskList(), contacts, storage());
 
-        assertEquals("Got it. I've added this contact:\n"
+        assertEquals("Saved. I never forget a name:\n"
                 + "  John | 91234567 | john@example.com\n"
-                + "Now you have 1 contacts in the list.", response);
+                + "That's 1 contact in your circle.", response);
     }
 
     @Test
