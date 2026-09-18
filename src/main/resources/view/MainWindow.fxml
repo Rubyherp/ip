@@ -12,6 +12,8 @@
     xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
     stylesheets="@../css/main.css" fx:controller="ruby.MainWindow">
     <children>
+
+        <!-- header container -->
         <HBox alignment="CENTER_LEFT" styleClass="app-header" AnchorPane.leftAnchor="0.0"
             AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <children>
@@ -26,7 +28,21 @@
                     text="Try: todo read book" HBox.hgrow="ALWAYS" />
             </children>
         </HBox>
-        <HBox alignment="CENTER" spacing="10.0" styleClass="composer" AnchorPane.bottomAnchor="0.0"
+
+        <!-- Dialog container -->
+        <ScrollPane
+            fx:id="scrollPane" fitToWidth="true"
+            prefWidth="400.0" hbarPolicy="NEVER" hvalue="1.0" vvalue="1.0"
+            AnchorPane.bottomAnchor="64.0" AnchorPane.leftAnchor="0.0"
+            AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="82.0">
+            <content>
+                <VBox fx:id="dialogContainer" prefWidth="388.0" />
+            </content>
+        </ScrollPane>
+
+        <!-- User input and Send button  container -->
+        <HBox alignment="CENTER" spacing="10.0" styleClass="composer"
+            AnchorPane.bottomAnchor="0.0"
             AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
             <children>
                 <TextField fx:id="userInput" onAction="#handleUserInput" prefHeight="46.0"
@@ -35,13 +51,5 @@
                     prefHeight="46.0" prefWidth="72.0" text="Send" />
             </children>
         </HBox>
-        <ScrollPane fx:id="scrollPane" fitToWidth="true"
-            prefWidth="400.0" hbarPolicy="NEVER" hvalue="1.0" vvalue="1.0"
-            AnchorPane.bottomAnchor="64.0" AnchorPane.leftAnchor="0.0"
-            AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="82.0">
-            <content>
-                <VBox fx:id="dialogContainer" prefWidth="388.0" />
-            </content>
-        </ScrollPane>
     </children>
 </AnchorPane>
