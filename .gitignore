@@ -24,6 +24,9 @@ bin/
 # Temp files
 _temp/
 
+# Local agent planning docs
+docs/superpowers/
+
 # Saved task data
 /data/
 
