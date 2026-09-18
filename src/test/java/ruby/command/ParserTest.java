@@ -92,10 +92,10 @@ class ParserTest {
 
     @Test
     void parseEvent_endNotAfterStart_throws() {
-        assertThrows(RubyException.class,
-                () -> Parser.parseEvent("event meeting /from 2026-08-28 1800 /to 2026-08-28 1800"));
-        assertThrows(RubyException.class,
-                () -> Parser.parseEvent("event meeting /from 2026-08-28 1800 /to 2026-08-28 1700"));
+        assertThrows(RubyException.class, () ->
+                Parser.parseEvent("event meeting /from 2026-08-28 1800 /to 2026-08-28 1800"));
+        assertThrows(RubyException.class, () ->
+                Parser.parseEvent("event meeting /from 2026-08-28 1800 /to 2026-08-28 1700"));
     }
 
     @Test

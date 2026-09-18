@@ -24,8 +24,8 @@ class ContactListTest {
     void addContact_duplicateContact_throws() throws RubyException {
         ContactList contacts = new ContactList();
         contacts.addContact(new Contact("John Doe", "91234567", "john@example.com", ""));
-        assertThrows(RubyException.class,
-                () -> contacts.addContact(new Contact("John Doe", "91234567", "john@example.com", "")));
+        assertThrows(RubyException.class, () ->
+                contacts.addContact(new Contact("John Doe", "91234567", "john@example.com", "")));
     }
 
     @Test
