@@ -30,6 +30,7 @@ public class Main extends Application {
         MainWindow controller = fxmlLoader.<MainWindow>getController();
         controller.setRuby(ruby);
         controller.setStage(stage);
+        stage.setTitle("Ruby");
         stage.setScene(new Scene(anchorPane));
         stage.show();
     }
