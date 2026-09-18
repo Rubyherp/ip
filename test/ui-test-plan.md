@@ -76,9 +76,9 @@ todo borrow book
 
 ```text
 ____________________________________________________________
- Got it. I've added this task:
+ Added to the collection:
    [T][ ] borrow book
- Now you have 1 tasks in the list.
+ That's 1 task on your plate.
 ____________________________________________________________
 ```
 
@@ -92,9 +92,9 @@ deadline return book /by 2019-06-06
 
 ```text
 ____________________________________________________________
- Got it. I've added this task:
+ Added to the collection:
    [D][ ] return book (by: Jun 06 2019)
- Now you have 2 tasks in the list.
+ That's 2 tasks on your plate.
 ____________________________________________________________
 ```
 
@@ -108,9 +108,9 @@ event project meeting /from 2019-08-06 1400 /to 2019-08-06 1600
 
 ```text
 ____________________________________________________________
- Got it. I've added this task:
+ Added to the collection:
    [E][ ] project meeting (from: Aug 06 2019, 14:00 to: Aug 06 2019, 16:00)
- Now you have 3 tasks in the list.
+ That's 3 tasks on your plate.
 ____________________________________________________________
 ```
 
@@ -124,7 +124,7 @@ list
 
 ```text
 ____________________________________________________________
- Here are the tasks in your list:
+ Here's everything on your plate:
  1.[T][ ] borrow book
  2.[D][ ] return book (by: Jun 06 2019)
  3.[E][ ] project meeting (from: Aug 06 2019, 14:00 to: Aug 06 2019, 16:00)
@@ -141,7 +141,7 @@ mark 2
 
 ```text
 ____________________________________________________________
- Nice! I've marked this task as done:
+ Done — consider it polished:
    [D][X] return book (by: Jun 06 2019)
 ____________________________________________________________
 ```
@@ -156,7 +156,7 @@ unmark 2
 
 ```text
 ____________________________________________________________
- OK, I've marked this task as not done yet:
+ Undone — brilliance takes time:
    [D][ ] return book (by: Jun 06 2019)
 ____________________________________________________________
 ```
@@ -223,9 +223,9 @@ todo read book
 
 ```text
 ____________________________________________________________
- Got it. I've added this task:
+ Added to the collection:
    [T][ ] read book
- Now you have 1 tasks in the list.
+ That's 1 task on your plate.
 ____________________________________________________________
 ```
 
@@ -351,9 +351,9 @@ deadline submit report /by 2019-06-06
 
 ```text
 ____________________________________________________________
- Got it. I've added this task:
+ Added to the collection:
    [D][ ] submit report (by: Jun 06 2019)
- Now you have 2 tasks in the list.
+ That's 2 tasks on your plate.
 ____________________________________________________________
 ```
 
@@ -451,9 +451,9 @@ event meeting /from 2019-08-06 1400 /to 2019-08-06 1600
 
 ```text
 ____________________________________________________________
- Got it. I've added this task:
+ Added to the collection:
    [E][ ] meeting (from: Aug 06 2019, 14:00 to: Aug 06 2019, 16:00)
- Now you have 3 tasks in the list.
+ That's 3 tasks on your plate.
 ____________________________________________________________
 ```
 
@@ -495,7 +495,7 @@ mark 7
 
 ```text
 ____________________________________________________________
- Sorry, I couldn't process that: Task 7 does not exist; choose a number from 1 to 3.
+ Sorry, I couldn't process that: Task 7? You only have 3. Pick a number from 1 to 3.
 ____________________________________________________________
 ```
 
@@ -509,7 +509,7 @@ mark 2
 
 ```text
 ____________________________________________________________
- Nice! I've marked this task as done:
+ Done — consider it polished:
    [D][X] submit report (by: Jun 06 2019)
 ____________________________________________________________
 ```
@@ -538,7 +538,7 @@ list
 
 ```text
 ____________________________________________________________
- Here are the tasks in your list:
+ Here's everything on your plate:
  1.[T][ ] read book
  2.[D][X] submit report (by: Jun 06 2019)
  3.[E][ ] meeting (from: Aug 06 2019, 14:00 to: Aug 06 2019, 16:00)
@@ -607,7 +607,7 @@ delete 1
 
 ```text
 ____________________________________________________________
- Sorry, I couldn't process that: There are no tasks to delete.
+ Sorry, I couldn't process that: You have no tasks to delete — add one first.
 ____________________________________________________________
 ```
 
@@ -621,9 +621,9 @@ todo read book
 
 ```text
 ____________________________________________________________
- Got it. I've added this task:
+ Added to the collection:
    [T][ ] read book
- Now you have 1 tasks in the list.
+ That's 1 task on your plate.
 ____________________________________________________________
 ```
 
@@ -637,9 +637,9 @@ deadline return book /by 2019-06-06
 
 ```text
 ____________________________________________________________
- Got it. I've added this task:
+ Added to the collection:
    [D][ ] return book (by: Jun 06 2019)
- Now you have 2 tasks in the list.
+ That's 2 tasks on your plate.
 ____________________________________________________________
 ```
 
@@ -653,9 +653,9 @@ event project meeting /from 2019-08-06 1400 /to 2019-08-06 1600
 
 ```text
 ____________________________________________________________
- Got it. I've added this task:
+ Added to the collection:
    [E][ ] project meeting (from: Aug 06 2019, 14:00 to: Aug 06 2019, 16:00)
- Now you have 3 tasks in the list.
+ That's 3 tasks on your plate.
 ____________________________________________________________
 ```
 
@@ -697,7 +697,7 @@ delete 4
 
 ```text
 ____________________________________________________________
- Sorry, I couldn't process that: Task 4 does not exist; choose a number from 1 to 3.
+ Sorry, I couldn't process that: Task 4? You only have 3. Pick a number from 1 to 3.
 ____________________________________________________________
 ```
 
@@ -711,9 +711,9 @@ delete 2
 
 ```text
 ____________________________________________________________
- Noted. I've removed this task:
+ Removed — gone without a trace:
    [D][ ] return book (by: Jun 06 2019)
- Now you have 2 tasks in the list.
+ That leaves 2 tasks on your plate.
 ____________________________________________________________
 ```
 
@@ -727,7 +727,7 @@ list
 
 ```text
 ____________________________________________________________
- Here are the tasks in your list:
+ Here's everything on your plate:
  1.[T][ ] read book
  2.[E][ ] project meeting (from: Aug 06 2019, 14:00 to: Aug 06 2019, 16:00)
 ____________________________________________________________
@@ -743,7 +743,7 @@ mark 2
 
 ```text
 ____________________________________________________________
- Nice! I've marked this task as done:
+ Done — consider it polished:
    [E][X] project meeting (from: Aug 06 2019, 14:00 to: Aug 06 2019, 16:00)
 ____________________________________________________________
 ```
@@ -758,9 +758,9 @@ delete 2
 
 ```text
 ____________________________________________________________
- Noted. I've removed this task:
+ Removed — gone without a trace:
    [E][X] project meeting (from: Aug 06 2019, 14:00 to: Aug 06 2019, 16:00)
- Now you have 1 tasks in the list.
+ That leaves 1 task on your plate.
 ____________________________________________________________
 ```
 
@@ -774,7 +774,7 @@ list
 
 ```text
 ____________________________________________________________
- Here are the tasks in your list:
+ Here's everything on your plate:
  1.[T][ ] read book
 ____________________________________________________________
 ```
@@ -827,9 +827,9 @@ todo read book
 
 ```text
 ____________________________________________________________
- Got it. I've added this task:
+ Added to the collection:
    [T][ ] read book
- Now you have 1 tasks in the list.
+ That's 1 task on your plate.
 ____________________________________________________________
 ```
 
@@ -843,9 +843,9 @@ deadline submit report /by 2019-06-06
 
 ```text
 ____________________________________________________________
- Got it. I've added this task:
+ Added to the collection:
    [D][ ] submit report (by: Jun 06 2019)
- Now you have 2 tasks in the list.
+ That's 2 tasks on your plate.
 ____________________________________________________________
 ```
 
@@ -859,9 +859,9 @@ event project meeting /from 2019-08-06 1400 /to 2019-08-06 1600
 
 ```text
 ____________________________________________________________
- Got it. I've added this task:
+ Added to the collection:
    [E][ ] project meeting (from: Aug 06 2019, 14:00 to: Aug 06 2019, 16:00)
- Now you have 3 tasks in the list.
+ That's 3 tasks on your plate.
 ____________________________________________________________
 ```
 
@@ -875,7 +875,7 @@ mark 2
 
 ```text
 ____________________________________________________________
- Nice! I've marked this task as done:
+ Done — consider it polished:
    [D][X] submit report (by: Jun 06 2019)
 ____________________________________________________________
 ```
@@ -890,9 +890,9 @@ delete 1
 
 ```text
 ____________________________________________________________
- Noted. I've removed this task:
+ Removed — gone without a trace:
    [T][ ] read book
- Now you have 2 tasks in the list.
+ That leaves 2 tasks on your plate.
 ____________________________________________________________
 ```
 
@@ -959,7 +959,7 @@ list
 
 ```text
 ____________________________________________________________
- Here are the tasks in your list:
+ Here's everything on your plate:
  1.[T][X] read book
  2.[D][ ] return book (by: Jun 06 2019)
  3.[E][X] project meeting (from: Aug 06 2019, 14:00 to: Aug 06 2019, 16:00)
@@ -1014,9 +1014,9 @@ todo read book
 
 ```text
 ____________________________________________________________
- Got it. I've added this task:
+ Added to the collection:
    [T][ ] read book
- Now you have 1 tasks in the list.
+ That's 1 task on your plate.
 ____________________________________________________________
 ```
 
@@ -1030,9 +1030,9 @@ deadline return book /by 2019-06-06
 
 ```text
 ____________________________________________________________
- Got it. I've added this task:
+ Added to the collection:
    [D][ ] return book (by: Jun 06 2019)
- Now you have 2 tasks in the list.
+ That's 2 tasks on your plate.
 ____________________________________________________________
 ```
 
@@ -1046,9 +1046,9 @@ event project meeting /from 2019-08-06 1400 /to 2019-08-06 1600
 
 ```text
 ____________________________________________________________
- Got it. I've added this task:
+ Added to the collection:
    [E][ ] project meeting (from: Aug 06 2019, 14:00 to: Aug 06 2019, 16:00)
- Now you have 3 tasks in the list.
+ That's 3 tasks on your plate.
 ____________________________________________________________
 ```
 
@@ -1062,7 +1062,7 @@ find book
 
 ```text
 ____________________________________________________________
- Here are the matching tasks in your list:
+ Found them — I never miss:
  1.[T][ ] read book
  2.[D][ ] return book (by: Jun 06 2019)
 ____________________________________________________________
@@ -1078,7 +1078,7 @@ find BOOK
 
 ```text
 ____________________________________________________________
- Here are the matching tasks in your list:
+ Found them — I never miss:
  1.[T][ ] read book
  2.[D][ ] return book (by: Jun 06 2019)
 ____________________________________________________________
@@ -1094,7 +1094,7 @@ find dance
 
 ```text
 ____________________________________________________________
- No matching tasks found.
+ Nothing. Even I can't find what isn't there.
 ____________________________________________________________
 ```
 

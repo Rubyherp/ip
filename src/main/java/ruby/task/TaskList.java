@@ -29,11 +29,11 @@ public class TaskList {
     public String addItem(Task task) {
         assert task != null : "Task cannot be null";
         tasks.add(task);
-        return "Got it. I've added this task:\n  "
+        int count = tasks.size();
+        String noun = count == 1 ? "task" : "tasks";
+        return "Added to the collection:\n  "
                 + task
-                + "\nNow you have "
-                + tasks.size()
-                + " tasks in the list.";
+                + "\nThat's " + count + " " + noun + " on your plate.";
     }
 
     /**
@@ -48,7 +48,7 @@ public class TaskList {
         Task task = getTask(index, "mark");
         task.markAsDone();
 
-        return "Nice! I've marked this task as done:\n  " + task;
+        return "Done — consider it polished:\n  " + task;
     }
 
     /**
@@ -63,7 +63,7 @@ public class TaskList {
         Task task = getTask(index, "unmark");
         task.markAsNotDone();
 
-        return "OK, I've marked this task as not done yet:\n  " + task;
+        return "Undone — brilliance takes time:\n  " + task;
     }
 
     /**
@@ -78,11 +78,11 @@ public class TaskList {
         Task task = getTask(index, "delete");
         tasks.remove(index);
 
-        return "Noted. I've removed this task:\n  "
+        int count = tasks.size();
+        String noun = count == 1 ? "task" : "tasks";
+        return "Removed — gone without a trace:\n  "
                 + task
-                + "\nNow you have "
-                + tasks.size()
-                + " tasks in the list.";
+                + "\nThat leaves " + count + " " + noun + " on your plate.";
     }
 
     /**
@@ -91,7 +91,7 @@ public class TaskList {
      * @return Numbered tasks, or only the list heading when there are no tasks.
      */
     public String listItems() {
-        return "Here are the tasks in your list:"
+        return "Here's everything on your plate:"
                 + IntStream.range(0, tasks.size())
                         .mapToObj(i -> "\n" + (i + 1) + "." + tasks.get(i))
                         .collect(Collectors.joining());
@@ -123,9 +123,9 @@ public class TaskList {
                 .collect(Collectors.joining());
 
         if (result.isEmpty()) {
-            return "No matching tasks found.";
+            return "Nothing. Even I can't find what isn't there.";
         }
-        return "Here are the matching tasks in your list:" + result;
+        return "Found them — I never miss:" + result;
     }
 
     /**
@@ -138,14 +138,13 @@ public class TaskList {
      */
     private Task getTask(int index, String action) throws RubyException {
         if (tasks.isEmpty()) {
-            throw new RubyException("There are no tasks to " + action + ".");
+            throw new RubyException("You have no tasks to " + action + " — add one first.");
         }
         if (index < 0 || index >= tasks.size()) {
             throw new RubyException(
                     "Task " + (index + 1)
-                            + " does not exist; choose a number from 1 to "
-                            + tasks.size()
-                            + ".");
+                            + "? You only have " + tasks.size()
+                            + ". Pick a number from 1 to " + tasks.size() + ".");
         }
         assert tasks.get(index) != null : "Task at index " + index + " should not be null";
         return tasks.get(index);
