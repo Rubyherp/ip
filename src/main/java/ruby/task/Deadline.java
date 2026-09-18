@@ -37,4 +37,11 @@ public class Deadline extends Task {
                 + TaskDataFormat.PART_SEPARATOR
                 + deadline;
     }
+
+    @Override
+    public boolean hasSameDetails(Task other) {
+        return other instanceof Deadline
+                && super.hasSameDetails(other)
+                && deadline.equals(((Deadline) other).deadline);
+    }
 }

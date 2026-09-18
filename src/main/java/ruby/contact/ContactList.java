@@ -26,8 +26,11 @@ public class ContactList {
      * @param contact Contact to add.
      * @return Confirmation containing the contact and updated contact count.
      */
-    public String addContact(Contact contact) {
+    public String addContact(Contact contact) throws RubyException {
         assert contact != null : "Contact cannot be null";
+        if (contacts.stream().anyMatch(contact::hasSameDetails)) {
+            throw new RubyException("That contact is already in your circle.");
+        }
         contacts.add(contact);
         int count = contacts.size();
         String noun = count == 1 ? "contact" : "contacts";

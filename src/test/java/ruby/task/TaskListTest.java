@@ -11,7 +11,7 @@ import ruby.RubyException;
 
 class TaskListTest {
 
-    private TaskList taskListWith(Task... tasks) {
+    private TaskList taskListWith(Task... tasks) throws RubyException {
         TaskList list = new TaskList();
         for (Task task : tasks) {
             list.addItem(task);
@@ -26,7 +26,7 @@ class TaskListTest {
     }
 
     @Test
-    void addItem_addsTaskAndReportsCount() {
+    void addItem_addsTaskAndReportsCount() throws RubyException {
         TaskList taskList = taskListWith(new Todo("read book"));
         String response = taskList.addItem(new Todo("return book"));
         assertEquals("Added to the collection:\n  [T][ ] return book"
@@ -34,7 +34,13 @@ class TaskListTest {
     }
 
     @Test
-    void listItems_withTasks_returnsNumberedList() {
+    void addItem_duplicateTask_throws() throws RubyException {
+        TaskList taskList = taskListWith(new Todo("read book"));
+        assertThrows(RubyException.class, () -> taskList.addItem(new Todo("read book")));
+    }
+
+    @Test
+    void listItems_withTasks_returnsNumberedList() throws RubyException {
         TaskList taskList = taskListWith(new Todo("read book"), new Todo("return book"));
         assertEquals("Here's everything on your plate:\n1.[T][ ] read book\n2.[T][ ] return book",
                 taskList.listItems());
@@ -68,7 +74,7 @@ class TaskListTest {
     }
 
     @Test
-    void toDataString_returnsOneLinePerTask() {
+    void toDataString_returnsOneLinePerTask() throws RubyException {
         TaskList taskList = taskListWith(new Todo("read book"), new Todo("return book"));
         assertEquals("T | 0 | read book\nT | 0 | return book", taskList.toDataString());
     }
@@ -81,7 +87,7 @@ class TaskListTest {
     }
 
     @Test
-    void unmarkItem_outOfRangeIndex_throws() {
+    void unmarkItem_outOfRangeIndex_throws() throws RubyException {
         TaskList taskList = taskListWith(new Todo("read book"), new Todo("return book"));
         RubyException exception = assertThrows(RubyException.class, () -> taskList.unmarkItem(5));
         assertEquals("Task 6? You only have 2. Pick a number from 1 to 2.", exception.getMessage());
@@ -95,7 +101,7 @@ class TaskListTest {
     }
 
     @Test
-    void find_matchingTasks_returnsNumberedMatches() {
+    void find_matchingTasks_returnsNumberedMatches() throws RubyException {
         TaskList taskList = taskListWith(new Todo("read book"), new Todo("return book"),
                 new Todo("buy milk"));
         assertEquals("Found them — I never miss:\n1.[T][ ] read book"
@@ -104,7 +110,7 @@ class TaskListTest {
     }
 
     @Test
-    void find_keepsOriginalListNumbering() {
+    void find_keepsOriginalListNumbering() throws RubyException {
         TaskList taskList = taskListWith(new Todo("read book"), new Todo("buy milk"),
                 new Todo("return book"));
         assertEquals("Found them — I never miss:\n1.[T][ ] read book"
@@ -113,20 +119,20 @@ class TaskListTest {
     }
 
     @Test
-    void find_caseInsensitive_matchesRegardlessOfCase() {
+    void find_caseInsensitive_matchesRegardlessOfCase() throws RubyException {
         TaskList taskList = taskListWith(new Todo("Read Book"));
         assertEquals("Found them — I never miss:\n1.[T][ ] Read Book",
                 taskList.find("BOOK"));
     }
 
     @Test
-    void find_noMatches_returnsMessage() {
+    void find_noMatches_returnsMessage() throws RubyException {
         TaskList taskList = taskListWith(new Todo("read book"));
         assertEquals("Nothing. Even I can't find what isn't there.", taskList.find("dance"));
     }
 
     @Test
-    void find_matchesOnFullTaskText_includesDeadlineDate() {
+    void find_matchesOnFullTaskText_includesDeadlineDate() throws RubyException {
         TaskList taskList = taskListWith(new Deadline("return book",
                 LocalDateTime.of(2019, 6, 6, 0, 0)));
         assertEquals("Found them — I never miss:\n1.[D][ ] return book (by: Jun 06 2019)",
