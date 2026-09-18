@@ -39,7 +39,8 @@ class ContactListTest {
     void deleteContact_emptyList_throws() {
         ContactList contacts = new ContactList();
 
-        assertThrows(RubyException.class, () -> contacts.deleteContact(0));
+        RubyException exception = assertThrows(RubyException.class, () -> contacts.deleteContact(0));
+        assertEquals("You have no contacts to delete — add one first.", exception.getMessage());
     }
 
     @Test
@@ -47,7 +48,8 @@ class ContactListTest {
         ContactList contacts = new ContactList();
         contacts.addContact(new Contact("John", "", "", ""));
 
-        assertThrows(RubyException.class, () -> contacts.deleteContact(1));
+        RubyException exception = assertThrows(RubyException.class, () -> contacts.deleteContact(1));
+        assertEquals("Contact 2? You only have 1. Pick a number from 1 to 1.", exception.getMessage());
     }
 
     @Test
