@@ -87,8 +87,11 @@ public class Storage {
         ContactList contactList = new ContactList();
         File parentDir = file.getParentFile();
 
-        if (parentDir != null) {
-            parentDir.mkdirs();
+        if (parentDir != null && !parentDir.exists() && !parentDir.mkdirs()) {
+            throw new RubyException("The data folder could not be created.");
+        }
+        if (file.isDirectory() || (file.exists() && !file.canRead())) {
+            throw new RubyException("The data file cannot be read.");
         }
 
         if (!file.exists()) {
@@ -103,8 +106,8 @@ public class Storage {
                 }
                 parseLine(line, taskList, contactList);
             }
-        } catch (FileNotFoundException exception) {
-            throw new RubyException("The data file could not be found.");
+        } catch (FileNotFoundException | SecurityException exception) {
+            throw new RubyException("The data file could not be read.");
         }
 
         return new Data(taskList, contactList);
@@ -125,8 +128,11 @@ public class Storage {
         assert taskList != null : "TaskList should not be null when saving.";
         assert contactList != null : "ContactList should not be null when saving.";
 
-        if (parentDir != null) {
-            parentDir.mkdirs();
+        if (parentDir != null && !parentDir.exists() && !parentDir.mkdirs()) {
+            throw new RubyException("The data folder could not be created.");
+        }
+        if (file.isDirectory() || (file.exists() && !file.canWrite())) {
+            throw new RubyException("The data file cannot be written.");
         }
 
         String taskData = taskList.toDataString();
@@ -142,7 +148,7 @@ public class Storage {
             if (!contactData.isEmpty()) {
                 writer.write(contactData);
             }
-        } catch (IOException exception) {
+        } catch (IOException | SecurityException exception) {
             throw new RubyException("The data could not be saved to disk.");
         }
     }
@@ -168,27 +174,33 @@ public class Storage {
 
         String type = parts[0];
         String mark = parts[1];
+        if (!TaskDataFormat.DONE_MARKER.equals(mark) && !TaskDataFormat.NOT_DONE_MARKER.equals(mark)) {
+            throw new RubyException("The data file contains an invalid task status.");
+        }
         boolean isDone = TaskDataFormat.DONE_MARKER.equals(mark);
 
         Task task;
         switch (type) {
             case TaskDataFormat.TODO_TYPE:
-                task = new Todo(joinParts(parts, 2, parts.length));
+                task = new Todo(requireDescription(joinParts(parts, 2, parts.length)));
                 break;
             case TaskDataFormat.DEADLINE_TYPE:
                 if (parts.length < MIN_DEADLINE_FIELDS) {
                     throw new RubyException("The data file contains a malformed deadline.");
                 }
-                task = new Deadline(joinParts(parts, 2, parts.length - 1),
+                task = new Deadline(requireDescription(joinParts(parts, 2, parts.length - 1)),
                         parseSavedDateTime(parts[parts.length - 1]));
                 break;
             case TaskDataFormat.EVENT_TYPE:
                 if (parts.length < MIN_EVENT_FIELDS) {
                     throw new RubyException("The data file contains a malformed event.");
                 }
-                task = new Event(joinParts(parts, 2, parts.length - 2),
-                        parseSavedDateTime(parts[parts.length - 2]),
-                        parseSavedDateTime(parts[parts.length - 1]));
+                LocalDateTime start = parseSavedDateTime(parts[parts.length - 2]);
+                LocalDateTime end = parseSavedDateTime(parts[parts.length - 1]);
+                if (!start.isBefore(end)) {
+                    throw new RubyException("The data file contains an event that does not end after it starts.");
+                }
+                task = new Event(requireDescription(joinParts(parts, 2, parts.length - 2)), start, end);
                 break;
             default:
                 throw new RubyException("The data file contains an unknown task type: " + type);
@@ -220,6 +232,20 @@ public class Storage {
         String email = parts[3];
         String address = parts[4];
         return new Contact(name, phoneNumber, email, address);
+    }
+
+    /**
+     * Returns a non-blank task description loaded from disk.
+     *
+     * @param description Description to validate.
+     * @return The validated description.
+     * @throws RubyException If the description is blank.
+     */
+    private static String requireDescription(String description) throws RubyException {
+        if (description.isBlank()) {
+            throw new RubyException("The data file contains a task with an empty description.");
+        }
+        return description;
     }
 
     /**

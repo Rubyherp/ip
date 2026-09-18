@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.time.format.ResolverStyle;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
@@ -59,12 +60,16 @@ public class Parser {
      * @throws RubyException If the command is unknown or malformed.
      */
     public static Command parse(String userInput) throws RubyException {
-        String command = userInput.strip();
+        if (userInput == null) {
+            throw new RubyException("I can't read a missing command.");
+        }
+        String command = userInput;
         if (command.isEmpty()) {
             throw new RubyException("I can't work with silence. Type a command.");
         }
-
-        assert command != null : "caller always passes a non-null string";
+        if (!command.equals(command.strip()) || command.contains("  ") || containsNonSpaceWhitespace(command)) {
+            throw new RubyException("Use one space between command parts, with no leading or trailing spaces.");
+        }
 
         if (EXIT_COMMAND.equals(command)) {
             return new ExitCommand();
@@ -111,6 +116,7 @@ public class Parser {
         if (description.isEmpty()) {
             throw new RubyException("A todo with no description? Give me something to work with after todo.");
         }
+        rejectFieldSeparator(description);
         return description;
     }
 
@@ -179,6 +185,7 @@ public class Parser {
             throw new RubyException("A deadline needs a date or time after " + DEADLINE_DELIMITER
                     + " — I can't read minds.");
         }
+        rejectFieldSeparator(description);
         return new Deadline(description, parseDateTime(deadline));
     }
 
@@ -223,7 +230,13 @@ public class Parser {
             throw new RubyException("An event needs an end after " + EVENT_END_DELIMITER
                     + " — don't leave me guessing.");
         }
-        return new Event(description, parseDateTime(startDate), parseDateTime(endDate));
+        rejectFieldSeparator(description);
+        LocalDateTime start = parseDateTime(startDate);
+        LocalDateTime end = parseDateTime(endDate);
+        if (!start.isBefore(end)) {
+            throw new RubyException("An event must end after it starts.");
+        }
+        return new Event(description, start, end);
     }
 
     /**
@@ -430,6 +443,17 @@ public class Parser {
     }
 
     /**
+     * Returns whether the command contains whitespace other than an ordinary
+     * single space, which is not part of Ruby's command syntax.
+     *
+     * @param command Command text to inspect.
+     * @return Whether the command contains a tab, newline, or similar whitespace.
+     */
+    private static boolean containsNonSpaceWhitespace(String command) {
+        return command.chars().anyMatch(character -> Character.isWhitespace(character) && character != ' ');
+    }
+
+    /**
      * Parses a user-supplied date or date and time into a LocalDateTime.
      *
      * @param input Date text, e.g. "2019-10-15" or "2019-10-15 1800".
@@ -444,13 +468,15 @@ public class Parser {
         }
 
         try {
-            return LocalDateTime.parse(text, DateTimeFormatter.ofPattern("yyyy-MM-dd HHmm"));
+            return LocalDateTime.parse(text, DateTimeFormatter.ofPattern("uuuu-MM-dd HHmm")
+                    .withResolverStyle(ResolverStyle.STRICT));
         } catch (DateTimeParseException exception) {
             // Not a date with a time; try a date alone below.
         }
 
         try {
-            return LocalDate.parse(text).atStartOfDay();
+            return LocalDate.parse(text, DateTimeFormatter.ISO_LOCAL_DATE
+                    .withResolverStyle(ResolverStyle.STRICT)).atStartOfDay();
         } catch (DateTimeParseException exception) {
             throw new RubyException(
                     "That date is a mystery even to me. Use yyyy-mm-dd (e.g. 2019-10-15)"

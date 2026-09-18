@@ -56,4 +56,15 @@ public class Task {
                 + TaskDataFormat.PART_SEPARATOR
                 + description;
     }
+
+    /**
+     * Returns whether this task has the same user-visible details as another task.
+     * Completion status is excluded so it cannot create a duplicate.
+     *
+     * @param other Task to compare with.
+     * @return Whether both tasks have the same type and description.
+     */
+    public boolean hasSameDetails(Task other) {
+        return other != null && getClass().equals(other.getClass()) && description.equals(other.description);
+    }
 }

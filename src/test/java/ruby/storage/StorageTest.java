@@ -131,4 +131,16 @@ class StorageTest {
         Storage storage = new Storage(dataFilePath());
         assertThrows(RubyException.class, storage::load);
     }
+
+    @Test
+    void load_invalidTaskStatus_throws() throws IOException {
+        Files.writeString(Path.of(dataFilePath()), "T | x | read book\n");
+        assertThrows(RubyException.class, new Storage(dataFilePath())::load);
+    }
+
+    @Test
+    void load_eventEndNotAfterStart_throws() throws IOException {
+        Files.writeString(Path.of(dataFilePath()), "E | 0 | meeting | 2026-08-28T18:00 | 2026-08-28T18:00\n");
+        assertThrows(RubyException.class, new Storage(dataFilePath())::load);
+    }
 }

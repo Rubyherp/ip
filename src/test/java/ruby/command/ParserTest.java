@@ -42,6 +42,11 @@ class ParserTest {
     }
 
     @Test
+    void parseDateTime_nonExistentDate_throws() {
+        assertThrows(RubyException.class, () -> Parser.parseDateTime("2026-02-30"));
+    }
+
+    @Test
     void formatDateTime_midnight_returnsDateOnly() {
         assertEquals("Oct 15 2019", Parser.formatDateTime(LocalDateTime.of(2019, 10, 15, 0, 0)));
     }
@@ -86,6 +91,14 @@ class ParserTest {
     }
 
     @Test
+    void parseEvent_endNotAfterStart_throws() {
+        assertThrows(RubyException.class,
+                () -> Parser.parseEvent("event meeting /from 2026-08-28 1800 /to 2026-08-28 1800"));
+        assertThrows(RubyException.class,
+                () -> Parser.parseEvent("event meeting /from 2026-08-28 1800 /to 2026-08-28 1700"));
+    }
+
+    @Test
     void parseTaskIndex_validNumber_returnsZeroBased() throws RubyException {
         assertEquals(2, Parser.parseTaskIndex("mark 3", "mark"));
     }
@@ -110,6 +123,14 @@ class ParserTest {
     void parse_emptyInput_throws() {
         assertThrows(RubyException.class, () -> Parser.parse(""));
         assertThrows(RubyException.class, () -> Parser.parse("   "));
+    }
+
+    @Test
+    void parse_extraOrOuterSpaces_throws() {
+        assertThrows(RubyException.class, () -> Parser.parse(" todo read book"));
+        assertThrows(RubyException.class, () -> Parser.parse("todo read book "));
+        assertThrows(RubyException.class, () -> Parser.parse("todo  read book"));
+        assertThrows(RubyException.class, () -> Parser.parse("todo\tread book"));
     }
 
     @Test
