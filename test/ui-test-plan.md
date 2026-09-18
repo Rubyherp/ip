@@ -209,7 +209,7 @@ ____________________________________________________________
 
 ```text
 ____________________________________________________________
- Sorry, I couldn't process that: Please enter a command.
+ Hold on — I can't work with silence. Type a command.
 ____________________________________________________________
 ```
 
@@ -239,7 +239,7 @@ todo
 
 ```text
 ____________________________________________________________
- Sorry, I couldn't process that: A todo needs a description.
+ Hold on — A todo with no description? Give me something to work with after todo.
 ____________________________________________________________
 ```
 
@@ -253,7 +253,7 @@ blah
 
 ```text
 ____________________________________________________________
- Sorry, I couldn't process that: I don't recognise that command.
+ Hold on — That's not in my repertoire. Try a command I know.
 ____________________________________________________________
 ```
 
@@ -267,7 +267,7 @@ todoish read book
 
 ```text
 ____________________________________________________________
- Sorry, I couldn't process that: I don't recognise that command.
+ Hold on — That's not in my repertoire. Try a command I know.
 ____________________________________________________________
 ```
 
@@ -281,7 +281,7 @@ deadline /by Sunday
 
 ```text
 ____________________________________________________________
- Sorry, I couldn't process that: A deadline needs a description.
+ Hold on — A deadline with no description? Give me something to call it.
 ____________________________________________________________
 ```
 
@@ -295,7 +295,7 @@ deadline submit report
 
 ```text
 ____________________________________________________________
- Sorry, I couldn't process that: Use: deadline DESCRIPTION /by DATE_OR_TIME.
+ Hold on — That's not how deadlines work. Use: deadline DESCRIPTION /by DATE_OR_TIME.
 ____________________________________________________________
 ```
 
@@ -309,7 +309,7 @@ deadline submit report /bypass Sunday
 
 ```text
 ____________________________________________________________
- Sorry, I couldn't process that: Use: deadline DESCRIPTION /by DATE_OR_TIME.
+ Hold on — That's not how deadlines work. Use: deadline DESCRIPTION /by DATE_OR_TIME.
 ____________________________________________________________
 ```
 
@@ -323,7 +323,7 @@ deadline submit report /by
 
 ```text
 ____________________________________________________________
- Sorry, I couldn't process that: A deadline needs a date or time after /by.
+ Hold on — A deadline needs a date or time after /by — I can't read minds.
 ____________________________________________________________
 ```
 
@@ -337,7 +337,7 @@ deadline submit report /by Sunday
 
 ```text
 ____________________________________________________________
- Sorry, I couldn't process that: I don't understand that date. Use yyyy-mm-dd (e.g. 2019-10-15) or yyyy-mm-dd HHmm (e.g. 2026-10-15 1800).
+ Hold on — That date is a mystery even to me. Use yyyy-mm-dd (e.g. 2019-10-15) or yyyy-mm-dd HHmm (e.g. 2026-10-15 1800).
 ____________________________________________________________
 ```
 
@@ -367,7 +367,7 @@ event /from Mon /to Tue
 
 ```text
 ____________________________________________________________
- Sorry, I couldn't process that: An event needs a description.
+ Hold on — An event with no description? Give me something to call it.
 ____________________________________________________________
 ```
 
@@ -381,7 +381,7 @@ event meeting /to Tue
 
 ```text
 ____________________________________________________________
- Sorry, I couldn't process that: Use: event DESCRIPTION /from START /to END.
+ Hold on — That's not how events work. Use: event DESCRIPTION /from START /to END.
 ____________________________________________________________
 ```
 
@@ -395,7 +395,7 @@ event meeting /fromage Mon /to Tue
 
 ```text
 ____________________________________________________________
- Sorry, I couldn't process that: Use: event DESCRIPTION /from START /to END.
+ Hold on — That's not how events work. Use: event DESCRIPTION /from START /to END.
 ____________________________________________________________
 ```
 
@@ -409,7 +409,7 @@ event meeting /from Mon
 
 ```text
 ____________________________________________________________
- Sorry, I couldn't process that: An event needs an end after /to.
+ Hold on — An event needs an end after /to — don't leave me guessing.
 ____________________________________________________________
 ```
 
@@ -423,7 +423,7 @@ event meeting /from /to Tue
 
 ```text
 ____________________________________________________________
- Sorry, I couldn't process that: An event needs a start after /from.
+ Hold on — An event needs a start after /from — don't leave me guessing.
 ____________________________________________________________
 ```
 
@@ -437,7 +437,7 @@ event meeting /from Mon /to
 
 ```text
 ____________________________________________________________
- Sorry, I couldn't process that: An event needs an end after /to.
+ Hold on — An event needs an end after /to — don't leave me guessing.
 ____________________________________________________________
 ```
 
@@ -467,7 +467,7 @@ mark
 
 ```text
 ____________________________________________________________
- Sorry, I couldn't process that: Give me a task number after mark.
+ Hold on — You forgot the number. Give me a task number after mark.
 ____________________________________________________________
 ```
 
@@ -481,7 +481,7 @@ mark banana
 
 ```text
 ____________________________________________________________
- Sorry, I couldn't process that: The task number for mark must be a whole number.
+ Hold on — That's not a number. Give me a whole number after mark.
 ____________________________________________________________
 ```
 
@@ -495,7 +495,7 @@ mark 7
 
 ```text
 ____________________________________________________________
- Sorry, I couldn't process that: Task 7? You only have 3. Pick a number from 1 to 3.
+ Hold on — Task 7? You only have 3. Pick a number from 1 to 3.
 ____________________________________________________________
 ```
 
@@ -524,7 +524,7 @@ unmark
 
 ```text
 ____________________________________________________________
- Sorry, I couldn't process that: Give me a task number after unmark.
+ Hold on — You forgot the number. Give me a task number after unmark.
 ____________________________________________________________
 ```
 
@@ -593,7 +593,7 @@ delete
 
 ```text
 ____________________________________________________________
- Sorry, I couldn't process that: Give me a task number after delete.
+ Hold on — You forgot the number. Give me a task number after delete.
 ____________________________________________________________
 ```
 
@@ -607,7 +607,7 @@ delete 1
 
 ```text
 ____________________________________________________________
- Sorry, I couldn't process that: You have no tasks to delete — add one first.
+ Hold on — You have no tasks to delete — add one first.
 ____________________________________________________________
 ```
 
@@ -669,7 +669,7 @@ delete banana
 
 ```text
 ____________________________________________________________
- Sorry, I couldn't process that: The task number for delete must be a whole number.
+ Hold on — That's not a number. Give me a whole number after delete.
 ____________________________________________________________
 ```
 
@@ -683,7 +683,7 @@ delete 0
 
 ```text
 ____________________________________________________________
- Sorry, I couldn't process that: Task numbers must be positive whole numbers.
+ Hold on — Since when is 0 a valid task number? Give me a positive whole number after delete.
 ____________________________________________________________
 ```
 
@@ -697,7 +697,7 @@ delete 4
 
 ```text
 ____________________________________________________________
- Sorry, I couldn't process that: Task 4? You only have 3. Pick a number from 1 to 3.
+ Hold on — Task 4? You only have 3. Pick a number from 1 to 3.
 ____________________________________________________________
 ```
 
@@ -1108,7 +1108,7 @@ find
 
 ```text
 ____________________________________________________________
- Sorry, I couldn't process that: Give me a keyword to search for after find.
+ Hold on — Find what? Give me a keyword after find.
 ____________________________________________________________
 ```
 
@@ -1230,7 +1230,7 @@ contact add John /phone abc
 
 ```text
 ____________________________________________________________
- Sorry, I couldn't process that: The phone number must be at least 3 digits and may start with a +.
+ Hold on — What's a phone number without digits? Use a plus sign and at least 3 digits, e.g. +123456789.
 ____________________________________________________________
 ```
 
@@ -1244,7 +1244,7 @@ contact add John /phone 91234567 /phone 98765432
 
 ```text
 ____________________________________________________________
- Sorry, I couldn't process that: Use /phone only once.
+ Hold on — Once is enough — use /phone only once.
 ____________________________________________________________
 ```
 
@@ -1258,7 +1258,7 @@ contact
 
 ```text
 ____________________________________________________________
- Sorry, I couldn't process that: Use: contact add NAME [/phone PHONE] [/email EMAIL] [/address ADDRESS], contact list, or contact delete INDEX.
+ Hold on — Here's how contacts work: contact add NAME [/phone PHONE] [/email EMAIL] [/address ADDRESS], contact list, or contact delete INDEX.
 ____________________________________________________________
 ```
 
@@ -1272,7 +1272,7 @@ contact frobnicate
 
 ```text
 ____________________________________________________________
- Sorry, I couldn't process that: I don't recognise that contact command.
+ Hold on — That's not a contact command. Use contact add, contact list, or contact delete.
 ____________________________________________________________
 ```
 
@@ -1302,7 +1302,7 @@ contact delete 5
 
 ```text
 ____________________________________________________________
- Sorry, I couldn't process that: Contact 5? You only have 1. Pick a number from 1 to 1.
+ Hold on — Contact 5? You only have 1. Pick a number from 1 to 1.
 ____________________________________________________________
 ```
 
@@ -1316,7 +1316,7 @@ contact delete 0
 
 ```text
 ____________________________________________________________
- Sorry, I couldn't process that: Contact numbers must be positive whole numbers.
+ Hold on — Since when is 0 a valid contact number? Give me a positive whole number after contact delete.
 ____________________________________________________________
 ```
 
