@@ -23,8 +23,8 @@ ____________________________________________________________
                                 /$$  | $$
                                |  $$$$$$/
                                 \______/
- Hello! I'm Ruby.
- What can I do for you?
+ Hi, I'm Ruby — the gem your task list has been missing.
+ What are we polishing today?
 ____________________________________________________________
 ```
 
@@ -38,7 +38,7 @@ bye
 
 ```text
 ____________________________________________________________
- Bye. Hope to see you again soon!
+ Bye. Your tasks are in precious hands.
 ____________________________________________________________
 ```
 
@@ -61,8 +61,8 @@ ____________________________________________________________
                                 /$$  | $$
                                |  $$$$$$/
                                 \______/
- Hello! I'm Ruby.
- What can I do for you?
+ Hi, I'm Ruby — the gem your task list has been missing.
+ What are we polishing today?
 ____________________________________________________________
 ```
 
@@ -171,7 +171,7 @@ bye
 
 ```text
 ____________________________________________________________
- Bye. Hope to see you again soon!
+ Bye. Your tasks are in precious hands.
 ____________________________________________________________
 ```
 
@@ -194,8 +194,8 @@ ____________________________________________________________
                                 /$$  | $$
                                |  $$$$$$/
                                 \______/
- Hello! I'm Ruby.
- What can I do for you?
+ Hi, I'm Ruby — the gem your task list has been missing.
+ What are we polishing today?
 ____________________________________________________________
 ```
 
@@ -555,7 +555,7 @@ bye
 
 ```text
 ____________________________________________________________
- Bye. Hope to see you again soon!
+ Bye. Your tasks are in precious hands.
 ____________________________________________________________
 ```
 
@@ -578,8 +578,8 @@ ____________________________________________________________
                                 /$$  | $$
                                |  $$$$$$/
                                 \______/
- Hello! I'm Ruby.
- What can I do for you?
+ Hi, I'm Ruby — the gem your task list has been missing.
+ What are we polishing today?
 ____________________________________________________________
 ```
 
@@ -789,7 +789,7 @@ bye
 
 ```text
 ____________________________________________________________
- Bye. Hope to see you again soon!
+ Bye. Your tasks are in precious hands.
 ____________________________________________________________
 ```
 
@@ -812,8 +812,8 @@ ____________________________________________________________
                                 /$$  | $$
                                |  $$$$$$/
                                 \______/
- Hello! I'm Ruby.
- What can I do for you?
+ Hi, I'm Ruby — the gem your task list has been missing.
+ What are we polishing today?
 ____________________________________________________________
 ```
 
@@ -906,7 +906,7 @@ bye
 
 ```text
 ____________________________________________________________
- Bye. Hope to see you again soon!
+ Bye. Your tasks are in precious hands.
 ____________________________________________________________
 ```
 
@@ -944,8 +944,8 @@ ____________________________________________________________
                                 /$$  | $$
                                |  $$$$$$/
                                 \______/
- Hello! I'm Ruby.
- What can I do for you?
+ Hi, I'm Ruby — the gem your task list has been missing.
+ What are we polishing today?
 ____________________________________________________________
 ```
 
@@ -976,7 +976,7 @@ bye
 
 ```text
 ____________________________________________________________
- Bye. Hope to see you again soon!
+ Bye. Your tasks are in precious hands.
 ____________________________________________________________
 ```
 
@@ -999,8 +999,8 @@ ____________________________________________________________
                                 /$$  | $$
                                |  $$$$$$/
                                 \______/
- Hello! I'm Ruby.
- What can I do for you?
+ Hi, I'm Ruby — the gem your task list has been missing.
+ What are we polishing today?
 ____________________________________________________________
 ```
 
@@ -1122,7 +1122,7 @@ bye
 
 ```text
 ____________________________________________________________
- Bye. Hope to see you again soon!
+ Bye. Your tasks are in precious hands.
 ____________________________________________________________
 ```
 
@@ -1153,8 +1153,8 @@ ____________________________________________________________
                                 /$$  | $$
                                |  $$$$$$/
                                 \______/
- Hello! I'm Ruby.
- What can I do for you?
+ Hi, I'm Ruby — the gem your task list has been missing.
+ What are we polishing today?
 ____________________________________________________________
 ```
 
@@ -1330,6 +1330,6 @@ bye
 
 ```text
 ____________________________________________________________
- Bye. Hope to see you again soon!
+ Bye. Your tasks are in precious hands.
 ____________________________________________________________
 ```
