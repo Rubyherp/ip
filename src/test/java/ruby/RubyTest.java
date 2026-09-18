@@ -21,11 +21,11 @@ class RubyTest {
         assertEquals("Added to the collection:\n  [T][ ] read book\nThat's 1 task on your plate.",
                 ruby.getResponse("todo read book"));
         assertEquals("Done — consider it polished:\n  [T][X] read book", ruby.getResponse("mark 1"));
-        assertEquals("Found them — I never miss:\n1.[T][X] read book", ruby.getResponse("find BOOK"));
+        assertEquals("Found them — I never miss:\n1. [T][X] read book", ruby.getResponse("find BOOK"));
         assertEquals("T | 1 | read book", Files.readString(dataFile));
 
         Ruby restoredRuby = new Ruby(dataFile.toString());
-        assertEquals("Here's everything on your plate:\n1.[T][X] read book", restoredRuby.getResponse("list"));
+        assertEquals("Here's everything on your plate:\n1. [T][X] read book", restoredRuby.getResponse("list"));
     }
 
     @Test

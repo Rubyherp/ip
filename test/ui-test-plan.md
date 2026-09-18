@@ -84,8 +84,8 @@ list
 ```text
 ____________________________________________________________
  Here's everything on your plate:
- 1.[T][ ] read book
- 2.[T][ ] read book
+ 1. [T][ ] read book
+ 2. [T][ ] read book
 ____________________________________________________________
 ```
 
@@ -172,9 +172,9 @@ list
 ```text
 ____________________________________________________________
  Here's everything on your plate:
- 1.[T][ ] borrow book
- 2.[D][ ] return book (by: Jun 06 2019)
- 3.[E][ ] project meeting (from: Aug 06 2019, 14:00 to: Aug 06 2019, 16:00)
+ 1. [T][ ] borrow book
+ 2. [D][ ] return book (by: Jun 06 2019)
+ 3. [E][ ] project meeting (from: Aug 06 2019, 14:00 to: Aug 06 2019, 16:00)
 ____________________________________________________________
 ```
 
@@ -614,9 +614,9 @@ list
 ```text
 ____________________________________________________________
  Here's everything on your plate:
- 1.[T][ ] read book
- 2.[D][X] submit report (by: Jun 06 2019)
- 3.[E][ ] meeting (from: Aug 06 2019, 14:00 to: Aug 06 2019, 16:00)
+ 1. [T][ ] read book
+ 2. [D][X] submit report (by: Jun 06 2019)
+ 3. [E][ ] meeting (from: Aug 06 2019, 14:00 to: Aug 06 2019, 16:00)
 ____________________________________________________________
 ```
 
@@ -803,8 +803,8 @@ list
 ```text
 ____________________________________________________________
  Here's everything on your plate:
- 1.[T][ ] read book
- 2.[E][ ] project meeting (from: Aug 06 2019, 14:00 to: Aug 06 2019, 16:00)
+ 1. [T][ ] read book
+ 2. [E][ ] project meeting (from: Aug 06 2019, 14:00 to: Aug 06 2019, 16:00)
 ____________________________________________________________
 ```
 
@@ -850,7 +850,7 @@ list
 ```text
 ____________________________________________________________
  Here's everything on your plate:
- 1.[T][ ] read book
+ 1. [T][ ] read book
 ____________________________________________________________
 ```
 
@@ -1035,9 +1035,9 @@ list
 ```text
 ____________________________________________________________
  Here's everything on your plate:
- 1.[T][X] read book
- 2.[D][ ] return book (by: Jun 06 2019)
- 3.[E][X] project meeting (from: Aug 06 2019, 14:00 to: Aug 06 2019, 16:00)
+ 1. [T][X] read book
+ 2. [D][ ] return book (by: Jun 06 2019)
+ 3. [E][X] project meeting (from: Aug 06 2019, 14:00 to: Aug 06 2019, 16:00)
 ____________________________________________________________
 ```
 
@@ -1138,8 +1138,8 @@ find book
 ```text
 ____________________________________________________________
  Found them — I never miss:
- 1.[T][ ] read book
- 2.[D][ ] return book (by: Jun 06 2019)
+ 1. [T][ ] read book
+ 2. [D][ ] return book (by: Jun 06 2019)
 ____________________________________________________________
 ```
 
@@ -1154,8 +1154,8 @@ find BOOK
 ```text
 ____________________________________________________________
  Found them — I never miss:
- 1.[T][ ] read book
- 2.[D][ ] return book (by: Jun 06 2019)
+ 1. [T][ ] read book
+ 2. [D][ ] return book (by: Jun 06 2019)
 ____________________________________________________________
 ```
 

@@ -42,7 +42,7 @@ class TaskListTest {
     @Test
     void listItems_withTasks_returnsNumberedList() throws RubyException {
         TaskList taskList = taskListWith(new Todo("read book"), new Todo("return book"));
-        assertEquals("Here's everything on your plate:\n1.[T][ ] read book\n2.[T][ ] return book",
+        assertEquals("Here's everything on your plate:\n1. [T][ ] read book\n2. [T][ ] return book",
                 taskList.listItems());
     }
 
@@ -51,7 +51,7 @@ class TaskListTest {
         TaskList taskList = taskListWith(new Todo("read book"), new Todo("return book"));
         String response = taskList.markItem(0);
         assertEquals("Done — consider it polished:\n  [T][X] read book", response);
-        assertEquals("Here's everything on your plate:\n1.[T][X] read book\n2.[T][ ] return book",
+        assertEquals("Here's everything on your plate:\n1. [T][X] read book\n2. [T][ ] return book",
                 taskList.listItems());
     }
 
@@ -69,7 +69,7 @@ class TaskListTest {
         String response = taskList.deleteItem(0);
         assertEquals("Removed — gone without a trace:\n  [T][ ] read book"
                 + "\nThat leaves 1 task on your plate.", response);
-        assertEquals("Here's everything on your plate:\n1.[T][ ] return book",
+        assertEquals("Here's everything on your plate:\n1. [T][ ] return book",
                 taskList.listItems());
     }
 
@@ -121,8 +121,8 @@ class TaskListTest {
     void find_matchingTasks_returnsNumberedMatches() throws RubyException {
         TaskList taskList = taskListWith(new Todo("read book"), new Todo("return book"),
                 new Todo("buy milk"));
-        assertEquals("Found them — I never miss:\n1.[T][ ] read book"
-                        + "\n2.[T][ ] return book",
+        assertEquals("Found them — I never miss:\n1. [T][ ] read book"
+                        + "\n2. [T][ ] return book",
                 taskList.find("book"));
     }
 
@@ -130,15 +130,15 @@ class TaskListTest {
     void find_keepsOriginalListNumbering() throws RubyException {
         TaskList taskList = taskListWith(new Todo("read book"), new Todo("buy milk"),
                 new Todo("return book"));
-        assertEquals("Found them — I never miss:\n1.[T][ ] read book"
-                        + "\n3.[T][ ] return book",
+        assertEquals("Found them — I never miss:\n1. [T][ ] read book"
+                        + "\n3. [T][ ] return book",
                 taskList.find("book"));
     }
 
     @Test
     void find_caseInsensitive_matchesRegardlessOfCase() throws RubyException {
         TaskList taskList = taskListWith(new Todo("Read Book"));
-        assertEquals("Found them — I never miss:\n1.[T][ ] Read Book",
+        assertEquals("Found them — I never miss:\n1. [T][ ] Read Book",
                 taskList.find("BOOK"));
     }
 
@@ -152,14 +152,14 @@ class TaskListTest {
     void find_emptyKeyword_returnsEveryTask() throws RubyException {
         TaskList taskList = taskListWith(new Todo("read book"), new Todo("buy milk"));
 
-        assertEquals("Found them — I never miss:\n1.[T][ ] read book\n2.[T][ ] buy milk", taskList.find(""));
+        assertEquals("Found them — I never miss:\n1. [T][ ] read book\n2. [T][ ] buy milk", taskList.find(""));
     }
 
     @Test
     void find_matchesOnFullTaskText_includesDeadlineDate() throws RubyException {
         TaskList taskList = taskListWith(new Deadline("return book",
                 LocalDateTime.of(2019, 6, 6, 0, 0)));
-        assertEquals("Found them — I never miss:\n1.[D][ ] return book (by: Jun 06 2019)",
+        assertEquals("Found them — I never miss:\n1. [D][ ] return book (by: Jun 06 2019)",
                 taskList.find("Jun 06"));
     }
 }

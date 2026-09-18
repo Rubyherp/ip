@@ -104,9 +104,9 @@ Format: `list`
 ```
 > list
 Here's everything on your plate:
-1.[T][ ] read book
-2.[D][ ] return book (by: Oct 15 2019)
-3.[E][ ] project meeting (from: Oct 15 2019, 14:00 to: Oct 15 2019, 16:00)
+1. [T][ ] read book
+2. [D][ ] return book (by: Oct 15 2019)
+3. [E][ ] project meeting (from: Oct 15 2019, 14:00 to: Oct 15 2019, 16:00)
 ```
 
 ## Finding tasks: `find`
@@ -119,8 +119,8 @@ Format: `find KEYWORD`
 ```
 > find book
 Found them — I never miss:
-1.[T][ ] read book
-2.[D][ ] return book (by: Oct 15 2019)
+1. [T][ ] read book
+2. [D][ ] return book (by: Oct 15 2019)
 ```
 
 If nothing matches, Ruby replies:

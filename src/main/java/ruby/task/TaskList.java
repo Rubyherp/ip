@@ -108,7 +108,7 @@ public class TaskList {
     public String listItems() {
         return "Here's everything on your plate:"
                 + IntStream.range(0, tasks.size())
-                        .mapToObj(i -> "\n" + (i + 1) + "." + tasks.get(i))
+                        .mapToObj(i -> "\n" + (i + 1) + ". " + tasks.get(i))
                         .collect(Collectors.joining());
     }
 
@@ -134,7 +134,7 @@ public class TaskList {
         String lowerKeyword = keyword.toLowerCase();
         String result = IntStream.range(0, tasks.size())
                 .filter(i -> tasks.get(i).toString().toLowerCase().contains(lowerKeyword))
-                .mapToObj(i -> "\n" + (i + 1) + "." + tasks.get(i))
+                .mapToObj(i -> "\n" + (i + 1) + ". " + tasks.get(i))
                 .collect(Collectors.joining());
 
         if (result.isEmpty()) {

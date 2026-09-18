@@ -59,9 +59,9 @@ class CommandTest {
         ContactList contacts = new ContactList();
         contacts.addContact(new Contact("Jane", "", "", ""));
 
-        assertEquals("Here's everything on your plate:\n1.[T][ ] read book",
+        assertEquals("Here's everything on your plate:\n1. [T][ ] read book",
                 new ListCommand().execute(tasks, contacts, storage()));
-        assertEquals("Found them — I never miss:\n1.[T][ ] read book",
+        assertEquals("Found them — I never miss:\n1. [T][ ] read book",
                 new FindCommand("book").execute(tasks, contacts, storage()));
         assertEquals("Your circle, as requested:\n1. Jane",
                 new ListContactsCommand().execute(tasks, contacts, storage()));
