@@ -57,4 +57,15 @@ public class Contact {
                 + ContactDataFormat.PART_SEPARATOR
                 + address;
     }
+
+    /**
+     * Returns whether this contact has the same stored details as another contact.
+     *
+     * @param other Contact to compare with.
+     * @return Whether every contact field matches.
+     */
+    public boolean hasSameDetails(Contact other) {
+        return other != null && name.equals(other.name) && phoneNumber.equals(other.phoneNumber)
+                && email.equals(other.email) && address.equals(other.address);
+    }
 }

@@ -15,6 +15,7 @@ public class Ruby {
     private final Storage storage;
     private final TaskList taskList;
     private final ContactList contactList;
+    private final RubyException startupError;
 
     /**
      * Creates Ruby and restores any tasks saved at the given file path.
@@ -26,6 +27,7 @@ public class Ruby {
 
         TaskList loadedTaskList;
         ContactList loadedContactList;
+        RubyException loadError = null;
         try {
             Storage.Data data = storage.load();
             loadedTaskList = data.tasks();
@@ -33,9 +35,11 @@ public class Ruby {
         } catch (RubyException exception) {
             loadedTaskList = new TaskList();
             loadedContactList = new ContactList();
+            loadError = exception;
         }
         taskList = loadedTaskList;
         contactList = loadedContactList;
+        startupError = loadError;
     }
 
     /**
@@ -45,6 +49,9 @@ public class Ruby {
      * @return Ruby's response to the command.
      */
     public String getResponse(String input) {
+        if (startupError != null) {
+            return errorMessage(startupError);
+        }
         try {
             Command command = Parser.parse(input);
             return command.execute(taskList, contactList, storage);
@@ -69,6 +76,10 @@ public class Ruby {
     public void run() {
         Ui ui = new Ui();
         ui.printWelcome();
+        if (startupError != null) {
+            ui.printMessage(errorMessage(startupError));
+            return;
+        }
         boolean isExit = false;
 
         while (!isExit && ui.hasNextCommand()) {

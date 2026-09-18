@@ -10,7 +10,7 @@ import ruby.RubyException;
 class ContactListTest {
 
     @Test
-    void addContact_newList_reportsContactAndCount() {
+    void addContact_newList_reportsContactAndCount() throws RubyException {
         ContactList contacts = new ContactList();
 
         String response = contacts.addContact(new Contact("John Doe", "91234567", "john@example.com", ""));
@@ -18,6 +18,14 @@ class ContactListTest {
         assertEquals("Saved. I never forget a name:\n"
                 + "  John Doe | 91234567 | john@example.com\n"
                 + "That's 1 contact in your circle.", response);
+    }
+
+    @Test
+    void addContact_duplicateContact_throws() throws RubyException {
+        ContactList contacts = new ContactList();
+        contacts.addContact(new Contact("John Doe", "91234567", "john@example.com", ""));
+        assertThrows(RubyException.class, () ->
+                contacts.addContact(new Contact("John Doe", "91234567", "john@example.com", "")));
     }
 
     @Test
@@ -44,7 +52,7 @@ class ContactListTest {
     }
 
     @Test
-    void deleteContact_outOfRangeIndex_throws() {
+    void deleteContact_outOfRangeIndex_throws() throws RubyException {
         ContactList contacts = new ContactList();
         contacts.addContact(new Contact("John", "", "", ""));
 
@@ -69,7 +77,7 @@ class ContactListTest {
     }
 
     @Test
-    void listContacts_multipleContacts_returnsNumberedList() {
+    void listContacts_multipleContacts_returnsNumberedList() throws RubyException {
         ContactList contacts = new ContactList();
         contacts.addContact(new Contact("John", "", "", ""));
         contacts.addContact(new Contact("Jane", "91234567", "jane@example.com", ""));

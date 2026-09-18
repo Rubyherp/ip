@@ -42,4 +42,12 @@ public class Event extends Task {
                 + TaskDataFormat.PART_SEPARATOR
                 + endDate;
     }
+
+    @Override
+    public boolean hasSameDetails(Task other) {
+        return other instanceof Event
+                && super.hasSameDetails(other)
+                && startDate.equals(((Event) other).startDate)
+                && endDate.equals(((Event) other).endDate);
+    }
 }

@@ -26,8 +26,11 @@ public class TaskList {
      * @param task Task to add.
      * @return Confirmation containing the task and updated task count.
      */
-    public String addItem(Task task) {
+    public String addItem(Task task) throws RubyException {
         assert task != null : "Task cannot be null";
+        if (tasks.stream().anyMatch(task::hasSameDetails)) {
+            throw new RubyException("That task is already in your collection.");
+        }
         tasks.add(task);
         int count = tasks.size();
         String noun = count == 1 ? "task" : "tasks";
