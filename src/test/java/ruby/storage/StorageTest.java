@@ -133,6 +133,36 @@ class StorageTest {
     }
 
     @Test
+    void load_blankLinesAndDescriptionsWithSeparators_preservesData() throws Exception {
+        Files.writeString(Path.of(dataFilePath()), "\nT | 0 | read | book\n\nC | Jane | 91234567 |  | \n");
+        Storage.Data data = new Storage(dataFilePath()).load();
+
+        assertEquals("T | 0 | read | book", data.tasks().toDataString());
+        assertEquals("C | Jane | 91234567 |  | ", data.contacts().toDataString());
+    }
+
+    @Test
+    void load_malformedDeadlineEventAndDate_throw() throws IOException {
+        assertMalformedData("D | 0 | submit");
+        assertMalformedData("E | 0 | meeting | 2026-08-28T10:00");
+        assertMalformedData("D | 0 | submit | not-a-date");
+    }
+
+    @Test
+    void save_emptyLists_createsEmptyDataFile() throws Exception {
+        Storage storage = new Storage(dataFilePath());
+
+        storage.save(new TaskList(), new ContactList());
+
+        assertEquals("", Files.readString(Path.of(dataFilePath())));
+    }
+
+    private void assertMalformedData(String data) throws IOException {
+        Files.writeString(Path.of(dataFilePath()), data);
+        assertThrows(RubyException.class, () -> new Storage(dataFilePath()).load());
+    }
+
+    @Test
     void load_invalidTaskStatus_throws() throws IOException {
         Files.writeString(Path.of(dataFilePath()), "T | x | read book\n");
         assertThrows(RubyException.class, new Storage(dataFilePath())::load);

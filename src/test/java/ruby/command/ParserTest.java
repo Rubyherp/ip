@@ -91,6 +91,24 @@ class ParserTest {
     }
 
     @Test
+    void parseEvent_missingDescriptionStartOrEnd_throws() {
+        assertThrows(RubyException.class, () -> Parser.parseEvent("event /from 2019-10-15 /to 2019-10-16"));
+        assertThrows(RubyException.class, () -> Parser.parseEvent("event meeting /from /to 2019-10-16"));
+        assertThrows(RubyException.class, () -> Parser.parseEvent("event meeting /from 2019-10-15 /to"));
+    }
+
+    @Test
+    void parseDeadline_delimiterInsideDescriptionIsNotTreatedAsDelimiter() {
+        assertThrows(RubyException.class, () -> Parser.parseDeadline("deadline revise/bytomorrow"));
+    }
+
+    @Test
+    void parseDateTime_blankAndInvalidCalendarDate_throw() {
+        assertThrows(RubyException.class, () -> Parser.parseDateTime("   "));
+        assertThrows(RubyException.class, () -> Parser.parseDateTime("2026-02-30"));
+    }
+
+    @Test
     void parseEvent_endNotAfterStart_throws() {
         assertThrows(RubyException.class, () ->
                 Parser.parseEvent("event meeting /from 2026-08-28 1800 /to 2026-08-28 1800"));
@@ -141,6 +159,23 @@ class ParserTest {
     @Test
     void parse_todoCommand_returnsTodoCommand() throws RubyException {
         assertInstanceOf(TodoCommand.class, Parser.parse("todo read book"));
+    }
+
+    @Test
+    void parse_knownCommands_returnTheirCommandTypes() throws RubyException {
+        assertInstanceOf(DeadlineCommand.class, Parser.parse("deadline submit /by 2026-08-28"));
+        assertInstanceOf(EventCommand.class, Parser.parse("event meeting /from 2026-08-28 /to 2026-08-29"));
+        assertInstanceOf(MarkCommand.class, Parser.parse("mark 1"));
+        assertInstanceOf(UnmarkCommand.class, Parser.parse("unmark 1"));
+        assertInstanceOf(DeleteCommand.class, Parser.parse("delete 1"));
+        assertInstanceOf(ListCommand.class, Parser.parse("list"));
+        assertInstanceOf(ExitCommand.class, Parser.parse("bye"));
+    }
+
+    @Test
+    void parse_commandWordPrefixWithoutWhitespace_throwsUnknownCommand() {
+        assertThrows(RubyException.class, () -> Parser.parse("todoist read book"));
+        assertThrows(RubyException.class, () -> Parser.parse("list extra"));
     }
 
     @Test
@@ -248,5 +283,21 @@ class ParserTest {
     void parse_contactDeleteInvalidIndex_throws() {
         assertThrows(RubyException.class, () -> Parser.parse("contact delete abc"));
         assertThrows(RubyException.class, () -> Parser.parse("contact delete 0"));
+    }
+
+    @Test
+    void parse_contactAddAddressWithSpaces_preservesSingleSpacing() throws RubyException {
+        Command command = Parser.parse("contact add Jane /address 123 Main Street");
+
+        String response = command.execute(new TaskList(), new ContactList(), storage());
+
+        assertEquals("Saved. I never forget a name:\n  Jane | 123 Main Street\nThat's 1 contact in your circle.",
+                response);
+    }
+
+    @Test
+    void parse_contactAddInvalidTagAndEmptyAddress_throw() {
+        assertThrows(RubyException.class, () -> Parser.parse("contact add Jane /fax 123"));
+        assertThrows(RubyException.class, () -> Parser.parse("contact add Jane /address"));
     }
 }
