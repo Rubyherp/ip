@@ -1,6 +1,8 @@
 package ruby;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -46,4 +48,30 @@ class RubyTest {
         assertEquals("Hold on — That's not in my repertoire. Try a command I know.", ruby.getResponse("dance"));
         assertEquals("Here's everything on your plate:", ruby.getResponse("list"));
     }
+    @Test
+    void getResponse_exitVariants_onlySuccessfulExitRequestsClosure() {
+        Ruby ruby = new Ruby(tempDir.resolve("ruby.txt").toString());
+        assertFalse(ruby.isExitRequested());
+
+        String[] invalidCommands = {"BYE", "Bye", " bye", "bye ", "\tbye", "bye\t", "bye now"};
+        for (String input : invalidCommands) {
+            assertEquals("Bye. Your tasks are in precious hands.", ruby.getResponse("bye"));
+            assertTrue(ruby.isExitRequested());
+            assertTrue(ruby.getResponse(input).startsWith("Hold on — "), input);
+            assertFalse(ruby.isExitRequested(), input);
+            assertEquals("Here's everything on your plate:", ruby.getResponse("list"));
+            assertFalse(ruby.isExitRequested());
+        }
+    }
+
+    @Test
+    void getResponse_startupError_doesNotRequestExit() throws Exception {
+        Path dataFile = tempDir.resolve("ruby.txt");
+        Files.writeString(dataFile, "invalid saved data");
+        Ruby ruby = new Ruby(dataFile.toString());
+
+        assertTrue(ruby.getResponse("bye").startsWith("Hold on — "));
+        assertFalse(ruby.isExitRequested());
+    }
+
 }

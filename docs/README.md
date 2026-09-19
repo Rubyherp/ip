@@ -35,8 +35,10 @@ Bye. Your tasks are in precious hands.
 ## Quick start
 
 1. Make sure you have JDK 25 installed.
-1. From the project root, launch Ruby with `./gradlew run`. If you use an IDE,
-   you can instead run `Launcher.main()`.
+1. Download `ruby.jar` from the release and place it in a folder of your choice.
+1. Open a terminal in that folder and run `java -jar ruby.jar`.
+   If you are running from source, use `./gradlew run` from the project root
+   (or `gradlew.bat run` on Windows), or run `Launcher.main()` in your IDE.
 1. Ruby's window opens with a greeting. Type a command into the text box and
    press Enter; Ruby's reply appears in the conversation above.
 1. Ruby saves your tasks and contacts automatically to `data/ruby.txt`, and

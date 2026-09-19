@@ -1408,3 +1408,97 @@ ____________________________________________________________
  Bye. Your tasks are in precious hands.
 ____________________________________________________________
 ```
+
+## Exit command validation
+
+Aim: Verify rejected exit variants leave the session usable and only exact lowercase bye exits.
+
+### Startup output
+
+```text
+____________________________________________________________
+ /$$$$$$$            /$$
+ | $$__  $$          | $$
+ | $$  \ $$ /$$   /$$| $$$$$$$  /$$   /$$
+ | $$$$$$$/| $$  | $$| $$__  $$| $$  | $$
+ | $$__  $$| $$  | $$| $$  \ $$| $$  | $$
+ | $$  \ $$| $$  | $$| $$  | $$| $$  | $$
+ | $$  | $$|  $$$$$$/| $$$$$$$/|  $$$$$$$
+ |__/  |__/ \______/ |_______/  \____  $$
+                                /$$  | $$
+                               |  $$$$$$/
+                                \______/
+ Hi, I'm Ruby — the gem your task list has been missing.
+ What are we polishing today?
+____________________________________________________________
+```
+
+### Input
+
+```text
+BYE
+```
+
+### Expected output
+
+```text
+____________________________________________________________
+ Hold on — That's not in my repertoire. Try a command I know.
+____________________________________________________________
+```
+
+### Input
+
+```text
+ bye
+```
+
+### Expected output
+
+```text
+____________________________________________________________
+ Hold on — Use one space between command parts, with no leading or trailing spaces.
+____________________________________________________________
+```
+
+### Input
+
+```text
+bye 
+```
+
+### Expected output
+
+```text
+____________________________________________________________
+ Hold on — Use one space between command parts, with no leading or trailing spaces.
+____________________________________________________________
+```
+
+### Input
+
+```text
+list
+```
+
+### Expected output
+
+```text
+____________________________________________________________
+ Here's everything on your plate:
+____________________________________________________________
+```
+
+### Input
+
+```text
+bye
+```
+
+### Expected output
+
+```text
+____________________________________________________________
+ Bye. Your tasks are in precious hands.
+____________________________________________________________
+```

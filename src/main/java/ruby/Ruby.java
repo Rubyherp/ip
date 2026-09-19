@@ -16,6 +16,7 @@ public class Ruby {
     private final TaskList taskList;
     private final ContactList contactList;
     private final RubyException startupError;
+    private boolean isExitRequested;
 
     /**
      * Creates Ruby and restores any tasks saved at the given file path.
@@ -49,15 +50,27 @@ public class Ruby {
      * @return Ruby's response to the command.
      */
     public String getResponse(String input) {
+        isExitRequested = false;
         if (startupError != null) {
             return errorMessage(startupError);
         }
         try {
             Command command = Parser.parse(input);
-            return command.execute(taskList, contactList, storage);
+            String response = command.execute(taskList, contactList, storage);
+            isExitRequested = command instanceof ExitCommand;
+            return response;
         } catch (RubyException exception) {
             return errorMessage(exception);
         }
+    }
+
+    /**
+     * Returns whether the most recent response followed a successful exit command.
+     *
+     * @return True only when the most recent command executed successfully and requested exit.
+     */
+    public boolean isExitRequested() {
+        return isExitRequested;
     }
 
     /**

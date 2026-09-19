@@ -21,7 +21,6 @@ public class MainWindow extends AnchorPane {
             + "What are we polishing today?";
     private static final String RUBY_IMAGE_PATH = "/image/cat.jpg";
     private static final String USER_IMAGE_PATH = "/image/mona.jpg";
-    private static final String EXIT_COMMAND = "bye";
 
     @FXML
     private ScrollPane scrollPane;
@@ -92,18 +91,9 @@ public class MainWindow extends AnchorPane {
                 DialogBox.getUserDialog(input, userImage),
                 DialogBox.getRubyDialog(response, rubyImage));
         userInput.clear();
-        if (isExitCommand(input)) {
+        if (ruby.isExitRequested()) {
             stage.close();
         }
     }
 
-    /**
-     * Returns whether the given input asks Ruby to end the session.
-     *
-     * @param input The raw command the user typed.
-     * @return True when the input is Ruby's exit command.
-     */
-    private static boolean isExitCommand(String input) {
-        return input.trim().equalsIgnoreCase(EXIT_COMMAND);
-    }
 }
